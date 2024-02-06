@@ -1,0 +1,5 @@
+rootProject.name = 'clean-code-arch'
+include 'domain'
+include 'application'
+include 'infrastructure'
+

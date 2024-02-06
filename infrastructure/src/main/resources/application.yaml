@@ -1,0 +1,6 @@
+#################
+## APPLICATION ##
+#################
+spring:
+  profiles:
+    active: master
