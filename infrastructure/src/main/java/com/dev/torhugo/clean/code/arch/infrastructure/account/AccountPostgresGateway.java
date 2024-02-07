@@ -2,6 +2,7 @@ package com.dev.torhugo.clean.code.arch.infrastructure.account;
 
 import com.dev.torhugo.clean.code.arch.domain.account.Account;
 import com.dev.torhugo.clean.code.arch.domain.account.AccountGateway;
+import com.dev.torhugo.clean.code.arch.infrastructure.account.models.AccountEntity;
 import com.dev.torhugo.clean.code.arch.infrastructure.account.persistence.AccountRepository;
 import org.springframework.stereotype.Component;
 
@@ -18,11 +19,13 @@ public class AccountPostgresGateway implements AccountGateway {
 
     @Override
     public Optional<Account> getByEmail(final String email) {
-        return this.accountRepository.getByEmail(email);
+        final var accountEntity = this.accountRepository.getByEmail(email);
+        return accountEntity.flatMap(AccountEntity::toAggregate);
     }
 
     @Override
     public void save(final Account account) {
-        this.accountRepository.save(account);
+        final var accountEntity = AccountEntity.fromAggregate(account);
+        this.accountRepository.save(accountEntity);
     }
 }

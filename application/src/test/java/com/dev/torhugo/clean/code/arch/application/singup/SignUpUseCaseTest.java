@@ -114,4 +114,28 @@ class SignUpUseCaseTest {
         verify(accountGateway, times(1)).getByEmail(any());
         verify(accountGateway, times(0)).save(any());
     }
+
+    @Test
+    void shouldThrowExceptionWhenInvalidParameters() {
+        // Given
+        final var expectedError = "Invalid cpf!";
+
+        final var expectedName = "Test Test";
+        final var expectedEmail = "test@example.com";
+        final var expectedCpf = "123.123.123-12";
+        final var expectedIsPassenger = true;
+        final var expectedIsDriver = false;
+
+        final var expectedInput = new CreateSingUpInput(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
+        when(accountGateway.getByEmail(anyString())).thenReturn(Optional.empty());
+
+        // When
+        final var exception = assertThrows(IllegalArgumentException.class, () ->
+                signUpUseCase.execute(expectedInput));
+
+        // Then
+        assertEquals(expectedError, exception.getMessage());
+        verify(accountGateway, times(1)).getByEmail(any());
+        verify(accountGateway, times(0)).save(any());
+    }
 }

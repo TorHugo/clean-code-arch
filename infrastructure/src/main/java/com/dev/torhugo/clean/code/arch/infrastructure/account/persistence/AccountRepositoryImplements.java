@@ -1,7 +1,6 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.account.persistence;
 
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
-import com.dev.torhugo.clean.code.arch.infrastructure.database.DatabaseQueryUtils;
+import com.dev.torhugo.clean.code.arch.infrastructure.account.models.AccountEntity;
 import com.dev.torhugo.clean.code.arch.infrastructure.database.DatabaseUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -13,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 @PropertySource("classpath:query/account_script.properties")
-public class AccountRepositoryImplements implements AccountRepository{
+public class AccountRepositoryImplements implements AccountRepository {
 
     private final DatabaseUtils databaseService;
     public AccountRepositoryImplements(final DatabaseUtils databaseService) {
@@ -26,14 +25,14 @@ public class AccountRepositoryImplements implements AccountRepository{
     private String querySaveToNewAccount;
 
     @Override
-    public Optional<Account> getByEmail(final String email) {
+    public Optional<AccountEntity> getByEmail(final String email) {
         return databaseService.retrieve(queryFindAccountByEmail,
                 buildParams(email),
-                BeanPropertyRowMapper.newInstance(Account.class));
+                BeanPropertyRowMapper.newInstance(AccountEntity.class));
     }
 
     @Override
-    public void save(final Account account) {
+    public void save(final AccountEntity account) {
         databaseService.persist(querySaveToNewAccount, account);
     }
 

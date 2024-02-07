@@ -1,4 +1,4 @@
-package com.dev.torhugo.clean.code.arch.infrastructure.account.models;
+package com.dev.torhugo.clean.code.arch.infrastructure.http.controller.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

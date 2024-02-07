@@ -8,17 +8,23 @@ import java.util.UUID;
 
 public class Account extends DomainDefault {
 
-    private UUID accountId;
-    private String name;
-    private String email;
-    private String cpf;
-    private boolean isPassenger;
-    private boolean isDriver;
-    private String carPlate;
+    private final UUID accountId;
+    private final String name;
+    private final String email;
+    private final String cpf;
+    private final boolean isPassenger;
+    private final boolean isDriver;
+    private final String carPlate;
 
-    // TODO: Verificar como remover o construtor público/vázio por conta do Repository.
-    public Account(final UUID accountId, final String name, final String email, final String cpf,
-                    final boolean isPassenger, final boolean isDriver, final String carPlate, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
+    private Account(final UUID accountId,
+                    final String name,
+                    final String email,
+                    final String cpf,
+                    final boolean isPassenger,
+                    final boolean isDriver,
+                    final String carPlate,
+                    final LocalDateTime createdAt,
+                    final LocalDateTime updatedAt) {
         if (validateRegexName(name)) throw new IllegalArgumentException("Invalid name!");
         if (validateRegexEmail(email)) throw new IllegalArgumentException("Invalid email!");
         if (!validateInvalidCpf(cpf)) throw new IllegalArgumentException("Invalid cpf!");
@@ -33,9 +39,6 @@ public class Account extends DomainDefault {
         this.carPlate = carPlate;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-    }
-
-    private Account() {
     }
 
     public static Account create(final String name, final String email, final String cpf, final boolean isPassenger, final boolean isDriver, final String carPlate) {
