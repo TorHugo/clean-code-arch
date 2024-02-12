@@ -1,4 +1,4 @@
-package com.dev.torhugo.clean.code.arch.domain.utils;
+package com.dev.torhugo.clean.code.arch.domain.validator;
 
 public class CpfValidatorUtils {
 

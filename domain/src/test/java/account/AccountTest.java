@@ -1,6 +1,7 @@
 package account;
 
 import com.dev.torhugo.clean.code.arch.domain.account.Account;
+import com.dev.torhugo.clean.code.arch.domain.error.InvalidArgumentError;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,7 +67,7 @@ class AccountTest {
         final var expectedIsDriver = false;
 
         // When and Then
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidArgumentError exception = assertThrows(InvalidArgumentError.class, () -> {
             Account.create(expectedName, expectedEmail, expectedCpf, expectedIsPassenger, expectedIsDriver, null);
         });
 
@@ -84,7 +85,7 @@ class AccountTest {
         final var expectedIsDriver = false;
 
         // When
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidArgumentError exception = assertThrows(InvalidArgumentError.class, () -> {
             Account.create(expectedName, expectedEmail, expectedCpf, expectedIsPassenger, expectedIsDriver, null);
         });
 
@@ -102,7 +103,7 @@ class AccountTest {
         final var expectedIsDriver = false;
 
         // When
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidArgumentError exception = assertThrows(InvalidArgumentError.class, () -> {
             Account.create(expectedName, expectedEmail, expectedCpf, expectedIsPassenger, expectedIsDriver, null);
         });
 
@@ -121,7 +122,7 @@ class AccountTest {
         final var expectedIsDriver = true;
 
         // When
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+        InvalidArgumentError exception = assertThrows(InvalidArgumentError.class, () -> {
             Account.create(expectedName, expectedEmail, expectedCpf, expectedIsPassenger, expectedIsDriver, expectedCarPlate);
         });
 

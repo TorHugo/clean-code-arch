@@ -2,12 +2,10 @@ package com.dev.torhugo.clean.code.arch.application.singup;
 
 import com.dev.torhugo.clean.code.arch.domain.account.Account;
 import com.dev.torhugo.clean.code.arch.domain.account.AccountGateway;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Objects;
@@ -37,7 +35,7 @@ class SignUpUseCaseTest {
         final var expectedIsPassenger = true;
         final var expectedIsDriver = false;
 
-        final var expectedInput = new CreateSingUpInput(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
+        final var expectedInput = new SingUpInput(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
         when(accountGateway.getByEmail(anyString())).thenReturn(Optional.empty());
 
         // When
@@ -68,7 +66,7 @@ class SignUpUseCaseTest {
         final var expectedIsPassenger = false;
         final var expectedIsDriver = true;
 
-        final var expectedInput = new CreateSingUpInput(expectedName, expectedEmail, expectedCpf, expectedCarPlate, expectedIsPassenger, expectedIsDriver);
+        final var expectedInput = new SingUpInput(expectedName, expectedEmail, expectedCpf, expectedCarPlate, expectedIsPassenger, expectedIsDriver);
         when(accountGateway.getByEmail(anyString())).thenReturn(Optional.empty());
 
         // When
@@ -101,7 +99,7 @@ class SignUpUseCaseTest {
         final var expectedIsPassenger = true;
         final var expectedIsDriver = false;
 
-        final var expectedInput = new CreateSingUpInput(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
+        final var expectedInput = new SingUpInput(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
         final var accountAlreadyExists = Account.create(expectedName, expectedEmail, expectedCpf, expectedIsPassenger, expectedIsDriver, null);
         when(accountGateway.getByEmail(anyString())).thenReturn(Optional.of(accountAlreadyExists));
 
@@ -126,7 +124,7 @@ class SignUpUseCaseTest {
         final var expectedIsPassenger = true;
         final var expectedIsDriver = false;
 
-        final var expectedInput = new CreateSingUpInput(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
+        final var expectedInput = new SingUpInput(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
         when(accountGateway.getByEmail(anyString())).thenReturn(Optional.empty());
 
         // When

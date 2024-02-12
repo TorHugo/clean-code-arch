@@ -1,12 +1,13 @@
 package com.dev.torhugo.clean.code.arch.domain.account;
 
-import com.dev.torhugo.clean.code.arch.domain.DomainDefault;
+import com.dev.torhugo.clean.code.arch.domain.Validator;
+import com.dev.torhugo.clean.code.arch.domain.error.InvalidArgumentError;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Account extends DomainDefault {
+public class Account extends Validator {
 
     private final UUID accountId;
     private final String name;
@@ -15,6 +16,8 @@ public class Account extends DomainDefault {
     private final boolean isPassenger;
     private final boolean isDriver;
     private final String carPlate;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
 
     private Account(final UUID accountId,
                     final String name,
@@ -25,10 +28,10 @@ public class Account extends DomainDefault {
                     final String carPlate,
                     final LocalDateTime createdAt,
                     final LocalDateTime updatedAt) {
-        if (validateRegexName(name)) throw new IllegalArgumentException("Invalid name!");
-        if (validateRegexEmail(email)) throw new IllegalArgumentException("Invalid email!");
-        if (!validateInvalidCpf(cpf)) throw new IllegalArgumentException("Invalid cpf!");
-        if (isDriver && Objects.nonNull(carPlate) && validateRegexCarPlate(carPlate)) throw new IllegalArgumentException("Invalid car plate!");
+        if (validateRegexName(name)) throw new InvalidArgumentError("Invalid name!");
+        if (validateRegexEmail(email)) throw new InvalidArgumentError("Invalid email!");
+        if (!validateInvalidCpf(cpf)) throw new InvalidArgumentError("Invalid cpf!");
+        if (isDriver && Objects.nonNull(carPlate) && validateRegexCarPlate(carPlate)) throw new InvalidArgumentError("Invalid car plate!");
 
         this.accountId = accountId;
         this.name = name;
@@ -77,5 +80,13 @@ public class Account extends DomainDefault {
 
     public Boolean isDriver() {
         return isDriver;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 }

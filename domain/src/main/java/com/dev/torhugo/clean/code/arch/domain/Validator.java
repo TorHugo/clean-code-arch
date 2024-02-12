@@ -1,11 +1,8 @@
 package com.dev.torhugo.clean.code.arch.domain;
 
-import static com.dev.torhugo.clean.code.arch.domain.utils.CpfValidatorUtils.validateCpf;
+import static com.dev.torhugo.clean.code.arch.domain.validator.CpfValidatorUtils.validateCpf;
 
 public abstract class Validator {
-
-    Validator(){
-    }
 
     private static final String PATTERN_CAR_PLATE = "[A-Z]{3}\\d{4}";
     private static final String PATTERN_NAME = "[a-zA-Z]+ [a-zA-Z]+";

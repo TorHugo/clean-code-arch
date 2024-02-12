@@ -11,7 +11,7 @@ public class SignUpUseCase {
         this.accountGateway = accountGateway;
     }
 
-    public String execute(final CreateSingUpInput input) {
+    public String execute(final SingUpInput input) {
         final var existingAccount = this.accountGateway.getByEmail(input.email());
         if (existingAccount.isPresent())
             throw new IllegalArgumentException("Account already exists!");
