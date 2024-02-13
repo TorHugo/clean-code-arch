@@ -1,7 +1,7 @@
 package account;
 
 import com.dev.torhugo.clean.code.arch.domain.account.Account;
-import com.dev.torhugo.clean.code.arch.domain.error.InvalidArgumentError;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

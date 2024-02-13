@@ -1,4 +1,4 @@
-package com.dev.torhugo.clean.code.arch.infrastructure.account;
+package com.dev.torhugo.clean.code.arch.infrastructure.database;
 
 import jakarta.persistence.Column;
 import lombok.Getter;

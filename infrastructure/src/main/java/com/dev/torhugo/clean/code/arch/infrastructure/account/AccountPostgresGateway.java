@@ -6,6 +6,7 @@ import com.dev.torhugo.clean.code.arch.infrastructure.account.models.AccountEnti
 import com.dev.torhugo.clean.code.arch.infrastructure.account.persistence.AccountRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,9 +20,9 @@ public class AccountPostgresGateway implements AccountGateway {
     }
 
     @Override
-    public Optional<Account> getByEmail(final String email) {
+    public Account getByEmail(final String email) {
         final var accountEntity = this.accountRepository.getByEmail(email);
-        return accountEntity.flatMap(AccountEntity::toAggregate);
+        return Objects.isNull(accountEntity) ? null : AccountEntity.toAggregate(accountEntity);
     }
 
     @Override
@@ -31,8 +32,8 @@ public class AccountPostgresGateway implements AccountGateway {
     }
 
     @Override
-    public Optional<Account> getByAccountId(final UUID accountId) {
+    public Account getByAccountId(final UUID accountId) {
         final var accountEntity = this.accountRepository.getByAccountId(accountId);
-        return accountEntity.flatMap(AccountEntity::toAggregate);
+        return Objects.isNull(accountEntity) ? null : AccountEntity.toAggregate(accountEntity);
     }
 }

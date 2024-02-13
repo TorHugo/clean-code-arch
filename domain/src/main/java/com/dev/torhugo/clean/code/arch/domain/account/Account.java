@@ -1,11 +1,13 @@
 package com.dev.torhugo.clean.code.arch.domain.account;
 
 import com.dev.torhugo.clean.code.arch.domain.Validator;
-import com.dev.torhugo.clean.code.arch.domain.error.InvalidArgumentError;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
+
+import static com.dev.torhugo.clean.code.arch.domain.utils.IdentifierUtils.generateIdentifier;
 
 public class Account extends Validator {
 
@@ -45,7 +47,7 @@ public class Account extends Validator {
     }
 
     public static Account create(final String name, final String email, final String cpf, final boolean isPassenger, final boolean isDriver, final String carPlate) {
-        final var accountId = UUID.randomUUID();
+        final var accountId = generateIdentifier();
         final var createdAt = LocalDateTime.now();
         return new Account(accountId, name, email, cpf, isPassenger, isDriver, carPlate, createdAt, null);
     }

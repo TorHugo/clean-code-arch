@@ -1,7 +1,7 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.account.models;
 
 import com.dev.torhugo.clean.code.arch.domain.account.Account;
-import com.dev.torhugo.clean.code.arch.infrastructure.account.EntityDefault;
+import com.dev.torhugo.clean.code.arch.infrastructure.database.EntityDefault;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @Table()
@@ -54,18 +53,18 @@ public class AccountEntity extends EntityDefault {
 
     }
 
-    public static Optional<Account> toAggregate(final AccountEntity accountEntity){
+    public static Account toAggregate(final AccountEntity accountEntity){
         return
-            Optional.of(Account.restore(
+            Account.restore(
                 accountEntity.accountId,
                 accountEntity.name,
                 accountEntity.email,
                 accountEntity.cpf,
-                true,
-                false,
+                accountEntity.passenger,
+                accountEntity.driver,
                 accountEntity.carPlate,
                 accountEntity.createdAt,
-                accountEntity.updatedAt));
+                accountEntity.updatedAt);
     }
 
     public static AccountEntity fromAggregate(final Account account){

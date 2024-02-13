@@ -1,12 +1,12 @@
-package com.dev.torhugo.clean.code.arch.infrastructure.http.controller;
+package com.dev.torhugo.clean.code.arch.infrastructure.api.controller;
 
 import com.dev.torhugo.clean.code.arch.application.getaccount.GetAccountUseCase;
 import com.dev.torhugo.clean.code.arch.application.singup.SingUpInput;
 import com.dev.torhugo.clean.code.arch.application.singup.SignUpUseCase;
-import com.dev.torhugo.clean.code.arch.infrastructure.http.controller.models.GetAccountResponse;
-import com.dev.torhugo.clean.code.arch.infrastructure.http.controller.models.SingUpResponse;
-import com.dev.torhugo.clean.code.arch.infrastructure.http.controller.models.SingUpRequest;
-import com.dev.torhugo.clean.code.arch.infrastructure.http.AccountAPI;
+import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.GetAccountResponse;
+import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.SingUpResponse;
+import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.SingUpRequest;
+import com.dev.torhugo.clean.code.arch.infrastructure.api.AccountAPI;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

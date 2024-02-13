@@ -1,6 +1,6 @@
-package com.dev.torhugo.clean.code.arch.infrastructure.http;
+package com.dev.torhugo.clean.code.arch.infrastructure.api;
 
-import com.dev.torhugo.clean.code.arch.infrastructure.http.controller.models.SingUpRequest;
+import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.SingUpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

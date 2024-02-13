@@ -3,14 +3,12 @@ package com.dev.torhugo.clean.code.arch.application.singup;
 import com.dev.torhugo.clean.code.arch.application.getaccount.GetAccountUseCase;
 import com.dev.torhugo.clean.code.arch.domain.account.Account;
 import com.dev.torhugo.clean.code.arch.domain.account.AccountGateway;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -41,7 +39,7 @@ public class GetAccountUseCaseTest {
 
         final var accountClone = Account.create(expectedName, expectedEmail, expectedCpf, expectedIsPassenger, expectedIsDriver, expectedCarPlate);
         final var expectedAccountId = accountClone.getAccountId();
-        when(accountGateway.getByAccountId(expectedAccountId)).thenReturn(Optional.of(accountClone));
+        when(accountGateway.getByAccountId(expectedAccountId)).thenReturn(accountClone);
         // When
         final var actualAccount = getAccountUseCase.execute(expectedAccountId);
         // Then
@@ -60,9 +58,9 @@ public class GetAccountUseCaseTest {
     void shouldThrowExceptionWhenInvalidAccount(){
         // Given
         final var expectedException = "Account not found!";
-        when(accountGateway.getByAccountId(any())).thenReturn(Optional.empty());
+        when(accountGateway.getByAccountId(any())).thenReturn(null);
         // When
-        final var exception = assertThrows(IllegalArgumentException.class, () ->
+        final var exception = assertThrows(DatabaseNotFoundError.class, () ->
                 getAccountUseCase.execute(any()));
         // Then
         verify(accountGateway, times(1)).getByAccountId(any());

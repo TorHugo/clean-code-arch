@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -29,10 +27,11 @@ public class AccountRepositoryImplements implements AccountRepository {
     private String querySaveToNewAccount;
 
     @Override
-    public Optional<AccountEntity> getByEmail(final String email) {
+    public AccountEntity getByEmail(final String email) {
         return databaseService.retrieve(queryFindAccountByEmail,
                 buildParams(email),
-                BeanPropertyRowMapper.newInstance(AccountEntity.class));
+                BeanPropertyRowMapper.newInstance(AccountEntity.class))
+                .orElse(null);
     }
 
     @Override
@@ -41,10 +40,11 @@ public class AccountRepositoryImplements implements AccountRepository {
     }
 
     @Override
-    public Optional<AccountEntity> getByAccountId(final UUID accountId) {
+    public AccountEntity getByAccountId(final UUID accountId) {
         return databaseService.retrieve(queryFindAccountByAccountId,
                 buildParams(accountId),
-                BeanPropertyRowMapper.newInstance(AccountEntity.class));
+                BeanPropertyRowMapper.newInstance(AccountEntity.class))
+                .orElse(null);
     }
 
     private MapSqlParameterSource buildParams(final UUID accountId) {

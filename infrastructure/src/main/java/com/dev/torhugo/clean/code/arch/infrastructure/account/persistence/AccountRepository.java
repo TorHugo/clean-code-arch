@@ -7,9 +7,9 @@ import java.util.UUID;
 
 // Port
 public interface AccountRepository {
-    Optional<AccountEntity> getByEmail(final String email);
+    AccountEntity getByEmail(final String email);
 
     void save(final AccountEntity account);
 
-    Optional<AccountEntity> getByAccountId(final UUID accountId);
+    AccountEntity getByAccountId(final UUID accountId);
 }

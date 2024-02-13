@@ -5,8 +5,8 @@ import com.dev.torhugo.clean.code.arch.application.getaccount.GetAccountUseCase;
 import com.dev.torhugo.clean.code.arch.application.singup.SignUpUseCase;
 import com.dev.torhugo.clean.code.arch.domain.account.Account;
 import com.dev.torhugo.clean.code.arch.infrastructure.configuration.WebServerConfig;
-import com.dev.torhugo.clean.code.arch.infrastructure.http.controller.AccountController;
-import com.dev.torhugo.clean.code.arch.infrastructure.http.controller.models.SingUpRequest;
+import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.AccountController;
+import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.SingUpRequest;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Optional;
-
-import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;

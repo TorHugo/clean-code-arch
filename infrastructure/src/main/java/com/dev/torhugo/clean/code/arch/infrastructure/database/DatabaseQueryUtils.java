@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -22,6 +23,11 @@ public class DatabaseQueryUtils implements DatabaseUtils{
         } catch (Exception e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public <T> List<T> retrieveList(final String query, final SqlParameterSource params, final RowMapper<T> rowMapper) {
+        return this.namedParameterJdbcTemplate.query(query, params, rowMapper);
     }
 
     @Override
