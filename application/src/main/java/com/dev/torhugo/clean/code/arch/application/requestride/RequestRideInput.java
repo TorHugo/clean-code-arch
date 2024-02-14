@@ -8,6 +8,6 @@ public record RequestRideInput(
     CoordinatesRequestInfo to
 ) {
     public static RequestRideInput with(final UUID passengerId, final Double fromLat, final Double fromLong, final Double toLat, final Double toLong){
-        return new RequestRideInput(passengerId, CoordinatesRequestInfo.with(fromLat, fromLong), CoordinatesRequestInfo.with(toLat, toLong));
+        return new RequestRideInput(passengerId, CoordinatesRequestInfo.from(fromLat, fromLong), CoordinatesRequestInfo.from(toLat, toLong));
     }
 }

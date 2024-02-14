@@ -35,7 +35,6 @@ public class AccountController implements AccountAPI {
     @Override
     public ResponseEntity<?> getAccount(final UUID accountId) {
         final var accountRetrieved = this.getAccountUseCase.execute(accountId);
-        final var accountResponse = GetAccountResponse.from(accountRetrieved);
-        return ResponseEntity.status(HttpStatus.OK).body(accountResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(GetAccountResponse.from(accountRetrieved));
     }
 }

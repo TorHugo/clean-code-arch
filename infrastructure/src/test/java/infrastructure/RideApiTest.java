@@ -16,7 +16,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Random;
 import java.util.UUID;
 
 import static org.mockito.Mockito.when;
@@ -50,7 +49,7 @@ public class RideApiTest {
         final var expectedToLat = Math.random();
         final var expectedToLong = Math.random();
 
-        final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.with(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.with(expectedToLat, expectedToLong));
+        final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.from(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.from(expectedToLat, expectedToLong));
         final var output = RideResponse.from(UUID.randomUUID().toString());
         when(requestRideUseCase.execute(input)).thenReturn(output.rideId());
 

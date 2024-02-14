@@ -1,5 +1,6 @@
 package com.dev.torhugo.clean.code.arch.domain.ride;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -14,6 +15,8 @@ public class Ride {
     private final Double toLat;
     private final Double toLong;
     private final String status;
+    private final BigDecimal fare;
+    private final Double distance;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
@@ -24,6 +27,8 @@ public class Ride {
                  final Double toLat,
                  final Double toLong,
                  final String status,
+                 final BigDecimal fare,
+                 final Double distance,
                  final LocalDateTime createdAt,
                  final LocalDateTime updatedAt) {
         this.rideId = rideId;
@@ -33,6 +38,8 @@ public class Ride {
         this.toLat = toLat;
         this.toLong = toLong;
         this.status = status;
+        this.fare = fare;
+        this.distance = distance;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -44,7 +51,7 @@ public class Ride {
                               final Double toLong) {
         final var rideId = generateIdentifier();
         final var createdAt = LocalDateTime.now();
-        return new Ride(rideId, passengerId, fromLat, fromLong, toLat, toLong, REQUESTED.name(), createdAt, null);
+        return new Ride(rideId, passengerId, fromLat, fromLong, toLat, toLong, REQUESTED.name(), null, null, createdAt, null);
     }
 
     public static Ride restore(final UUID rideId,
@@ -54,9 +61,11 @@ public class Ride {
                                final Double toLat,
                                final Double toLong,
                                final String status,
+                               final BigDecimal fare,
+                               final Double distance,
                                final LocalDateTime createdAt,
                                final LocalDateTime updatedAt) {
-        return new Ride(rideId, passengerId, fromLat, fromLong, toLat, toLong, status, createdAt, updatedAt);
+        return new Ride(rideId, passengerId, fromLat, fromLong, toLat, toLong, status, fare, distance, createdAt, updatedAt);
     }
 
     public UUID getRideId() {
@@ -93,5 +102,13 @@ public class Ride {
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public BigDecimal getFare() {
+        return fare;
+    }
+
+    public Double getDistance() {
+        return distance;
     }
 }

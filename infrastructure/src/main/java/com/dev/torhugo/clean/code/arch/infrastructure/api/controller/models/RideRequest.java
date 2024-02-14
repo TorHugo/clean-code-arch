@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public record RideRequest(
         @JsonProperty("passenger_id") UUID passengerId,
-        @JsonProperty("from") CoordinatesRequestInfo from,
-        @JsonProperty("to") CoordinatesRequestInfo to
+        @JsonProperty("from") CoordinatesInfo from,
+        @JsonProperty("to") CoordinatesInfo to
 ) {
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -27,6 +28,8 @@ public class RideRepositoryImplements implements RideRepository{
     private String querySaveToNewRide;
     @Value("${SPS.RIDE.WHERE.ACCOUNT_ID.AND.STATUS}")
     private String queryFindRideByAccountIdAndStatus;
+    @Value("${SPS.RIDE.WHERE.RIDE_ID}")
+    private String queryFindRideById;
 
     @Override
     public void save(final RideEntity rideEntity) {
@@ -38,6 +41,18 @@ public class RideRepositoryImplements implements RideRepository{
         return databaseService.retrieveList(queryFindRideByAccountIdAndStatus,
                 buildParameters(accountId),
                 BeanPropertyRowMapper.newInstance(RideEntity.class));
+    }
+
+    @Override
+    public RideEntity getRideById(final UUID rideId) {
+        return databaseService.retrieve(queryFindRideById,
+                buildParametersRideId(rideId),
+                BeanPropertyRowMapper.newInstance(RideEntity.class))
+                .orElse(null);
+    }
+
+    private MapSqlParameterSource buildParametersRideId(final UUID rideId) {
+        return new MapSqlParameterSource("rideId", rideId);
     }
 
     private MapSqlParameterSource buildParameters(final UUID accountId) {

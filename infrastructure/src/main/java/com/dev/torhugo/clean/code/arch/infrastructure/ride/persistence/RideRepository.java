@@ -9,4 +9,6 @@ public interface RideRepository {
     void save(final RideEntity rideEntity);
 
     List<RideEntity> getActiveRidesByPassengerId(final UUID accountId);
+
+    RideEntity getRideById(final UUID rideId);
 }

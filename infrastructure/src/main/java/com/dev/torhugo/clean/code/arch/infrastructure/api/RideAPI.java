@@ -2,9 +2,9 @@ package com.dev.torhugo.clean.code.arch.infrastructure.api;
 
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.RideRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RequestMapping(value = "/rides")
 public interface RideAPI {
@@ -13,4 +13,8 @@ public interface RideAPI {
     )
     ResponseEntity<?> create(final @RequestBody RideRequest input);
 
+    @GetMapping(
+            "/{rideId}"
+    )
+    ResponseEntity<?> getByRideId(final @PathVariable UUID rideId);
 }

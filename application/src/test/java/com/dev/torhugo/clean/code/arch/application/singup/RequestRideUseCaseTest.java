@@ -25,20 +25,17 @@ import static org.mockito.Mockito.*;
 class RequestRideUseCaseTest {
     @Mock
     AccountGateway accountGateway;
-
     @Mock
     RideGateway rideGateway;
-
     @InjectMocks
     RequestRideUseCase requestRideUseCase;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void shouldExecuteRequestRideWhenValidParams(){
+    void shouldExecuteRequestRideWithSuccess(){
         // Given
         final var nameAccount = "Test Test";
         final var emailAccount = "test@example.com";
@@ -53,7 +50,7 @@ class RequestRideUseCaseTest {
         final var expectedToLat = Math.random();
         final var expectedToLong = Math.random();
 
-        final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.with(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.with(expectedToLat, expectedToLong));
+        final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.from(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.from(expectedToLat, expectedToLong));
         when(this.accountGateway.getByAccountId(any())).thenReturn(expectedAccount);
         when(this.rideGateway.getActiveRidesByPassengerId(any())).thenReturn(new ArrayList<>());
 
@@ -84,7 +81,7 @@ class RequestRideUseCaseTest {
         final var expectedToLat = Math.random();
         final var expectedToLong = Math.random();
 
-        final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.with(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.with(expectedToLat, expectedToLong));
+        final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.from(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.from(expectedToLat, expectedToLong));
         when(this.accountGateway.getByAccountId(any())).thenReturn(null);
         when(this.rideGateway.getActiveRidesByPassengerId(any())).thenReturn(new ArrayList<>());
 
@@ -116,7 +113,7 @@ class RequestRideUseCaseTest {
         final var expectedToLat = Math.random();
         final var expectedToLong = Math.random();
 
-        final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.with(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.with(expectedToLat, expectedToLong));
+        final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.from(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.from(expectedToLat, expectedToLong));
         when(this.accountGateway.getByAccountId(any())).thenReturn(expectedAccount);
         when(this.rideGateway.getActiveRidesByPassengerId(any())).thenReturn(new ArrayList<>());
 
@@ -148,7 +145,7 @@ class RequestRideUseCaseTest {
         final var expectedToLat = Math.random();
         final var expectedToLong = Math.random();
 
-        final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.with(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.with(expectedToLat, expectedToLong));
+        final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.from(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.from(expectedToLat, expectedToLong));
         final var ride = Ride.create(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
         when(this.accountGateway.getByAccountId(any())).thenReturn(expectedAccount);
         when(this.rideGateway.getActiveRidesByPassengerId(any())).thenReturn(List.of(ride));

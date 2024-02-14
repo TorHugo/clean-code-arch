@@ -4,7 +4,7 @@ public record CoordinatesRequestInfo(
         Double latitude,
         Double longitude
 ) {
-    public static CoordinatesRequestInfo with(final Double latitude, final Double longitude) {
+    public static CoordinatesRequestInfo from(final Double latitude, final Double longitude) {
         return new CoordinatesRequestInfo(latitude, longitude);
     }
 }

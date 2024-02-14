@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +24,8 @@ public class RideEntity extends EntityDefault {
     private UUID rideId;
     private UUID passengerId;
     private String status;
+    private BigDecimal fare;
+    private Double distance;
     private Double fromLat;
     private Double fromLong;
     private Double toLat;
@@ -31,6 +34,8 @@ public class RideEntity extends EntityDefault {
     private RideEntity(final UUID rideId,
                        final UUID passengerId,
                        final String status,
+                       final BigDecimal fare,
+                       final Double distance,
                        final Double fromLat,
                        final Double fromLong,
                        final Double toLat,
@@ -40,6 +45,8 @@ public class RideEntity extends EntityDefault {
         this.rideId = rideId;
         this.passengerId = passengerId;
         this.status = status;
+        this.fare = fare;
+        this.distance = distance;
         this.fromLat = fromLat;
         this.fromLong = fromLong;
         this.toLat = toLat;
@@ -57,6 +64,8 @@ public class RideEntity extends EntityDefault {
                 ride.getRideId(),
                 ride.getPassengerId(),
                 ride.getStatus(),
+                ride.getFare(),
+                ride.getDistance(),
                 ride.getFromLat(),
                 ride.getFromLong(),
                 ride.getToLat(),
@@ -67,17 +76,21 @@ public class RideEntity extends EntityDefault {
     }
 
     public static List<Ride> toAggregateList(final List<RideEntity> activesRides) {
-        return activesRides.stream().map(ride ->
-                Ride.restore(
-                        ride.rideId,
-                        ride.passengerId,
-                        ride.fromLat,
-                        ride.fromLong,
-                        ride.toLat,
-                        ride.toLong,
-                        ride.status,
-                        ride.createdAt,
-                        ride.updatedAt))
-                .toList();
+        return activesRides.stream().map(RideEntity::toAggregate).toList();
+    }
+
+    public static Ride toAggregate(final RideEntity ride) {
+        return Ride.restore(
+                ride.rideId,
+                ride.passengerId,
+                ride.fromLat,
+                ride.fromLong,
+                ride.toLat,
+                ride.toLong,
+                ride.status,
+                ride.fare,
+                ride.distance,
+                ride.createdAt,
+                ride.updatedAt);
     }
 }

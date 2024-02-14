@@ -7,6 +7,7 @@ import com.dev.torhugo.clean.code.arch.infrastructure.ride.persistence.RideRepos
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -28,5 +29,11 @@ public class RidePostgresGateway implements RideGateway {
     public void save(final Ride ride) {
         final var rideEntity = RideEntity.fromAggregate(ride);
         this.rideRepository.save(rideEntity);
+    }
+
+    @Override
+    public Ride getRideById(final UUID rideId) {
+        final var ride = this.rideRepository.getRideById(rideId);
+        return Objects.isNull(ride) ? null : RideEntity.toAggregate(ride);
     }
 }
