@@ -4,6 +4,9 @@ import com.dev.torhugo.clean.code.arch.domain.account.Account;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
+
+import static com.dev.torhugo.clean.code.arch.domain.utils.IdentifierUtils.generateIdentifier;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AccountTest {
@@ -58,6 +61,33 @@ class AccountTest {
     }
 
     @Test
+    void shouldRestoreAccountWithSuccess() {
+        // Given
+        final var expectedAccountId = generateIdentifier();
+        final var expectedName = "Test Test";
+        final var expectedEmail = "test@example.com";
+        final var expectedCpf = "648.808.745-23";
+        final var expectedCarPlate = "ABC1234";
+        final var expectedIsPassenger = true;
+        final var expectedIsDriver = false;
+        final var expectedCreatedAt = LocalDateTime.now();
+
+        // When
+        final var actualAccount = Account.restore(expectedAccountId, expectedName, expectedEmail, expectedCpf, expectedIsPassenger, expectedIsDriver, expectedCarPlate, expectedCreatedAt, null);
+
+        // Then
+        assertEquals(expectedAccountId, actualAccount.getAccountId());
+        assertEquals(expectedName, actualAccount.getName());
+        assertEquals(expectedEmail, actualAccount.getEmail());
+        assertEquals(expectedCpf, actualAccount.getCpf());
+        assertEquals(expectedCarPlate, actualAccount.getCarPlate());
+        assertEquals(expectedIsPassenger, actualAccount.isPassenger());
+        assertEquals(expectedIsDriver, actualAccount.isDriver());
+        assertEquals(expectedCreatedAt, actualAccount.getCreatedAt());
+        assertNull(actualAccount.getUpdatedAt());
+    }
+
+    @Test
     void shouldThrowExceptionWhenInvalidName() {
         // Given
         final var expectedName = "Test";
@@ -99,6 +129,42 @@ class AccountTest {
         final var expectedName = "Test Test";
         final var expectedEmail = "test@example.com";
         final var expectedCpf = "123.123.123-12";
+        final var expectedIsPassenger = true;
+        final var expectedIsDriver = false;
+
+        // When
+        InvalidArgumentError exception = assertThrows(InvalidArgumentError.class, () -> {
+            Account.create(expectedName, expectedEmail, expectedCpf, expectedIsPassenger, expectedIsDriver, null);
+        });
+
+        // Assert
+        assertEquals("Invalid cpf!", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCpfIsEmpty() {
+        // Given
+        final var expectedName = "Test Test";
+        final var expectedEmail = "test@example.com";
+        final var expectedCpf = "";
+        final var expectedIsPassenger = true;
+        final var expectedIsDriver = false;
+
+        // When
+        InvalidArgumentError exception = assertThrows(InvalidArgumentError.class, () -> {
+            Account.create(expectedName, expectedEmail, expectedCpf, expectedIsPassenger, expectedIsDriver, null);
+        });
+
+        // Assert
+        assertEquals("Invalid cpf!", exception.getMessage());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCpfIsMaxDigits() {
+        // Given
+        final var expectedName = "Test Test";
+        final var expectedEmail = "test@example.com";
+        final var expectedCpf = "648.808.745-233";
         final var expectedIsPassenger = true;
         final var expectedIsDriver = false;
 

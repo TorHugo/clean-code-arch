@@ -124,7 +124,7 @@ class SignUpUseCaseTest {
         final var expectedIsPassenger = true;
         final var expectedIsDriver = false;
 
-        final var expectedInput = new SingUpInput(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
+        final var expectedInput = SingUpInput.with(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
         when(accountGateway.getByEmail(anyString())).thenReturn(null);
 
         // When

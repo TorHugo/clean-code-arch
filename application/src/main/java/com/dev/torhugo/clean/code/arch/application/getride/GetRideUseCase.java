@@ -20,9 +20,9 @@ public class GetRideUseCase {
         final var ride = this.rideGateway.getRideById(rideId);
         if (Objects.isNull(ride))
             throw new DatabaseNotFoundError("Ride not found!");
-        final var passenger = this.accountGateway.getByAccountId(ride.getPassengerId());
-        if (Objects.isNull(passenger))
+        final var account = this.accountGateway.getByAccountId(ride.getPassengerId());
+        if (Objects.isNull(account))
             throw new DatabaseNotFoundError("Passenger not found!");
-        return GetRideOutput.from(ride, passenger);
+        return GetRideOutput.from(ride, account);
     }
 }

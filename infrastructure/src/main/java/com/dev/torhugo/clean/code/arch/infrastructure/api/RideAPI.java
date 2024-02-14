@@ -1,5 +1,6 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.api;
 
+import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.AcceptRideRequest;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.RideRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,4 +18,8 @@ public interface RideAPI {
             "/{rideId}"
     )
     ResponseEntity<?> getByRideId(final @PathVariable UUID rideId);
+    @PutMapping(
+            "/accept"
+    )
+    ResponseEntity<?> acceptRide(final @RequestBody AcceptRideRequest input);
 }

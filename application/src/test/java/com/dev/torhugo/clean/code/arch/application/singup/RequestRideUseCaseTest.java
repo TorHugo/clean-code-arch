@@ -1,5 +1,6 @@
 package com.dev.torhugo.clean.code.arch.application.singup;
 
+import com.dev.torhugo.clean.code.arch.application.acceptride.AcceptRideInput;
 import com.dev.torhugo.clean.code.arch.application.requestride.CoordinatesRequestInfo;
 import com.dev.torhugo.clean.code.arch.application.requestride.RequestRideInput;
 import com.dev.torhugo.clean.code.arch.application.requestride.RequestRideUseCase;
@@ -18,6 +19,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dev.torhugo.clean.code.arch.domain.utils.IdentifierUtils.generateIdentifier;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -52,7 +54,7 @@ class RequestRideUseCaseTest {
 
         final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.from(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.from(expectedToLat, expectedToLong));
         when(this.accountGateway.getByAccountId(any())).thenReturn(expectedAccount);
-        when(this.rideGateway.getActiveRidesByPassengerId(any())).thenReturn(new ArrayList<>());
+        when(this.rideGateway.getAllRidesWithStatus(any(), any())).thenReturn(new ArrayList<>());
 
         // When
         final var actualRide = requestRideUseCase.execute(input);
@@ -60,7 +62,7 @@ class RequestRideUseCaseTest {
         // Then
         assertNotNull(actualRide);
         verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideGateway, times(1)).getActiveRidesByPassengerId(any());
+        verify(rideGateway, times(1)).getAllRidesWithStatus(any(), any());
         verify(rideGateway, times(1)).save(any());
     }
 
@@ -83,7 +85,7 @@ class RequestRideUseCaseTest {
 
         final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.from(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.from(expectedToLat, expectedToLong));
         when(this.accountGateway.getByAccountId(any())).thenReturn(null);
-        when(this.rideGateway.getActiveRidesByPassengerId(any())).thenReturn(new ArrayList<>());
+        when(this.rideGateway.getAllRidesWithStatus(any(), any())).thenReturn(new ArrayList<>());
 
         // When
         final var exception = assertThrows(DatabaseNotFoundError.class, () ->
@@ -92,7 +94,7 @@ class RequestRideUseCaseTest {
         // Then
         assertEquals(expectedError, exception.getMessage());
         verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideGateway, times(0)).getActiveRidesByPassengerId(any());
+        verify(rideGateway, times(0)).getAllRidesWithStatus(any(), any());
         verify(rideGateway, times(0)).save(any());
     }
 
@@ -115,7 +117,7 @@ class RequestRideUseCaseTest {
 
         final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.from(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.from(expectedToLat, expectedToLong));
         when(this.accountGateway.getByAccountId(any())).thenReturn(expectedAccount);
-        when(this.rideGateway.getActiveRidesByPassengerId(any())).thenReturn(new ArrayList<>());
+        when(this.rideGateway.getAllRidesWithStatus(any(), any())).thenReturn(new ArrayList<>());
 
         // When
         final var exception = assertThrows(InvalidArgumentError.class, () ->
@@ -124,7 +126,7 @@ class RequestRideUseCaseTest {
         // Then
         assertEquals(expectedError, exception.getMessage());
         verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideGateway, times(0)).getActiveRidesByPassengerId(any());
+        verify(rideGateway, times(0)).getAllRidesWithStatus(any(), any());
         verify(rideGateway, times(0)).save(any());
     }
 
@@ -145,10 +147,10 @@ class RequestRideUseCaseTest {
         final var expectedToLat = Math.random();
         final var expectedToLong = Math.random();
 
-        final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.from(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.from(expectedToLat, expectedToLong));
+        final var input = RequestRideInput.with(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
         final var ride = Ride.create(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
         when(this.accountGateway.getByAccountId(any())).thenReturn(expectedAccount);
-        when(this.rideGateway.getActiveRidesByPassengerId(any())).thenReturn(List.of(ride));
+        when(this.rideGateway.getAllRidesWithStatus(any(), any())).thenReturn(List.of(ride));
 
         // When
         final var exception = assertThrows(InvalidArgumentError.class, () ->
@@ -157,7 +159,7 @@ class RequestRideUseCaseTest {
         // Then
         assertEquals(expectedError, exception.getMessage());
         verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideGateway, times(1)).getActiveRidesByPassengerId(any());
+        verify(rideGateway, times(1)).getAllRidesWithStatus(any(), any());
         verify(rideGateway, times(0)).save(any());
     }
 }

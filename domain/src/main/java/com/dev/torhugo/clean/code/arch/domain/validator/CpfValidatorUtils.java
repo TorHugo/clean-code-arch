@@ -2,10 +2,6 @@ package com.dev.torhugo.clean.code.arch.domain.validator;
 
 public class CpfValidatorUtils {
 
-    CpfValidatorUtils(){
-
-    }
-
     public static boolean validateCpf(String rawCpf) {
         if (rawCpf == null || rawCpf.isEmpty()) {
             return false;

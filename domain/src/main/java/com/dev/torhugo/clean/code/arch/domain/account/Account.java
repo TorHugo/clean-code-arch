@@ -46,14 +46,47 @@ public class Account extends Validator {
         this.updatedAt = updatedAt;
     }
 
-    public static Account create(final String name, final String email, final String cpf, final boolean isPassenger, final boolean isDriver, final String carPlate) {
+    public static Account create(final String name,
+                                 final String email,
+                                 final String cpf,
+                                 final boolean isPassenger,
+                                 final boolean isDriver,
+                                 final String carPlate) {
         final var accountId = generateIdentifier();
         final var createdAt = LocalDateTime.now();
-        return new Account(accountId, name, email, cpf, isPassenger, isDriver, carPlate, createdAt, null);
+        return new Account(
+                accountId,
+                name,
+                email,
+                cpf,
+                isPassenger,
+                isDriver,
+                carPlate,
+                createdAt,
+                null
+        );
     }
 
-    public static Account restore(final UUID accountId, final String name, final String email, final String cpf, final boolean isPassenger, final boolean isDriver, final String carPlate, final LocalDateTime createdAt, final LocalDateTime updatedAt) {
-        return new Account(accountId, name, email, cpf, isPassenger, isDriver, carPlate, createdAt, updatedAt);
+    public static Account restore(final UUID accountId,
+                                  final String name,
+                                  final String email,
+                                  final String cpf,
+                                  final boolean isPassenger,
+                                  final boolean isDriver,
+                                  final String carPlate,
+                                  final LocalDateTime createdAt,
+                                  final LocalDateTime updatedAt) {
+        return new Account(
+                accountId,
+                name,
+                email,
+                cpf,
+                isPassenger,
+                isDriver,
+                carPlate,
+                createdAt,
+                updatedAt
+        );
     }
 
     public UUID getAccountId() {

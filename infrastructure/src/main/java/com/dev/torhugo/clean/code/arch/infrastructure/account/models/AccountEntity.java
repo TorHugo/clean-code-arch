@@ -2,6 +2,7 @@ package com.dev.torhugo.clean.code.arch.infrastructure.account.models;
 
 import com.dev.torhugo.clean.code.arch.domain.account.Account;
 import com.dev.torhugo.clean.code.arch.infrastructure.database.EntityDefault;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -14,10 +15,9 @@ import java.util.UUID;
 
 @Table()
 @Entity(name = "account")
-@EqualsAndHashCode(callSuper = true)
 @Getter
 @Setter
-public class AccountEntity extends EntityDefault {
+public class AccountEntity {
 
     @Id
     private UUID accountId;
@@ -27,6 +27,8 @@ public class AccountEntity extends EntityDefault {
     private boolean passenger;
     private boolean driver;
     private String carPlate;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     private AccountEntity(
             final UUID accountId,

@@ -1,18 +1,16 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.ride.persistence;
 
+import com.dev.torhugo.clean.code.arch.infrastructure.account.models.AccountEntity;
 import com.dev.torhugo.clean.code.arch.infrastructure.database.DatabaseUtils;
 import com.dev.torhugo.clean.code.arch.infrastructure.ride.models.RideEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
-
-import static com.dev.torhugo.clean.code.arch.domain.ride.RideStatusEnum.REQUESTED;
 
 @Repository
 @PropertySource("classpath:query/ride_scripts.properties")
@@ -26,8 +24,12 @@ public class RideRepositoryImplements implements RideRepository{
 
     @Value("${SPI.RIDE}")
     private String querySaveToNewRide;
-    @Value("${SPS.RIDE.WHERE.ACCOUNT_ID.AND.STATUS}")
-    private String queryFindRideByAccountIdAndStatus;
+    @Value("${SPU.RIDE}")
+    private String queryUpdateToExistingRide;
+    @Value("${SPS.RIDE.WHERE.PASSENGER_ID.AND.STATUS}")
+    private String queryFindRideByPassengerIdAndStatus;
+    @Value("${SPS.RIDE.WHERE.DRIVER_ID.AND.STATUS}")
+    private String queryFindRideByDriverIdAndStatus;
     @Value("${SPS.RIDE.WHERE.RIDE_ID}")
     private String queryFindRideById;
 
@@ -37,9 +39,14 @@ public class RideRepositoryImplements implements RideRepository{
     }
 
     @Override
-    public List<RideEntity> getActiveRidesByPassengerId(final UUID accountId) {
-        return databaseService.retrieveList(queryFindRideByAccountIdAndStatus,
-                buildParameters(accountId),
+    public List<RideEntity> getAllRidesWithStatus(final AccountEntity account, final String status) {
+        if (account.isPassenger())
+            return databaseService.retrieveList(queryFindRideByPassengerIdAndStatus,
+                    buildParametersWithStatus(account.getAccountId(), status),
+                    BeanPropertyRowMapper.newInstance(RideEntity.class));
+
+        return databaseService.retrieveList(queryFindRideByDriverIdAndStatus,
+                buildParametersWithStatus(account.getAccountId(), status),
                 BeanPropertyRowMapper.newInstance(RideEntity.class));
     }
 
@@ -51,14 +58,19 @@ public class RideRepositoryImplements implements RideRepository{
                 .orElse(null);
     }
 
+    @Override
+    public void update(final RideEntity rideEntity) {
+        databaseService.persist(queryUpdateToExistingRide, rideEntity);
+    }
+
     private MapSqlParameterSource buildParametersRideId(final UUID rideId) {
         return new MapSqlParameterSource("rideId", rideId);
     }
 
-    private MapSqlParameterSource buildParameters(final UUID accountId) {
+    private MapSqlParameterSource buildParametersWithStatus(final UUID accountId, final String status) {
         final var parameter = new MapSqlParameterSource();
-        parameter.addValue("passengerId", accountId);
-        parameter.addValue("status", REQUESTED.getName());
+        parameter.addValue("account", accountId);
+        parameter.addValue("status", status);
         return parameter;
     }
 }
