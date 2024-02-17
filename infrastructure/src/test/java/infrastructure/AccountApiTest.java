@@ -4,6 +4,7 @@ import com.dev.torhugo.clean.code.arch.application.getaccount.GetAccountOutput;
 import com.dev.torhugo.clean.code.arch.application.getaccount.GetAccountUseCase;
 import com.dev.torhugo.clean.code.arch.application.singup.SignUpUseCase;
 import com.dev.torhugo.clean.code.arch.domain.account.Account;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.infrastructure.configuration.WebServerConfig;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.AccountController;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.SingUpRequest;
@@ -60,6 +61,33 @@ class AccountApiTest {
         // Then
         response.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.account_id").value(accountObject.getAccountId().toString()));
+    }
+
+    @Test
+    void shouldExceptionWhenInvalidName() throws Exception {
+        // Given
+        final var expectedError = "Invalid name!";
+        final var expectedName = "Test Test";
+        final var expectedEmail = "test_passenger@example.com";
+        final var expectedCpf = "648.808.745-23";
+        final String expectedCarPlate = null;
+        final var expectedIsPassenger = true;
+        final var expectedIsDriver = false;
+
+        final var accountInput = new SingUpRequest(expectedName, expectedEmail, expectedCpf, expectedCarPlate, expectedIsPassenger, expectedIsDriver);
+        final var accountObject = Account.create(expectedName, expectedEmail, expectedCpf, expectedIsPassenger, expectedIsDriver, expectedCarPlate);
+        when(signUpUseCase.execute(any())).thenThrow(new InvalidArgumentError(expectedError));
+        // When
+        final var request = MockMvcRequestBuilders
+                .post("/accounts/signup")
+                .contentType(APPLICATION_JSON)
+                .content(gson.toJson(accountInput));
+
+        final var response = mockMvc.perform(request);
+
+        // Then
+        response.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value(expectedError));
     }
 
     @Test
