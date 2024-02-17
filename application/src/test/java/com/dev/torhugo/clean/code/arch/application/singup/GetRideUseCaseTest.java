@@ -69,6 +69,47 @@ class GetRideUseCaseTest {
     }
 
     @Test
+    void shouldExecuteGetRideCompletedWithSuccess() {
+        // Given
+        final var nameAccount = "Test Test";
+        final var emailAccount = "test@example.com";
+        final var cpfAccount = "648.808.745-23";
+        final var carPlate = "ABC1234";
+        final var expectedPassenger = Account.create(nameAccount, emailAccount, cpfAccount, true, false, null);
+        final var expectedDriver = Account.create(nameAccount, emailAccount, cpfAccount, false, true, carPlate);
+
+
+        final var expectedPassengerId = expectedPassenger.getAccountId();
+        final var expectedDriverId = expectedDriver.getAccountId();
+        final var expectedFromLat = Math.random();
+        final var expectedFromLong = Math.random();
+        final var expectedToLat = Math.random();
+        final var expectedToLong = Math.random();
+        final var expectedRide = Ride.create(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
+        expectedRide.accept(expectedDriver.getAccountId());
+        final var expectedRideId = expectedRide.getRideId();
+
+        when(this.rideGateway.getRideById(expectedRideId)).thenReturn(expectedRide);
+        when(this.accountGateway.getByAccountId(expectedPassengerId)).thenReturn(expectedPassenger);
+        when(this.accountGateway.getByAccountId(expectedDriverId)).thenReturn(expectedDriver);
+
+        // When
+        final var actualRide = this.getRideUseCase.execute(expectedRideId);
+
+        // Then
+        assertNotNull(actualRide);
+        verify(rideGateway, times(1)).getRideById(any());
+        verify(accountGateway, times(2)).getByAccountId(any());
+        assertEquals(expectedPassengerId, expectedRide.getPassengerId());
+        assertEquals(expectedFromLat, expectedRide.getFromLat());
+        assertEquals(expectedFromLong, expectedRide.getFromLong());
+        assertEquals(expectedToLat, expectedRide.getToLat());
+        assertEquals(expectedToLong, expectedRide.getToLong());
+        assertNotNull(expectedRide.getStatus());
+        assertNotNull(expectedRide.getCreatedAt());
+    }
+
+    @Test
     void shouldExecuteGetRideWhenRideNotFound() {
         // Given
         final var expectedError = "Ride not found!";

@@ -5,6 +5,7 @@ import com.dev.torhugo.clean.code.arch.application.acceptride.AcceptRideUseCase;
 import com.dev.torhugo.clean.code.arch.application.getride.GetRideUseCase;
 import com.dev.torhugo.clean.code.arch.application.requestride.RequestRideInput;
 import com.dev.torhugo.clean.code.arch.application.requestride.RequestRideUseCase;
+import com.dev.torhugo.clean.code.arch.application.startride.StartRideUseCase;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.RideAPI;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.AcceptRideRequest;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.GetRideResponse;
@@ -25,13 +26,16 @@ public class RideController implements RideAPI {
     private final RequestRideUseCase requestRideUseCase;
     private final GetRideUseCase getRideUseCase;
     private final AcceptRideUseCase acceptRideUseCase;
+    private final StartRideUseCase startRideUseCase;
 
     public RideController(final RequestRideUseCase requestRideUseCase,
                           final GetRideUseCase getRideUseCase,
-                          final AcceptRideUseCase acceptRideUseCase) {
+                          final AcceptRideUseCase acceptRideUseCase,
+                          final StartRideUseCase startRideUseCase) {
         this.requestRideUseCase = Objects.requireNonNull(requestRideUseCase);
         this.getRideUseCase = Objects.requireNonNull(getRideUseCase);
         this.acceptRideUseCase = Objects.requireNonNull(acceptRideUseCase);
+        this.startRideUseCase = Objects.requireNonNull(startRideUseCase);
     }
 
     @Override
@@ -48,9 +52,15 @@ public class RideController implements RideAPI {
     }
 
     @Override
-    public ResponseEntity<?> acceptRide(final AcceptRideRequest input) {
+    public ResponseEntity<?> accept(final AcceptRideRequest input) {
         final var acceptInput = AcceptRideInput.with(input.rideId(), input.driverId());
         this.acceptRideUseCase.execute(acceptInput);
         return ResponseEntity.status(HttpStatus.OK).body(RideResponse.from(input.rideId().toString()));
+    }
+
+    @Override
+    public ResponseEntity<?> start(final UUID rideId) {
+        this.startRideUseCase.execute(rideId);
+        return ResponseEntity.status(HttpStatus.OK).body(RideResponse.from(rideId.toString()));
     }
 }

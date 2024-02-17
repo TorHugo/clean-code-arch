@@ -7,9 +7,8 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-import static com.dev.torhugo.clean.code.arch.domain.ride.RideStatusEnum.ACCEPTED;
+import static com.dev.torhugo.clean.code.arch.domain.ride.RideStatusEnum.*;
 import static com.dev.torhugo.clean.code.arch.domain.utils.IdentifierUtils.generateIdentifier;
-import static com.dev.torhugo.clean.code.arch.domain.ride.RideStatusEnum.REQUESTED;
 
 public class Ride {
     private final UUID rideId;
@@ -57,8 +56,9 @@ public class Ride {
                               final Double toLat,
                               final Double toLong) {
         final var rideId = generateIdentifier();
+        final var status = REQUESTED.getDescription();
         final var createdAt = LocalDateTime.now();
-        return new Ride(rideId, passengerId, null, fromLat, fromLong, toLat, toLong, REQUESTED.name(), null, null, createdAt, null);
+        return new Ride(rideId, passengerId, null, fromLat, fromLong, toLat, toLong, status, null, null, createdAt, null);
     }
 
     public static Ride restore(final UUID rideId,
@@ -76,7 +76,7 @@ public class Ride {
         return new Ride(rideId, passengerId, driverId, fromLat, fromLong, toLat, toLong, status, fare, distance, createdAt, updatedAt);
     }
 
-    public void accepted(final UUID driverId){
+    public void accept(final UUID driverId){
         if (!Objects.equals(this.status, REQUESTED.getDescription()))
             throw new InvalidArgumentError("Invalid status!");
 
@@ -84,6 +84,14 @@ public class Ride {
         this.status = ACCEPTED.getDescription();
         this.updatedAt = LocalDateTime.now();
     }
+
+    public void start(){
+        if (!Objects.equals(this.status, ACCEPTED.getDescription()))
+            throw new InvalidArgumentError("Invalid status!");
+
+        this.status = IN_PROGRESS.getDescription();
+        this.updatedAt = LocalDateTime.now();
+     }
 
     public UUID getRideId() {
         return rideId;

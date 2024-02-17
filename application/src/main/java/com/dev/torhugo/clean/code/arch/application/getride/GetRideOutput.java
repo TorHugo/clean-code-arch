@@ -34,4 +34,19 @@ public record GetRideOutput(
                 ride.getUpdatedAt()
         );
     }
+
+    public static GetRideOutput from(final Ride ride, final Account passenger, final Account driver) {
+        return new GetRideOutput(
+                ride.getRideId(),
+                BasicAccountOutput.from(passenger),
+                BasicAccountOutput.from(driver),
+                ride.getStatus(),
+                ride.getFare(),
+                ride.getDistance(),
+                CoordinatesRequestInfo.from(ride.getFromLat(), ride.getFromLong()),
+                CoordinatesRequestInfo.from(ride.getToLat(), ride.getToLong()),
+                ride.getCreatedAt(),
+                ride.getUpdatedAt()
+        );
+    }
 }

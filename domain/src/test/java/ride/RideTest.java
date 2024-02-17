@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 
-import static com.dev.torhugo.clean.code.arch.domain.ride.RideStatusEnum.ACCEPTED;
-import static com.dev.torhugo.clean.code.arch.domain.ride.RideStatusEnum.REQUESTED;
+import static com.dev.torhugo.clean.code.arch.domain.ride.RideStatusEnum.*;
 import static com.dev.torhugo.clean.code.arch.domain.utils.IdentifierUtils.generateIdentifier;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -74,7 +73,7 @@ class RideTest {
     }
 
     @Test
-    void shouldAcceptedRideWithSuccess(){
+    void shouldAcceptWithSuccess(){
         // Given
         final var expectedDriverId = generateIdentifier();
         final var expectedPassengerId = generateIdentifier();
@@ -86,7 +85,7 @@ class RideTest {
 
         // When
         final var actualRide = Ride.create(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
-        actualRide.accepted(expectedDriverId);
+        actualRide.accept(expectedDriverId);
 
         // Then
         assertNotNull(actualRide.getRideId());
@@ -104,10 +103,9 @@ class RideTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenInvalidStatus(){
+    void shouldAcceptThrowExceptionWhenInvalidStatus(){
         // Given
         final var expectedError = "Invalid status!";
-
         final var expectedDriverId = generateIdentifier();
         final var expectedPassengerId = generateIdentifier();
         final var expectedFromLat = Math.random();
@@ -117,11 +115,59 @@ class RideTest {
 
         // When
         final var actualRide = Ride.create(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
-        actualRide.accepted(expectedDriverId);
+        actualRide.accept(expectedDriverId);
         final var exception = assertThrows(InvalidArgumentError.class, () ->
-                actualRide.accepted(expectedDriverId));
+                actualRide.accept(expectedDriverId));
 
+        // Then
+        assertNotNull(actualRide.getRideId());
+        assertEquals(expectedError, exception.getMessage());
+    }
 
+    @Test
+    void shouldStartWithSuccess(){
+        // Given
+        final var expectedDriverId = generateIdentifier();
+        final var expectedPassengerId = generateIdentifier();
+        final var expectedFromLat = Math.random();
+        final var expectedFromLong = Math.random();
+        final var expectedToLat = Math.random();
+        final var expectedToLong = Math.random();
+        final var expectedStatus = IN_PROGRESS.getDescription();
+
+        // When
+        final var actualRide = Ride.create(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
+        actualRide.accept(expectedDriverId);
+        actualRide.start();
+
+        // Then
+        assertNotNull(actualRide.getRideId());
+        assertEquals(expectedPassengerId, actualRide.getPassengerId());
+        assertEquals(expectedDriverId, actualRide.getDriverId());
+        assertEquals(expectedFromLat, actualRide.getFromLat());
+        assertEquals(expectedFromLong, actualRide.getFromLong());
+        assertEquals(expectedToLat, actualRide.getToLat());
+        assertEquals(expectedToLong, actualRide.getToLong());
+        assertEquals(expectedStatus, actualRide.getStatus());
+        assertNull(actualRide.getFare());
+        assertNull(actualRide.getDistance());
+        assertNotNull(actualRide.getCreatedAt());
+        assertNotNull(actualRide.getUpdatedAt());
+    }
+
+    @Test
+    void shouldStartThrowExceptionWhenInvalidStatus(){
+        // Given
+        final var expectedError = "Invalid status!";
+        final var expectedPassengerId = generateIdentifier();
+        final var expectedFromLat = Math.random();
+        final var expectedFromLong = Math.random();
+        final var expectedToLat = Math.random();
+        final var expectedToLong = Math.random();
+
+        // When
+        final var actualRide = Ride.create(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
+        final var exception = assertThrows(InvalidArgumentError.class, actualRide::start);
 
         // Then
         assertNotNull(actualRide.getRideId());

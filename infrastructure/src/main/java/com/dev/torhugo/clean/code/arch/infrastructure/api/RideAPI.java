@@ -10,7 +10,7 @@ import java.util.UUID;
 @RequestMapping(value = "/rides")
 public interface RideAPI {
     @PostMapping(
-            "/requested"
+            "/request"
     )
     ResponseEntity<?> create(final @RequestBody RideRequest input);
 
@@ -21,5 +21,9 @@ public interface RideAPI {
     @PutMapping(
             "/accept"
     )
-    ResponseEntity<?> acceptRide(final @RequestBody AcceptRideRequest input);
+    ResponseEntity<?> accept(final @RequestBody AcceptRideRequest input);
+    @PutMapping(
+            "/start/{rideId}"
+    )
+    ResponseEntity<?> start(final @PathVariable UUID rideId);
 }

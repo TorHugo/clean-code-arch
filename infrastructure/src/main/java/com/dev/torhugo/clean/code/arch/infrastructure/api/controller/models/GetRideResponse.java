@@ -1,5 +1,6 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models;
 
+import com.dev.torhugo.clean.code.arch.application.getride.BasicAccountOutput;
 import com.dev.torhugo.clean.code.arch.application.getride.GetRideOutput;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public record GetRideResponse(
@@ -16,8 +18,11 @@ public record GetRideResponse(
         BasicAccountResponse passenger,
         @JsonProperty("driver")
         BasicAccountResponse driver,
+        @JsonProperty("status")
         String status,
+        @JsonProperty("fare")
         BigDecimal fare,
+        @JsonProperty("distance")
         Double distance,
         @JsonProperty("from")
         CoordinatesInfo from,
@@ -35,7 +40,7 @@ public record GetRideResponse(
         return new GetRideResponse(
                 ride.rideId(),
                 BasicAccountResponse.from(ride.passenger()),
-                null,
+                Objects.isNull(ride.driver()) ? null : BasicAccountResponse.from(ride.driver()),
                 ride.status(),
                 ride.fare(),
                 ride.distance(),

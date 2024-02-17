@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = {RideController.class, WebServerConfig.class})
 @AutoConfigureMockMvc
-public class RideApiTest {
+class RideApiTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -64,7 +64,7 @@ public class RideApiTest {
 
         // When
         final var request = MockMvcRequestBuilders
-                .post("/rides/requested")
+                .post("/rides/request")
                 .contentType(APPLICATION_JSON)
                 .content(gson.toJson(input));
 
@@ -91,7 +91,6 @@ public class RideApiTest {
         final var expectedRide = Ride.create(expectedAccount.getAccountId(), expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
 
         final var expectedOutput = GetRideOutput.from(expectedRide, expectedAccount);
-
         when(this.getRideUseCase.execute(UUID.randomUUID())).thenReturn(expectedOutput);
 
         // When
@@ -100,10 +99,9 @@ public class RideApiTest {
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON);
 
-        // TODO: refactor this test.
-        // final var response = mockMvc.perform(request);
+        final var response = mockMvc.perform(request);
 
-        // Then
-        // response.andExpect(status().isOk());
+        //Then
+        response.andExpect(status().isOk());
     }
 }
