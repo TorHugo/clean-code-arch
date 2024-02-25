@@ -1,13 +1,13 @@
 package ride;
 
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
-import com.dev.torhugo.clean.code.arch.domain.ride.Ride;
+import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-import static com.dev.torhugo.clean.code.arch.domain.ride.RideStatusEnum.*;
-import static com.dev.torhugo.clean.code.arch.domain.utils.IdentifierUtils.generateIdentifier;
+import static com.dev.torhugo.clean.code.arch.domain.utils.RideStatusEnumUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -16,7 +16,7 @@ class RideTest {
     @Test
     void shouldInstantiateRideWhenValidParams(){
         // Given
-        final var expectedPassengerId = generateIdentifier();
+        final var expectedPassengerId = UUID.randomUUID();
         final var expectedFromLat = Math.random();
         final var expectedFromLong = Math.random();
         final var expectedToLat = Math.random();
@@ -29,10 +29,10 @@ class RideTest {
         // Then
         assertNotNull(actualRide.getRideId());
         assertEquals(expectedPassengerId, actualRide.getPassengerId());
-        assertEquals(expectedFromLat, actualRide.getFromLat());
-        assertEquals(expectedFromLong, actualRide.getFromLong());
-        assertEquals(expectedToLat, actualRide.getToLat());
-        assertEquals(expectedToLong, actualRide.getToLong());
+        assertEquals(expectedFromLat, actualRide.getFrom().getLatitude());
+        assertEquals(expectedFromLong, actualRide.getFrom().getLongitude());
+        assertEquals(expectedToLat, actualRide.getTo().getLatitude());
+        assertEquals(expectedToLong, actualRide.getTo().getLongitude());
         assertEquals(expectedStatus, actualRide.getStatus());
         assertNull(actualRide.getFare());
         assertNull(actualRide.getDistance());
@@ -44,9 +44,9 @@ class RideTest {
     @Test
     void shouldRestoreRideWithSuccess(){
         // Given
-        final var expectedRideId = generateIdentifier();
-        final var expectedPassengerId = generateIdentifier();
-        final var expectedDriverId = generateIdentifier();
+        final var expectedRideId = UUID.randomUUID();
+        final var expectedPassengerId = UUID.randomUUID();
+        final var expectedDriverId = UUID.randomUUID();
         final var expectedFromLat = Math.random();
         final var expectedFromLong = Math.random();
         final var expectedToLat = Math.random();
@@ -61,10 +61,10 @@ class RideTest {
         assertEquals(expectedRideId, actualRide.getRideId());
         assertEquals(expectedPassengerId, actualRide.getPassengerId());
         assertEquals(expectedDriverId, actualRide.getDriverId());
-        assertEquals(expectedFromLat, actualRide.getFromLat());
-        assertEquals(expectedFromLong, actualRide.getFromLong());
-        assertEquals(expectedToLat, actualRide.getToLat());
-        assertEquals(expectedToLong, actualRide.getToLong());
+        assertEquals(expectedFromLat, actualRide.getFrom().getLatitude());
+        assertEquals(expectedFromLong, actualRide.getFrom().getLongitude());
+        assertEquals(expectedToLat, actualRide.getTo().getLatitude());
+        assertEquals(expectedToLong, actualRide.getTo().getLongitude());
         assertEquals(expectedStatus, actualRide.getStatus());
         assertEquals(expectedCreatedAt, actualRide.getCreatedAt());
         assertNull(actualRide.getFare());
@@ -75,8 +75,8 @@ class RideTest {
     @Test
     void shouldAcceptWithSuccess(){
         // Given
-        final var expectedDriverId = generateIdentifier();
-        final var expectedPassengerId = generateIdentifier();
+        final var expectedDriverId = UUID.randomUUID();
+        final var expectedPassengerId = UUID.randomUUID();
         final var expectedFromLat = Math.random();
         final var expectedFromLong = Math.random();
         final var expectedToLat = Math.random();
@@ -91,10 +91,10 @@ class RideTest {
         assertNotNull(actualRide.getRideId());
         assertEquals(expectedPassengerId, actualRide.getPassengerId());
         assertEquals(expectedDriverId, actualRide.getDriverId());
-        assertEquals(expectedFromLat, actualRide.getFromLat());
-        assertEquals(expectedFromLong, actualRide.getFromLong());
-        assertEquals(expectedToLat, actualRide.getToLat());
-        assertEquals(expectedToLong, actualRide.getToLong());
+        assertEquals(expectedFromLat, actualRide.getFrom().getLatitude());
+        assertEquals(expectedFromLong, actualRide.getFrom().getLongitude());
+        assertEquals(expectedToLat, actualRide.getTo().getLatitude());
+        assertEquals(expectedToLong, actualRide.getTo().getLongitude());
         assertEquals(expectedStatus, actualRide.getStatus());
         assertNull(actualRide.getFare());
         assertNull(actualRide.getDistance());
@@ -106,8 +106,8 @@ class RideTest {
     void shouldAcceptThrowExceptionWhenInvalidStatus(){
         // Given
         final var expectedError = "Invalid status!";
-        final var expectedDriverId = generateIdentifier();
-        final var expectedPassengerId = generateIdentifier();
+        final var expectedDriverId = UUID.randomUUID();
+        final var expectedPassengerId = UUID.randomUUID();
         final var expectedFromLat = Math.random();
         final var expectedFromLong = Math.random();
         final var expectedToLat = Math.random();
@@ -127,8 +127,8 @@ class RideTest {
     @Test
     void shouldStartWithSuccess(){
         // Given
-        final var expectedDriverId = generateIdentifier();
-        final var expectedPassengerId = generateIdentifier();
+        final var expectedDriverId = UUID.randomUUID();
+        final var expectedPassengerId = UUID.randomUUID();
         final var expectedFromLat = Math.random();
         final var expectedFromLong = Math.random();
         final var expectedToLat = Math.random();
@@ -144,10 +144,10 @@ class RideTest {
         assertNotNull(actualRide.getRideId());
         assertEquals(expectedPassengerId, actualRide.getPassengerId());
         assertEquals(expectedDriverId, actualRide.getDriverId());
-        assertEquals(expectedFromLat, actualRide.getFromLat());
-        assertEquals(expectedFromLong, actualRide.getFromLong());
-        assertEquals(expectedToLat, actualRide.getToLat());
-        assertEquals(expectedToLong, actualRide.getToLong());
+        assertEquals(expectedFromLat, actualRide.getFrom().getLatitude());
+        assertEquals(expectedFromLong, actualRide.getFrom().getLongitude());
+        assertEquals(expectedToLat, actualRide.getTo().getLatitude());
+        assertEquals(expectedToLong, actualRide.getTo().getLongitude());
         assertEquals(expectedStatus, actualRide.getStatus());
         assertNull(actualRide.getFare());
         assertNull(actualRide.getDistance());
@@ -159,7 +159,7 @@ class RideTest {
     void shouldStartThrowExceptionWhenInvalidStatus(){
         // Given
         final var expectedError = "Invalid status!";
-        final var expectedPassengerId = generateIdentifier();
+        final var expectedPassengerId = UUID.randomUUID();
         final var expectedFromLat = Math.random();
         final var expectedFromLong = Math.random();
         final var expectedToLat = Math.random();

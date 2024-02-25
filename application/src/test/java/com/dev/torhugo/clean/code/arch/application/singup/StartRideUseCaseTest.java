@@ -1,19 +1,16 @@
 package com.dev.torhugo.clean.code.arch.application.singup;
 
-import com.dev.torhugo.clean.code.arch.application.acceptride.AcceptRideInput;
 import com.dev.torhugo.clean.code.arch.application.startride.StartRideUseCase;
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
-import com.dev.torhugo.clean.code.arch.domain.ride.Ride;
-import com.dev.torhugo.clean.code.arch.domain.ride.RideGateway;
+import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
+import com.dev.torhugo.clean.code.arch.domain.gateway.RideGateway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

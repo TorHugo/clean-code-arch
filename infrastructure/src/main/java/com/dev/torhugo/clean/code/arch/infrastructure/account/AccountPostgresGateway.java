@@ -1,13 +1,12 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.account;
 
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
-import com.dev.torhugo.clean.code.arch.domain.account.AccountGateway;
+import com.dev.torhugo.clean.code.arch.domain.entity.Account;
+import com.dev.torhugo.clean.code.arch.domain.gateway.AccountGateway;
 import com.dev.torhugo.clean.code.arch.infrastructure.account.models.AccountEntity;
 import com.dev.torhugo.clean.code.arch.infrastructure.account.persistence.AccountRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component

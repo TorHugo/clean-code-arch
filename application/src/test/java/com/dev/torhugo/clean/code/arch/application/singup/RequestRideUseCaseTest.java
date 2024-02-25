@@ -1,15 +1,14 @@
 package com.dev.torhugo.clean.code.arch.application.singup;
 
-import com.dev.torhugo.clean.code.arch.application.acceptride.AcceptRideInput;
 import com.dev.torhugo.clean.code.arch.application.requestride.CoordinatesRequestInfo;
 import com.dev.torhugo.clean.code.arch.application.requestride.RequestRideInput;
 import com.dev.torhugo.clean.code.arch.application.requestride.RequestRideUseCase;
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
-import com.dev.torhugo.clean.code.arch.domain.account.AccountGateway;
+import com.dev.torhugo.clean.code.arch.domain.entity.Account;
+import com.dev.torhugo.clean.code.arch.domain.gateway.AccountGateway;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
-import com.dev.torhugo.clean.code.arch.domain.ride.Ride;
-import com.dev.torhugo.clean.code.arch.domain.ride.RideGateway;
+import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
+import com.dev.torhugo.clean.code.arch.domain.gateway.RideGateway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +18,6 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.dev.torhugo.clean.code.arch.domain.utils.IdentifierUtils.generateIdentifier;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;

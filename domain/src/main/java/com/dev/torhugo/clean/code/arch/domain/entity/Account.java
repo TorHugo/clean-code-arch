@@ -1,23 +1,23 @@
-package com.dev.torhugo.clean.code.arch.domain.account;
+package com.dev.torhugo.clean.code.arch.domain.entity;
 
-import com.dev.torhugo.clean.code.arch.domain.Validator;
-import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
+import com.dev.torhugo.clean.code.arch.domain.vo.CarPlate;
+import com.dev.torhugo.clean.code.arch.domain.vo.Cpf;
+import com.dev.torhugo.clean.code.arch.domain.vo.Email;
+import com.dev.torhugo.clean.code.arch.domain.vo.Name;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-import static com.dev.torhugo.clean.code.arch.domain.utils.IdentifierUtils.generateIdentifier;
-
-public class Account extends Validator {
+public class Account {
 
     private final UUID accountId;
-    private final String name;
-    private final String email;
-    private final String cpf;
+    private final Name name;
+    private final Email email;
+    private final Cpf cpf;
     private final boolean isPassenger;
     private final boolean isDriver;
-    private final String carPlate;
+    private final CarPlate carPlate;
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
@@ -30,18 +30,13 @@ public class Account extends Validator {
                     final String carPlate,
                     final LocalDateTime createdAt,
                     final LocalDateTime updatedAt) {
-        if (validateRegexName(name)) throw new InvalidArgumentError("Invalid name!");
-        if (validateRegexEmail(email)) throw new InvalidArgumentError("Invalid email!");
-        if (!validateInvalidCpf(cpf)) throw new InvalidArgumentError("Invalid cpf!");
-        if (isDriver && Objects.nonNull(carPlate) && validateRegexCarPlate(carPlate)) throw new InvalidArgumentError("Invalid car plate!");
-
         this.accountId = accountId;
-        this.name = name;
-        this.email = email;
-        this.cpf = cpf;
+        this.name = new Name(name);
+        this.email = new Email(email);
+        this.cpf = new Cpf(cpf);
         this.isPassenger = isPassenger;
         this.isDriver = isDriver;
-        this.carPlate = carPlate;
+        this.carPlate = new CarPlate(carPlate);
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -52,7 +47,7 @@ public class Account extends Validator {
                                  final boolean isPassenger,
                                  final boolean isDriver,
                                  final String carPlate) {
-        final var accountId = generateIdentifier();
+        final var accountId = UUID.randomUUID();
         final var createdAt = LocalDateTime.now();
         return new Account(
                 accountId,
@@ -94,19 +89,19 @@ public class Account extends Validator {
     }
 
     public String getName() {
-        return name;
+        return this.name.getValue();
     }
 
     public String getEmail() {
-        return email;
+        return this.email.getValue();
     }
 
     public String getCpf() {
-        return cpf;
+        return this.cpf.getValue();
     }
 
     public String getCarPlate() {
-        return carPlate;
+        return this.carPlate.getValue();
     }
 
     public Boolean isPassenger() {

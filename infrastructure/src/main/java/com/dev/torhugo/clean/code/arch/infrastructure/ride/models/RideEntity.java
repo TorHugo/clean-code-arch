@@ -1,12 +1,9 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.ride.models;
 
-import com.dev.torhugo.clean.code.arch.domain.ride.Ride;
-import com.dev.torhugo.clean.code.arch.infrastructure.database.EntityDefault;
-import jakarta.persistence.Column;
+import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -72,10 +69,10 @@ public class RideEntity {
                 ride.getStatus(),
                 ride.getFare(),
                 ride.getDistance(),
-                ride.getFromLat(),
-                ride.getFromLong(),
-                ride.getToLat(),
-                ride.getToLong(),
+                ride.getFrom().getLatitude(),
+                ride.getFrom().getLongitude(),
+                ride.getTo().getLatitude(),
+                ride.getTo().getLongitude(),
                 ride.getCreatedAt(),
                 ride.getUpdatedAt()
         );

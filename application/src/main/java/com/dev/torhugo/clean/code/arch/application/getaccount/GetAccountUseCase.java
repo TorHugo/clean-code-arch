@@ -1,6 +1,6 @@
 package com.dev.torhugo.clean.code.arch.application.getaccount;
 
-import com.dev.torhugo.clean.code.arch.domain.account.AccountGateway;
+import com.dev.torhugo.clean.code.arch.domain.gateway.AccountGateway;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
 
 import java.util.Objects;

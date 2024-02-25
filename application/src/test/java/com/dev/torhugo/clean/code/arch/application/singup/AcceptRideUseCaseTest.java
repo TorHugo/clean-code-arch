@@ -2,15 +2,12 @@ package com.dev.torhugo.clean.code.arch.application.singup;
 
 import com.dev.torhugo.clean.code.arch.application.acceptride.AcceptRideInput;
 import com.dev.torhugo.clean.code.arch.application.acceptride.AcceptRideUseCase;
-import com.dev.torhugo.clean.code.arch.application.requestride.CoordinatesRequestInfo;
-import com.dev.torhugo.clean.code.arch.application.requestride.RequestRideInput;
-import com.dev.torhugo.clean.code.arch.application.requestride.RequestRideUseCase;
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
-import com.dev.torhugo.clean.code.arch.domain.account.AccountGateway;
+import com.dev.torhugo.clean.code.arch.domain.entity.Account;
+import com.dev.torhugo.clean.code.arch.domain.gateway.AccountGateway;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
-import com.dev.torhugo.clean.code.arch.domain.ride.Ride;
-import com.dev.torhugo.clean.code.arch.domain.ride.RideGateway;
+import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
+import com.dev.torhugo.clean.code.arch.domain.gateway.RideGateway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.dev.torhugo.clean.code.arch.domain.utils.IdentifierUtils.generateIdentifier;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -124,7 +120,7 @@ class AcceptRideUseCaseTest {
         assertEquals(expectedError, exception.getMessage());
         verify(rideGateway, times(1)).getRideById(any());
         verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideGateway, times(1)).getAllRidesWithStatus(any(), any());
+        verify(rideGateway, times(0)).getAllRidesWithStatus(any(), any());
         verify(rideGateway, times(0)).update(any());
     }
 
@@ -160,7 +156,7 @@ class AcceptRideUseCaseTest {
         assertEquals(expectedError, exception.getMessage());
         verify(rideGateway, times(1)).getRideById(any());
         verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideGateway, times(1)).getAllRidesWithStatus(any(), any());
+        verify(rideGateway, times(0)).getAllRidesWithStatus(any(), any());
         verify(rideGateway, times(0)).update(any());
     }
 
@@ -204,8 +200,8 @@ class AcceptRideUseCaseTest {
     @Test
     void shouldInstantiateAcceptRideInput(){
         // Given
-        final var expectedRideId = generateIdentifier();
-        final var expectedDriverId = generateIdentifier();
+        final var expectedRideId = UUID.randomUUID();
+        final var expectedDriverId = UUID.randomUUID();
 
         // When
         final var actualObject = AcceptRideInput.with(expectedRideId, expectedDriverId);

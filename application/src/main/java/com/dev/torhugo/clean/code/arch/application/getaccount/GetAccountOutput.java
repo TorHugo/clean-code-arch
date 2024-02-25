@@ -1,6 +1,6 @@
 package com.dev.torhugo.clean.code.arch.application.getaccount;
 
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
+import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

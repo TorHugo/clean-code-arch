@@ -1,7 +1,7 @@
 package com.dev.torhugo.clean.code.arch.application.singup;
 
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
-import com.dev.torhugo.clean.code.arch.domain.account.AccountGateway;
+import com.dev.torhugo.clean.code.arch.domain.entity.Account;
+import com.dev.torhugo.clean.code.arch.domain.gateway.AccountGateway;
 
 import java.util.Objects;
 
@@ -17,7 +17,14 @@ public class SignUpUseCase {
         final var existingAccount = this.accountGateway.getByEmail(input.email());
         if (Objects.nonNull(existingAccount))
             throw new IllegalArgumentException("Account already exists!");
-        final var account = createAccount(input);
+        final var account = Account.create(
+                input.name(),
+                input.email(),
+                input.cpf(),
+                input.isPassenger(),
+                input.isDriver(),
+                input.carPlate()
+        );
         this.accountGateway.save(account);
         return account.getAccountId().toString();
     }

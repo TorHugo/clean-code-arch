@@ -1,8 +1,8 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.ride;
 
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
-import com.dev.torhugo.clean.code.arch.domain.ride.Ride;
-import com.dev.torhugo.clean.code.arch.domain.ride.RideGateway;
+import com.dev.torhugo.clean.code.arch.domain.entity.Account;
+import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
+import com.dev.torhugo.clean.code.arch.domain.gateway.RideGateway;
 import com.dev.torhugo.clean.code.arch.infrastructure.account.models.AccountEntity;
 import com.dev.torhugo.clean.code.arch.infrastructure.ride.models.RideEntity;
 import com.dev.torhugo.clean.code.arch.infrastructure.ride.persistence.RideRepository;

@@ -3,7 +3,7 @@ package infrastructure;
 import com.dev.torhugo.clean.code.arch.application.getaccount.GetAccountOutput;
 import com.dev.torhugo.clean.code.arch.application.getaccount.GetAccountUseCase;
 import com.dev.torhugo.clean.code.arch.application.singup.SignUpUseCase;
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
+import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.infrastructure.configuration.WebServerConfig;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.AccountController;

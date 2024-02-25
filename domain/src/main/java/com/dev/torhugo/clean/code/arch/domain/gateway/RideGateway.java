@@ -1,6 +1,7 @@
-package com.dev.torhugo.clean.code.arch.domain.ride;
+package com.dev.torhugo.clean.code.arch.domain.gateway;
 
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
+import com.dev.torhugo.clean.code.arch.domain.entity.Account;
+import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 
 import java.util.List;
 import java.util.UUID;

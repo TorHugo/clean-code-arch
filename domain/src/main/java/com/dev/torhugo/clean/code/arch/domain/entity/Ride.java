@@ -1,23 +1,21 @@
-package com.dev.torhugo.clean.code.arch.domain.ride;
+package com.dev.torhugo.clean.code.arch.domain.entity;
 
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
+import com.dev.torhugo.clean.code.arch.domain.vo.Coord;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-import static com.dev.torhugo.clean.code.arch.domain.ride.RideStatusEnum.*;
-import static com.dev.torhugo.clean.code.arch.domain.utils.IdentifierUtils.generateIdentifier;
+import static com.dev.torhugo.clean.code.arch.domain.utils.RideStatusEnumUtils.*;
 
 public class Ride {
     private final UUID rideId;
     private final UUID passengerId;
     private UUID driverId;
-    private final Double fromLat;
-    private final Double fromLong;
-    private final Double toLat;
-    private final Double toLong;
+    private final Coord to;
+    private final Coord from;
     private String status;
     private final BigDecimal fare;
     private final Double distance;
@@ -39,10 +37,8 @@ public class Ride {
         this.rideId = rideId;
         this.passengerId = passengerId;
         this.driverId = driverId;
-        this.fromLat = fromLat;
-        this.fromLong = fromLong;
-        this.toLat = toLat;
-        this.toLong = toLong;
+        this.from = new Coord(fromLong, fromLat);
+        this.to = new Coord(toLong, toLat);
         this.status = status;
         this.fare = fare;
         this.distance = distance;
@@ -55,7 +51,7 @@ public class Ride {
                               final Double fromLong,
                               final Double toLat,
                               final Double toLong) {
-        final var rideId = generateIdentifier();
+        final var rideId = UUID.randomUUID();
         final var status = REQUESTED.getDescription();
         final var createdAt = LocalDateTime.now();
         return new Ride(rideId, passengerId, null, fromLat, fromLong, toLat, toLong, status, null, null, createdAt, null);
@@ -101,20 +97,12 @@ public class Ride {
         return passengerId;
     }
 
-    public Double getFromLat() {
-        return fromLat;
+    public Coord getTo() {
+        return to;
     }
 
-    public Double getFromLong() {
-        return fromLong;
-    }
-
-    public Double getToLat() {
-        return toLat;
-    }
-
-    public Double getToLong() {
-        return toLong;
+    public Coord getFrom() {
+        return from;
     }
 
     public String getStatus() {

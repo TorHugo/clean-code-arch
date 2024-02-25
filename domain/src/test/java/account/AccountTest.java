@@ -1,12 +1,12 @@
 package account;
 
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
+import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-import static com.dev.torhugo.clean.code.arch.domain.utils.IdentifierUtils.generateIdentifier;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AccountTest {
@@ -63,7 +63,7 @@ class AccountTest {
     @Test
     void shouldRestoreAccountWithSuccess() {
         // Given
-        final var expectedAccountId = generateIdentifier();
+        final var expectedAccountId = UUID.randomUUID();
         final var expectedName = "Test Test";
         final var expectedEmail = "test@example.com";
         final var expectedCpf = "648.808.745-23";

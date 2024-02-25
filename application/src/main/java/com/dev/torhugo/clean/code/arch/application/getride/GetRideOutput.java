@@ -1,8 +1,8 @@
 package com.dev.torhugo.clean.code.arch.application.getride;
 
 import com.dev.torhugo.clean.code.arch.application.requestride.CoordinatesRequestInfo;
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
-import com.dev.torhugo.clean.code.arch.domain.ride.Ride;
+import com.dev.torhugo.clean.code.arch.domain.entity.Account;
+import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -28,8 +28,8 @@ public record GetRideOutput(
                 ride.getStatus(),
                 ride.getFare(),
                 ride.getDistance(),
-                CoordinatesRequestInfo.from(ride.getFromLat(), ride.getFromLong()),
-                CoordinatesRequestInfo.from(ride.getToLat(), ride.getToLong()),
+                CoordinatesRequestInfo.from(ride.getFrom().getLatitude(), ride.getFrom().getLongitude()),
+                CoordinatesRequestInfo.from(ride.getTo().getLatitude(), ride.getTo().getLongitude()),
                 ride.getCreatedAt(),
                 ride.getUpdatedAt()
         );
@@ -43,8 +43,8 @@ public record GetRideOutput(
                 ride.getStatus(),
                 ride.getFare(),
                 ride.getDistance(),
-                CoordinatesRequestInfo.from(ride.getFromLat(), ride.getFromLong()),
-                CoordinatesRequestInfo.from(ride.getToLat(), ride.getToLong()),
+                CoordinatesRequestInfo.from(ride.getFrom().getLatitude(), ride.getFrom().getLongitude()),
+                CoordinatesRequestInfo.from(ride.getTo().getLatitude(), ride.getTo().getLongitude()),
                 ride.getCreatedAt(),
                 ride.getUpdatedAt()
         );

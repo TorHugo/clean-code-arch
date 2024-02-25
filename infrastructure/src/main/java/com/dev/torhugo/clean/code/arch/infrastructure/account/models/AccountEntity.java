@@ -1,12 +1,9 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.account.models;
 
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
-import com.dev.torhugo.clean.code.arch.infrastructure.database.EntityDefault;
-import jakarta.persistence.Column;
+import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 

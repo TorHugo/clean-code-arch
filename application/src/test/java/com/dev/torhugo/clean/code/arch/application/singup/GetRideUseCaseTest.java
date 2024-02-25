@@ -1,12 +1,11 @@
 package com.dev.torhugo.clean.code.arch.application.singup;
 
 import com.dev.torhugo.clean.code.arch.application.getride.GetRideUseCase;
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
-import com.dev.torhugo.clean.code.arch.domain.account.AccountGateway;
+import com.dev.torhugo.clean.code.arch.domain.entity.Account;
+import com.dev.torhugo.clean.code.arch.domain.gateway.AccountGateway;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
-import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
-import com.dev.torhugo.clean.code.arch.domain.ride.Ride;
-import com.dev.torhugo.clean.code.arch.domain.ride.RideGateway;
+import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
+import com.dev.torhugo.clean.code.arch.domain.gateway.RideGateway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -60,10 +59,10 @@ class GetRideUseCaseTest {
         verify(rideGateway, times(1)).getRideById(any());
         verify(accountGateway, times(1)).getByAccountId(any());
         assertEquals(expectedPassengerId, expectedRide.getPassengerId());
-        assertEquals(expectedFromLat, expectedRide.getFromLat());
-        assertEquals(expectedFromLong, expectedRide.getFromLong());
-        assertEquals(expectedToLat, expectedRide.getToLat());
-        assertEquals(expectedToLong, expectedRide.getToLong());
+        assertEquals(expectedFromLat, expectedRide.getFrom().getLatitude());
+        assertEquals(expectedFromLong, expectedRide.getFrom().getLongitude());
+        assertEquals(expectedToLat, expectedRide.getTo().getLatitude());
+        assertEquals(expectedToLong, expectedRide.getTo().getLongitude());
         assertNotNull(expectedRide.getStatus());
         assertNotNull(expectedRide.getCreatedAt());
     }
@@ -101,10 +100,10 @@ class GetRideUseCaseTest {
         verify(rideGateway, times(1)).getRideById(any());
         verify(accountGateway, times(2)).getByAccountId(any());
         assertEquals(expectedPassengerId, expectedRide.getPassengerId());
-        assertEquals(expectedFromLat, expectedRide.getFromLat());
-        assertEquals(expectedFromLong, expectedRide.getFromLong());
-        assertEquals(expectedToLat, expectedRide.getToLat());
-        assertEquals(expectedToLong, expectedRide.getToLong());
+        assertEquals(expectedFromLat, expectedRide.getFrom().getLatitude());
+        assertEquals(expectedFromLong, expectedRide.getFrom().getLongitude());
+        assertEquals(expectedToLat, expectedRide.getTo().getLatitude());
+        assertEquals(expectedToLong, expectedRide.getTo().getLongitude());
         assertNotNull(expectedRide.getStatus());
         assertNotNull(expectedRide.getCreatedAt());
     }

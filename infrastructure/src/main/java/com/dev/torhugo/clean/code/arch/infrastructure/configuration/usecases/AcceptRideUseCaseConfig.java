@@ -1,9 +1,8 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.configuration.usecases;
 
 import com.dev.torhugo.clean.code.arch.application.acceptride.AcceptRideUseCase;
-import com.dev.torhugo.clean.code.arch.application.getride.GetRideUseCase;
-import com.dev.torhugo.clean.code.arch.domain.account.AccountGateway;
-import com.dev.torhugo.clean.code.arch.domain.ride.RideGateway;
+import com.dev.torhugo.clean.code.arch.domain.gateway.AccountGateway;
+import com.dev.torhugo.clean.code.arch.domain.gateway.RideGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

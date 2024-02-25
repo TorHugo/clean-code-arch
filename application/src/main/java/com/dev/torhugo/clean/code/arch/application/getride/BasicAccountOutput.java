@@ -1,6 +1,6 @@
 package com.dev.torhugo.clean.code.arch.application.getride;
 
-import com.dev.torhugo.clean.code.arch.domain.account.Account;
+import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 
 import java.util.UUID;
 

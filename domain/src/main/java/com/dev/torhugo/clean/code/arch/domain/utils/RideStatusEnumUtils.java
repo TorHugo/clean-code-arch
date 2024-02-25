@@ -1,13 +1,13 @@
-package com.dev.torhugo.clean.code.arch.domain.ride;
+package com.dev.torhugo.clean.code.arch.domain.utils;
 
-public enum RideStatusEnum {
+public enum RideStatusEnumUtils {
     REQUESTED("REQUESTED"),
     ACCEPTED("ACCEPTED"),
     IN_PROGRESS("IN_PROGRESS");
 
     private final String description;
 
-    RideStatusEnum(final String name) {
+    RideStatusEnumUtils(final String name) {
         this.description = name;
     }
 
