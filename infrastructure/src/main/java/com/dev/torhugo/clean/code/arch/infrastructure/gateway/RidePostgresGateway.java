@@ -1,11 +1,11 @@
-package com.dev.torhugo.clean.code.arch.infrastructure.ride;
+package com.dev.torhugo.clean.code.arch.infrastructure.gateway;
 
 import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 import com.dev.torhugo.clean.code.arch.domain.gateway.RideGateway;
-import com.dev.torhugo.clean.code.arch.infrastructure.account.models.AccountEntity;
-import com.dev.torhugo.clean.code.arch.infrastructure.ride.models.RideEntity;
-import com.dev.torhugo.clean.code.arch.infrastructure.ride.persistence.RideRepository;
+import com.dev.torhugo.clean.code.arch.infrastructure.repository.models.AccountEntity;
+import com.dev.torhugo.clean.code.arch.infrastructure.repository.models.RideEntity;
+import com.dev.torhugo.clean.code.arch.infrastructure.repository.RideRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

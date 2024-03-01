@@ -1,4 +1,4 @@
-package com.dev.torhugo.clean.code.arch.infrastructure.account.models;
+package com.dev.torhugo.clean.code.arch.infrastructure.repository.models;
 
 import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 import jakarta.persistence.Entity;

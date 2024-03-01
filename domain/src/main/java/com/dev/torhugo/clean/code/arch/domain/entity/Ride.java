@@ -1,5 +1,6 @@
 package com.dev.torhugo.clean.code.arch.domain.entity;
 
+import com.dev.torhugo.clean.code.arch.domain.ds.DistanceCalculator;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.domain.vo.Coord;
 
@@ -16,9 +17,10 @@ public class Ride {
     private UUID driverId;
     private final Coord to;
     private final Coord from;
+    private Coord lastPosition;
     private String status;
     private final BigDecimal fare;
-    private final Double distance;
+    private Double distance;
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -30,6 +32,8 @@ public class Ride {
                  final Double toLat,
                  final Double toLong,
                  final String status,
+                 final Double lastLat,
+                 final Double lastLong,
                  final BigDecimal fare,
                  final Double distance,
                  final LocalDateTime createdAt,
@@ -39,6 +43,7 @@ public class Ride {
         this.driverId = driverId;
         this.from = new Coord(fromLong, fromLat);
         this.to = new Coord(toLong, toLat);
+        this.lastPosition = new Coord(lastLat, lastLong);
         this.status = status;
         this.fare = fare;
         this.distance = distance;
@@ -54,7 +59,7 @@ public class Ride {
         final var rideId = UUID.randomUUID();
         final var status = REQUESTED.getDescription();
         final var createdAt = LocalDateTime.now();
-        return new Ride(rideId, passengerId, null, fromLat, fromLong, toLat, toLong, status, null, null, createdAt, null);
+        return new Ride(rideId, passengerId, null, fromLat, fromLong, toLat, toLong, status, fromLat, fromLong, null, null, createdAt, null);
     }
 
     public static Ride restore(final UUID rideId,
@@ -66,10 +71,12 @@ public class Ride {
                                final Double toLong,
                                final String status,
                                final BigDecimal fare,
+                               final Double lastLat,
+                               final Double lastLong,
                                final Double distance,
                                final LocalDateTime createdAt,
                                final LocalDateTime updatedAt) {
-        return new Ride(rideId, passengerId, driverId, fromLat, fromLong, toLat, toLong, status, fare, distance, createdAt, updatedAt);
+        return new Ride(rideId, passengerId, driverId, fromLat, fromLong, toLat, toLong, status, lastLat, lastLong, fare, distance, createdAt, updatedAt);
     }
 
     public void accept(final UUID driverId){
@@ -89,6 +96,18 @@ public class Ride {
         this.updatedAt = LocalDateTime.now();
      }
 
+    public void updatePosition(final Double latitude,
+                               final Double longitude) {
+        if (!Objects.equals(this.status, IN_PROGRESS.getDescription()))
+            throw new InvalidArgumentError("Could not update position!");
+        final var newLastPosition = new Coord(longitude, latitude);
+        if (Objects.isNull(this.distance))
+            this.distance = DistanceCalculator.calculate(this.lastPosition, newLastPosition);
+        else
+            this.distance += DistanceCalculator.calculate(this.lastPosition, newLastPosition);
+        this.lastPosition = newLastPosition;
+        this.updatedAt = LocalDateTime.now();
+    }
     public UUID getRideId() {
         return rideId;
     }
@@ -103,6 +122,10 @@ public class Ride {
 
     public Coord getFrom() {
         return from;
+    }
+
+    public Coord getLastPosition() {
+        return lastPosition;
     }
 
     public String getStatus() {

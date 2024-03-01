@@ -1,7 +1,8 @@
-package com.dev.torhugo.clean.code.arch.infrastructure.account.persistence;
+package com.dev.torhugo.clean.code.arch.infrastructure.repository.persistence;
 
-import com.dev.torhugo.clean.code.arch.infrastructure.account.models.AccountEntity;
-import com.dev.torhugo.clean.code.arch.infrastructure.database.DatabaseUtils;
+import com.dev.torhugo.clean.code.arch.infrastructure.repository.models.AccountEntity;
+import com.dev.torhugo.clean.code.arch.infrastructure.database.QueryService;
+import com.dev.torhugo.clean.code.arch.infrastructure.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -14,8 +15,8 @@ import java.util.UUID;
 @PropertySource("classpath:query/account_script.properties")
 public class AccountRepositoryImplements implements AccountRepository {
 
-    private final DatabaseUtils databaseService;
-    public AccountRepositoryImplements(final DatabaseUtils databaseService) {
+    private final QueryService databaseService;
+    public AccountRepositoryImplements(final QueryService databaseService) {
         this.databaseService = databaseService;
     }
 

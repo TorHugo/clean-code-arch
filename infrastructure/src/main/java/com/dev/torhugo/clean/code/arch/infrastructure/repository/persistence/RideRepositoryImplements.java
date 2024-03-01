@@ -1,8 +1,9 @@
-package com.dev.torhugo.clean.code.arch.infrastructure.ride.persistence;
+package com.dev.torhugo.clean.code.arch.infrastructure.repository.persistence;
 
-import com.dev.torhugo.clean.code.arch.infrastructure.account.models.AccountEntity;
-import com.dev.torhugo.clean.code.arch.infrastructure.database.DatabaseUtils;
-import com.dev.torhugo.clean.code.arch.infrastructure.ride.models.RideEntity;
+import com.dev.torhugo.clean.code.arch.infrastructure.repository.models.AccountEntity;
+import com.dev.torhugo.clean.code.arch.infrastructure.database.QueryService;
+import com.dev.torhugo.clean.code.arch.infrastructure.repository.RideRepository;
+import com.dev.torhugo.clean.code.arch.infrastructure.repository.models.RideEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -14,11 +15,11 @@ import java.util.UUID;
 
 @Repository
 @PropertySource("classpath:query/ride_scripts.properties")
-public class RideRepositoryImplements implements RideRepository{
+public class RideRepositoryImplements implements RideRepository {
 
-    private final DatabaseUtils databaseService;
+    private final QueryService databaseService;
 
-    public RideRepositoryImplements(final DatabaseUtils databaseService) {
+    public RideRepositoryImplements(final QueryService databaseService) {
         this.databaseService = databaseService;
     }
 

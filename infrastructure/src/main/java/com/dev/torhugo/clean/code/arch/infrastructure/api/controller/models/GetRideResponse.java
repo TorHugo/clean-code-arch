@@ -28,6 +28,8 @@ public record GetRideResponse(
         CoordinatesInfo from,
         @JsonProperty("to")
         CoordinatesInfo to,
+        @JsonProperty("last_position")
+        CoordinatesInfo lastPosition,
         @JsonProperty("created_at")
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm", timezone = "UTC")
         LocalDateTime createdAt,
@@ -46,6 +48,7 @@ public record GetRideResponse(
                 ride.distance(),
                 CoordinatesInfo.from(ride.from()),
                 CoordinatesInfo.from(ride.to()),
+                CoordinatesInfo.from(ride.lastPosition()),
                 ride.createdAt(),
                 ride.updatedAt()
         );

@@ -8,8 +8,8 @@ public class Coord {
 
     public Coord(final Double longitude,
                  final Double latitude) {
-        if (latitude < -90 || latitude > 90) throw new InvalidArgumentError("Invalid latitude!");
-        if (longitude < -180 || longitude > 180) throw new InvalidArgumentError("Invalid latitude!");
+        if (latitude < -90 || latitude > 90) throw  new InvalidArgumentError("Invalid latitude!");
+        if (longitude < -180 || longitude > 180) throw new InvalidArgumentError("Invalid longitude!");
         this.longitude = longitude;
         this.latitude = latitude;
     }

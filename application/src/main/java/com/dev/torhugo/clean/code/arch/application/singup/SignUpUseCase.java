@@ -28,16 +28,5 @@ public class SignUpUseCase {
         this.accountGateway.save(account);
         return account.getAccountId().toString();
     }
-
-    private Account createAccount(final SingUpInput input){
-        return Account.create(
-                input.name(),
-                input.email(),
-                input.cpf(),
-                input.isPassenger(),
-                input.isDriver(),
-                input.carPlate()
-        );
-    }
 }
 

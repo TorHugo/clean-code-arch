@@ -1,4 +1,4 @@
-package com.dev.torhugo.clean.code.arch.infrastructure.ride.models;
+package com.dev.torhugo.clean.code.arch.infrastructure.repository.models;
 
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 import jakarta.persistence.Entity;
@@ -28,6 +28,8 @@ public class RideEntity {
     private Double fromLong;
     private Double toLat;
     private Double toLong;
+    private Double lastLat;
+    private Double lastLong;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -41,6 +43,8 @@ public class RideEntity {
                        final Double fromLong,
                        final Double toLat,
                        final Double toLong,
+                       final Double lastLat,
+                       final Double lastLong,
                        final LocalDateTime createdAt,
                        final LocalDateTime updatedAt) {
         this.rideId = rideId;
@@ -53,6 +57,8 @@ public class RideEntity {
         this.fromLong = fromLong;
         this.toLat = toLat;
         this.toLong = toLong;
+        this.lastLat = lastLat;
+        this.lastLong = lastLong;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -73,6 +79,8 @@ public class RideEntity {
                 ride.getFrom().getLongitude(),
                 ride.getTo().getLatitude(),
                 ride.getTo().getLongitude(),
+                ride.getLastPosition().getLatitude(),
+                ride.getLastPosition().getLongitude(),
                 ride.getCreatedAt(),
                 ride.getUpdatedAt()
         );
@@ -93,6 +101,8 @@ public class RideEntity {
                 ride.toLong,
                 ride.status,
                 ride.fare,
+                ride.lastLat,
+                ride.lastLong,
                 ride.distance,
                 ride.createdAt,
                 ride.updatedAt);

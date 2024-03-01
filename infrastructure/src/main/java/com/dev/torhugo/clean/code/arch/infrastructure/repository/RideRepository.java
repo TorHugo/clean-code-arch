@@ -1,7 +1,7 @@
-package com.dev.torhugo.clean.code.arch.infrastructure.ride.persistence;
+package com.dev.torhugo.clean.code.arch.infrastructure.repository;
 
-import com.dev.torhugo.clean.code.arch.infrastructure.account.models.AccountEntity;
-import com.dev.torhugo.clean.code.arch.infrastructure.ride.models.RideEntity;
+import com.dev.torhugo.clean.code.arch.infrastructure.repository.models.AccountEntity;
+import com.dev.torhugo.clean.code.arch.infrastructure.repository.models.RideEntity;
 
 import java.util.List;
 import java.util.UUID;

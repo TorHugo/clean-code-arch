@@ -1,5 +1,6 @@
-package com.dev.torhugo.clean.code.arch.infrastructure.database;
+package com.dev.torhugo.clean.code.arch.infrastructure.database.implement;
 
+import com.dev.torhugo.clean.code.arch.infrastructure.database.QueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -12,7 +13,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class DatabaseQueryUtils implements DatabaseUtils{
+public class QueryServiceImplements implements QueryService {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 

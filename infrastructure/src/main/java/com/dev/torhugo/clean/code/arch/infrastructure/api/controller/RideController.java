@@ -11,10 +11,8 @@ import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.Acce
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.GetRideResponse;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.RideRequest;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.RideResponse;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;

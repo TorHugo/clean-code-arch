@@ -1,8 +1,7 @@
-package com.dev.torhugo.clean.code.arch.infrastructure.account.persistence;
+package com.dev.torhugo.clean.code.arch.infrastructure.repository;
 
-import com.dev.torhugo.clean.code.arch.infrastructure.account.models.AccountEntity;
+import com.dev.torhugo.clean.code.arch.infrastructure.repository.models.AccountEntity;
 
-import java.util.Optional;
 import java.util.UUID;
 
 // Port
