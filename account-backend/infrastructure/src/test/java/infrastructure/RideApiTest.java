@@ -6,9 +6,6 @@ import com.dev.torhugo.clean.code.arch.application.requestride.CoordinatesReques
 import com.dev.torhugo.clean.code.arch.application.requestride.RequestRideInput;
 import com.dev.torhugo.clean.code.arch.application.requestride.RequestRideUseCase;
 import com.dev.torhugo.clean.code.arch.domain.entity.Account;
-import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
-import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.RideController;
-import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.RideResponse;
 import com.dev.torhugo.clean.code.arch.infrastructure.configuration.WebServerConfig;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;

@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS cccat15.account;
 CREATE TABLE cccat15.account (
      account_id uuid PRIMARY KEY,
      name text NOT NULL,
