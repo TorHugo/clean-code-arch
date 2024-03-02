@@ -1,7 +1,7 @@
 package com.dev.torhugo.clean.code.arch.application.requestride;
 
 import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
-import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
@@ -22,10 +22,10 @@ public class RequestRideUseCase {
     public String execute(final RequestRideInput input){
         final var passenger = this.accountGateway.getByAccountId(input.passengerId());
         if(Objects.isNull(passenger))
-            throw new DatabaseNotFoundError("Account not found!");
+            throw new GatewayNotFoundError("Account not found!");
         if (passenger.isDriver())
             throw new InvalidArgumentError("Account is not passenger!");
-        final var passengerRides= this.rideGateway.getAllRidesWithStatus(passenger.getAccountId(), true, RideStatusEnumUtils.REQUESTED.getDescription());
+        final var passengerRides= this.rideGateway.getAllRidesWithStatus(passenger.accountId(), true, RideStatusEnumUtils.REQUESTED.getDescription());
         if (!passengerRides.isEmpty())
             throw new InvalidArgumentError("Passenger has an active ride!");
         final var actualRide = Ride.create(

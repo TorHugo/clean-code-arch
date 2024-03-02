@@ -1,6 +1,6 @@
 package com.dev.torhugo.clean.code.arch.application.getallposition;
 
-import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import com.dev.torhugo.clean.code.arch.application.gateway.PositionGateway;
 
 import java.util.UUID;
@@ -15,7 +15,7 @@ public class GetAllPositionUseCase {
     public GetAllPositionOutput execute(final UUID rideId) {
         final var lsPositions = positionGateway.retrieveByRideId(rideId);
         if (lsPositions.isEmpty())
-            throw new DatabaseNotFoundError("Positions not found!");
+            throw new GatewayNotFoundError("Positions not found!");
         return GetAllPositionOutput.with(rideId, lsPositions);
     }
 }

@@ -1,6 +1,5 @@
-package com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models;
+package com.dev.torhugo.clean.code.arch.infrastructure.gateway.models;
 
-import com.dev.torhugo.clean.code.arch.application.getaccount.GetAccountOutput;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record GetAccountResponse(
+public record AccountResponse(
         @JsonProperty("account_id")
         UUID accountId,
         String name,
@@ -31,16 +30,4 @@ public record GetAccountResponse(
         @JsonInclude(JsonInclude.Include.NON_NULL)
         LocalDateTime updateAt
 ) {
-    public static GetAccountResponse from(final GetAccountOutput account){
-            return new GetAccountResponse(
-                    account.accountId(),
-                    account.name(),
-                    account.email(),
-                    account.cpf(),
-                    account.isPassenger(),
-                    account.isDriver(),
-                    account.carPlate(),
-                    account.createdAt(),
-                    account.updatedAt());
-    }
 }

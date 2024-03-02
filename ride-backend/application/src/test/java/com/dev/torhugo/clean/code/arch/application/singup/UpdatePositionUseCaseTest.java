@@ -3,7 +3,7 @@ package com.dev.torhugo.clean.code.arch.application.singup;
 import com.dev.torhugo.clean.code.arch.application.updateposition.UpdatePositionInput;
 import com.dev.torhugo.clean.code.arch.application.updateposition.UpdatePositionUseCase;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
-import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.application.gateway.PositionGateway;
 import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
@@ -137,7 +137,7 @@ class UpdatePositionUseCaseTest {
 
         when(this.rideGateway.getRideById(expectedRide.getRideId())).thenReturn(null);
         // When
-        final var exception = assertThrows(DatabaseNotFoundError.class, () ->
+        final var exception = assertThrows(GatewayNotFoundError.class, () ->
                 this.updatePositionUseCase.execute(expectedInput));
 
         // Then

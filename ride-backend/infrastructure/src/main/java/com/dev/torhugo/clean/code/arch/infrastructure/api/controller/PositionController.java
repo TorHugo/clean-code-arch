@@ -1,11 +1,9 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.api.controller;
 
-import com.dev.torhugo.clean.code.arch.application.getallposition.GetAllPositionOutput;
 import com.dev.torhugo.clean.code.arch.application.getallposition.GetAllPositionUseCase;
 import com.dev.torhugo.clean.code.arch.application.updateposition.UpdatePositionInput;
 import com.dev.torhugo.clean.code.arch.application.updateposition.UpdatePositionUseCase;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.PositionAPI;
-import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.GetAccountResponse;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.GetAllPositionResponse;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.RideResponse;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.UpdatePositionRequest;

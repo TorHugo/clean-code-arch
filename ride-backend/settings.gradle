@@ -1,4 +1,4 @@
-rootProject.name = 'clean-code-arch'
+rootProject.name = 'ride-backend'
 include 'domain'
 include 'application'
 include 'infrastructure'

@@ -1,6 +1,5 @@
 package ride;
 
-import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 import org.junit.jupiter.api.Test;

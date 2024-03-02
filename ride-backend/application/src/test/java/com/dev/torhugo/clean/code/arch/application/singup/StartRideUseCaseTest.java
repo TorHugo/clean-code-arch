@@ -1,7 +1,7 @@
 package com.dev.torhugo.clean.code.arch.application.singup;
 
 import com.dev.torhugo.clean.code.arch.application.startride.StartRideUseCase;
-import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
@@ -59,7 +59,7 @@ class StartRideUseCaseTest {
         when(this.rideGateway.getRideById(any())).thenReturn(null);
 
         // When
-        final var exception = assertThrows(DatabaseNotFoundError.class, () ->
+        final var exception = assertThrows(GatewayNotFoundError.class, () ->
                 this.startRideUseCase.execute(any()));
 
 

@@ -2,7 +2,6 @@ package com.dev.torhugo.clean.code.arch.application.singup;
 
 import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
-import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 
 import java.util.Objects;

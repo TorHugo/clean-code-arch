@@ -1,4 +1,5 @@
-create table cccat15.ride (
+DROP TABLE IF EXISTS cccat15.ride;
+CREATE TABLE cccat15.ride (
       ride_id uuid PRIMARY KEY,
       passenger_id uuid,
       driver_id uuid,

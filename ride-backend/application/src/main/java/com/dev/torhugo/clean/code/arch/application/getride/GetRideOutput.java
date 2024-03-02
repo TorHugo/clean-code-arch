@@ -1,9 +1,8 @@
 package com.dev.torhugo.clean.code.arch.application.getride;
 
+import com.dev.torhugo.clean.code.arch.application.gateway.dto.AccountDTO;
 import com.dev.torhugo.clean.code.arch.application.requestride.CoordinatesRequestInfo;
-import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
-import com.dev.torhugo.clean.code.arch.domain.vo.Coord;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,7 +21,7 @@ public record GetRideOutput(
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
-    public static GetRideOutput from(final Ride ride, final Account passenger) {
+    public static GetRideOutput from(final Ride ride, final AccountDTO passenger) {
         return new GetRideOutput(
                 ride.getRideId(),
                 BasicAccountOutput.from(passenger),
@@ -38,7 +37,7 @@ public record GetRideOutput(
         );
     }
 
-    public static GetRideOutput from(final Ride ride, final Account passenger, final Account driver) {
+    public static GetRideOutput from(final Ride ride, final AccountDTO passenger, final AccountDTO driver) {
         return new GetRideOutput(
                 ride.getRideId(),
                 BasicAccountOutput.from(passenger),

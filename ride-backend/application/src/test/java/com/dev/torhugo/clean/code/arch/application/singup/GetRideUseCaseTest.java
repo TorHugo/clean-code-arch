@@ -1,9 +1,9 @@
 package com.dev.torhugo.clean.code.arch.application.singup;
 
 import com.dev.torhugo.clean.code.arch.application.getride.GetRideUseCase;
-import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
-import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
+import com.dev.torhugo.clean.code.arch.application.singup.mock.MockDsl;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,13 +12,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class GetRideUseCaseTest {
+class GetRideUseCaseTest implements MockDsl {
     @Mock
     AccountGateway accountGateway;
     @Mock
@@ -33,14 +34,9 @@ class GetRideUseCaseTest {
     @Test
     void shouldExecuteGetRideWithSuccess() {
         // Given
-        final var nameAccount = "Test Test";
-        final var emailAccount = "test@example.com";
-        final var cpfAccount = "648.808.745-23";
-        final var isPassenger = true;
-        final var isDriver = false;
-        final var expectedPassenger = Account.create(nameAccount, emailAccount, cpfAccount, isPassenger, isDriver, null);
+        final var expectedPassenger = createAccountPassender(LocalDateTime.now(), null);
 
-        final var expectedPassengerId = expectedPassenger.getAccountId();
+        final var expectedPassengerId = expectedPassenger.accountId();
         final var expectedFromLat = Math.random();
         final var expectedFromLong = Math.random();
         final var expectedToLat = Math.random();
@@ -70,22 +66,17 @@ class GetRideUseCaseTest {
     @Test
     void shouldExecuteGetRideCompletedWithSuccess() {
         // Given
-        final var nameAccount = "Test Test";
-        final var emailAccount = "test@example.com";
-        final var cpfAccount = "648.808.745-23";
-        final var carPlate = "ABC1234";
-        final var expectedPassenger = Account.create(nameAccount, emailAccount, cpfAccount, true, false, null);
-        final var expectedDriver = Account.create(nameAccount, emailAccount, cpfAccount, false, true, carPlate);
+        final var expectedPassenger = createAccountPassender(LocalDateTime.now(), null);
+        final var expectedDriver = createAccountDriver(LocalDateTime.now(), null);
 
-
-        final var expectedPassengerId = expectedPassenger.getAccountId();
-        final var expectedDriverId = expectedDriver.getAccountId();
+        final var expectedPassengerId = expectedPassenger.accountId();
+        final var expectedDriverId = expectedDriver.accountId();
         final var expectedFromLat = Math.random();
         final var expectedFromLong = Math.random();
         final var expectedToLat = Math.random();
         final var expectedToLong = Math.random();
         final var expectedRide = Ride.create(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
-        expectedRide.accept(expectedDriver.getAccountId());
+        expectedRide.accept(expectedDriver.accountId());
         final var expectedRideId = expectedRide.getRideId();
 
         when(this.rideGateway.getRideById(expectedRideId)).thenReturn(expectedRide);
@@ -115,7 +106,7 @@ class GetRideUseCaseTest {
         when(this.rideGateway.getRideById(any())).thenReturn(null);
 
         // When
-        final var exception = assertThrows(DatabaseNotFoundError.class, () ->
+        final var exception = assertThrows(GatewayNotFoundError.class, () ->
                 this.getRideUseCase.execute(any()));
 
         // Then
@@ -141,7 +132,7 @@ class GetRideUseCaseTest {
         when(this.accountGateway.getByAccountId(any())).thenReturn(null);
 
         // When
-        final var exception = assertThrows(DatabaseNotFoundError.class, () ->
+        final var exception = assertThrows(GatewayNotFoundError.class, () ->
                 this.getRideUseCase.execute(expectedRideId));
 
         // Then
@@ -155,22 +146,17 @@ class GetRideUseCaseTest {
         // Given
         final var expectedError = "Driver not found!";
 
-        final var nameAccount = "Test Test";
-        final var emailAccount = "test@example.com";
-        final var cpfAccount = "648.808.745-23";
-        final var carPlate = "ABC1234";
-        final var expectedPassenger = Account.create(nameAccount, emailAccount, cpfAccount, true, false, null);
-        final var expectedDriver = Account.create(nameAccount, emailAccount, cpfAccount, false, true, carPlate);
+        final var expectedPassenger = createAccountPassender(LocalDateTime.now(), null);
+        final var expectedDriver = createAccountDriver(LocalDateTime.now(), null);
 
-
-        final var expectedPassengerId = expectedPassenger.getAccountId();
-        final var expectedDriverId = expectedDriver.getAccountId();
+        final var expectedPassengerId = expectedPassenger.accountId();
+        final var expectedDriverId = expectedDriver.accountId();
         final var expectedFromLat = Math.random();
         final var expectedFromLong = Math.random();
         final var expectedToLat = Math.random();
         final var expectedToLong = Math.random();
         final var expectedRide = Ride.create(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
-        expectedRide.accept(expectedDriver.getAccountId());
+        expectedRide.accept(expectedDriver.accountId());
         final var expectedRideId = expectedRide.getRideId();
 
         when(this.rideGateway.getRideById(expectedRideId)).thenReturn(expectedRide);
@@ -178,7 +164,7 @@ class GetRideUseCaseTest {
         when(this.accountGateway.getByAccountId(expectedDriverId)).thenReturn(null);
 
         // When
-        final var exception = assertThrows(DatabaseNotFoundError.class, () ->
+        final var exception = assertThrows(GatewayNotFoundError.class, () ->
                 this.getRideUseCase.execute(expectedRideId));
 
         // Then

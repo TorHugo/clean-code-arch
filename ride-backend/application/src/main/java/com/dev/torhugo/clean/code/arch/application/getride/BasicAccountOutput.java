@@ -1,6 +1,6 @@
 package com.dev.torhugo.clean.code.arch.application.getride;
 
-import com.dev.torhugo.clean.code.arch.domain.entity.Account;
+import com.dev.torhugo.clean.code.arch.application.gateway.dto.AccountDTO;
 
 import java.util.UUID;
 
@@ -12,14 +12,14 @@ public record BasicAccountOutput(
         boolean isDriver,
         String carPlate
 ) {
-    public static BasicAccountOutput from(final Account passenger) {
+    public static BasicAccountOutput from(final AccountDTO passenger) {
         return new BasicAccountOutput(
-                passenger.getAccountId(),
-                passenger.getName(),
-                passenger.getEmail(),
+                passenger.accountId(),
+                passenger.name(),
+                passenger.email(),
                 passenger.isPassenger(),
                 passenger.isDriver(),
-                passenger.getCarPlate()
+                passenger.carPlate()
         );
     }
 }

@@ -1,6 +1,5 @@
 package com.dev.torhugo.clean.code.arch.application.gateway;
 
-import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 
 import java.util.List;

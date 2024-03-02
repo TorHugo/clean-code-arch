@@ -104,7 +104,7 @@ class SignUpUseCaseTest {
         when(accountGateway.getByEmail(anyString())).thenReturn(accountAlreadyExists);
 
         // When
-        final var exception = assertThrows(IllegalArgumentException.class, () ->
+        final var exception = assertThrows(InvalidArgumentError.class, () ->
                 signUpUseCase.execute(expectedInput));
 
         // Then

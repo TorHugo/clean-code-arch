@@ -5,7 +5,6 @@ import com.dev.torhugo.clean.code.arch.application.getride.GetRideUseCase;
 import com.dev.torhugo.clean.code.arch.application.requestride.CoordinatesRequestInfo;
 import com.dev.torhugo.clean.code.arch.application.requestride.RequestRideInput;
 import com.dev.torhugo.clean.code.arch.application.requestride.RequestRideUseCase;
-import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.RideController;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.RideResponse;

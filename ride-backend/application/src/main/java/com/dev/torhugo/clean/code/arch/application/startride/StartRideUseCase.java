@@ -1,6 +1,6 @@
 package com.dev.torhugo.clean.code.arch.application.startride;
 
-import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
 
 import java.util.Objects;
@@ -16,7 +16,7 @@ public class StartRideUseCase {
     public void execute(final UUID rideId){
         final var ride = rideGateway.getRideById(rideId);
         if (Objects.isNull(ride))
-            throw new DatabaseNotFoundError("Ride not found!");
+            throw new GatewayNotFoundError("Ride not found!");
         ride.start();
         this.rideGateway.update(ride);
     }

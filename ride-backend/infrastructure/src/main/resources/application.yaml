@@ -6,6 +6,18 @@ server:
   servlet:
     context-path: /api
 
+#############
+## PROFILE ##
+#############
 spring:
   profiles:
     active: master
+
+#####################
+## EXTERNAL CLIENT ##
+#####################
+integration:
+  client:
+    account:
+      host: http://localhost:8090/api
+      endpoint: /accounts/get-account/{accountId}

@@ -2,9 +2,9 @@ package com.dev.torhugo.clean.code.arch.application.singup;
 
 import com.dev.torhugo.clean.code.arch.application.acceptride.AcceptRideInput;
 import com.dev.torhugo.clean.code.arch.application.acceptride.AcceptRideUseCase;
-import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
-import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
+import com.dev.torhugo.clean.code.arch.application.singup.mock.MockDsl;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class AcceptRideUseCaseTest {
+class AcceptRideUseCaseTest implements MockDsl {
     @Mock
     AccountGateway accountGateway;
     @Mock
@@ -37,15 +38,8 @@ class AcceptRideUseCaseTest {
     @Test
     void shouldExecuteRequestRideWithSuccess(){
         // Given
-        final var nameAccount = "Test Test";
-        final var emailAccount = "test@example.com";
-        final var cpfAccount = "648.808.745-23";
-        final var carPlate = "ABC1234";
-        final var isPassenger = false;
-        final var isDriver = true;
-        final var expectedAccount = Account.create(nameAccount, emailAccount, cpfAccount, isPassenger, isDriver, carPlate);
-
-        final var expectedPassengerId = expectedAccount.getAccountId();
+        final var expectedAccount = createAccountDriver(LocalDateTime.now(), null);
+        final var expectedPassengerId = expectedAccount.accountId();
         final var expectedFromLat = Math.random();
         final var expectedFromLong = Math.random();
         final var expectedToLat = Math.random();
@@ -71,21 +65,14 @@ class AcceptRideUseCaseTest {
     void shouldThrowExceptionWhenRideNotFound(){
         // Given
         final var expectedError = "Ride not found!";
-
         final var expectedRideId = UUID.randomUUID();
-        final var nameAccount = "Test Test";
-        final var emailAccount = "test@example.com";
-        final var cpfAccount = "648.808.745-23";
-        final var carPlate = "ABC1234";
-        final var isPassenger = false;
-        final var isDriver = true;
-        final var expectedAccount = Account.create(nameAccount, emailAccount, cpfAccount, isPassenger, isDriver, carPlate);
+        final var expectedAccount = createAccountDriver(LocalDateTime.now(), null);
 
-        final var expectedInput = new AcceptRideInput(expectedRideId, expectedAccount.getAccountId());
+        final var expectedInput = new AcceptRideInput(expectedRideId, expectedAccount.accountId());
         when(this.rideGateway.getRideById(expectedRideId)).thenReturn(null);
 
         // When
-        final var exception = assertThrows(DatabaseNotFoundError.class, () ->
+        final var exception = assertThrows(GatewayNotFoundError.class, () ->
                 this.acceptRideUseCase.execute(expectedInput));
 
         // Then
@@ -113,7 +100,7 @@ class AcceptRideUseCaseTest {
         when(this.accountGateway.getByAccountId(any())).thenReturn(null);
 
         // When
-        final var exception = assertThrows(DatabaseNotFoundError.class, () ->
+        final var exception = assertThrows(GatewayNotFoundError.class, () ->
                 this.acceptRideUseCase.execute(expectedInput));
 
         // Then
@@ -128,14 +115,7 @@ class AcceptRideUseCaseTest {
     void shouldThrowExceptionWhenAccountIsPassenger(){
         // Given
         final var expectedError = "This account not driver!";
-
-        final var nameAccount = "Test Test";
-        final var emailAccount = "test@example.com";
-        final var cpfAccount = "648.808.745-23";
-        final var carPlate = "ABC1234";
-        final var isPassenger = true;
-        final var isDriver = false;
-        final var expectedAccount = Account.create(nameAccount, emailAccount, cpfAccount, isPassenger, isDriver, carPlate);
+        final var expectedAccount = createAccountPassender(LocalDateTime.now(), null);
 
         final var expectedPassengerId = UUID.randomUUID();
         final var expectedFromLat = Math.random();
@@ -164,14 +144,7 @@ class AcceptRideUseCaseTest {
     void shouldThrowExceptionWhenDriverContainsUnfinishedRides(){
         // Given
         final var expectedError = "This driver contains unfinished rides!";
-
-        final var nameAccount = "Test Test";
-        final var emailAccount = "test@example.com";
-        final var cpfAccount = "648.808.745-23";
-        final var carPlate = "ABC1234";
-        final var isPassenger = false;
-        final var isDriver = true;
-        final var expectedAccount = Account.create(nameAccount, emailAccount, cpfAccount, isPassenger, isDriver, carPlate);
+        final var expectedAccount = createAccountDriver(LocalDateTime.now(), null);
 
         final var expectedPassengerId = UUID.randomUUID();
         final var expectedFromLat = Math.random();
