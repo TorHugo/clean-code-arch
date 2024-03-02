@@ -1,7 +1,7 @@
 package com.dev.torhugo.clean.code.arch.application.singup;
 
 import com.dev.torhugo.clean.code.arch.domain.entity.Account;
-import com.dev.torhugo.clean.code.arch.domain.gateway.AccountGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
 
 import java.util.Objects;
 

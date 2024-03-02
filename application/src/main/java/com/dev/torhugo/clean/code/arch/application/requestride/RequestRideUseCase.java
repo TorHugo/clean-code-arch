@@ -1,15 +1,13 @@
 package com.dev.torhugo.clean.code.arch.application.requestride;
 
-import com.dev.torhugo.clean.code.arch.domain.entity.Account;
-import com.dev.torhugo.clean.code.arch.domain.gateway.AccountGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
-import com.dev.torhugo.clean.code.arch.domain.gateway.RideGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
 import com.dev.torhugo.clean.code.arch.domain.utils.RideStatusEnumUtils;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public class RequestRideUseCase {
 
@@ -27,7 +25,7 @@ public class RequestRideUseCase {
             throw new DatabaseNotFoundError("Account not found!");
         if (passenger.isDriver())
             throw new InvalidArgumentError("Account is not passenger!");
-        final var passengerRides= this.rideGateway.getAllRidesWithStatus(passenger, RideStatusEnumUtils.REQUESTED.getDescription());
+        final var passengerRides= this.rideGateway.getAllRidesWithStatus(passenger.getAccountId(), true, RideStatusEnumUtils.REQUESTED.getDescription());
         if (!passengerRides.isEmpty())
             throw new InvalidArgumentError("Passenger has an active ride!");
         final var actualRide = Ride.create(

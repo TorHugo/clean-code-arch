@@ -1,7 +1,7 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.configuration.usecases;
 
 import com.dev.torhugo.clean.code.arch.application.startride.StartRideUseCase;
-import com.dev.torhugo.clean.code.arch.domain.gateway.RideGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

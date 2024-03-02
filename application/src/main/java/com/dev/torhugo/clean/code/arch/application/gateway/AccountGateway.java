@@ -1,4 +1,4 @@
-package com.dev.torhugo.clean.code.arch.domain.gateway;
+package com.dev.torhugo.clean.code.arch.application.gateway;
 
 import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 

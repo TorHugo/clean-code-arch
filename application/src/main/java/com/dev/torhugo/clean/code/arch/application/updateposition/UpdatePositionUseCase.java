@@ -2,8 +2,8 @@ package com.dev.torhugo.clean.code.arch.application.updateposition;
 
 import com.dev.torhugo.clean.code.arch.domain.entity.Position;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
-import com.dev.torhugo.clean.code.arch.domain.gateway.PositionGateway;
-import com.dev.torhugo.clean.code.arch.domain.gateway.RideGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.PositionGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
 
 import java.util.Objects;
 

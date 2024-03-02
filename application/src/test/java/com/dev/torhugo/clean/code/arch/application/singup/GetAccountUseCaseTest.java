@@ -2,7 +2,7 @@ package com.dev.torhugo.clean.code.arch.application.singup;
 
 import com.dev.torhugo.clean.code.arch.application.getaccount.GetAccountUseCase;
 import com.dev.torhugo.clean.code.arch.domain.entity.Account;
-import com.dev.torhugo.clean.code.arch.domain.gateway.AccountGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

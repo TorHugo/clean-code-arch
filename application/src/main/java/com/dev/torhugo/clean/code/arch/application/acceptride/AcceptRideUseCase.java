@@ -1,9 +1,9 @@
 package com.dev.torhugo.clean.code.arch.application.acceptride;
 
-import com.dev.torhugo.clean.code.arch.domain.gateway.AccountGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
-import com.dev.torhugo.clean.code.arch.domain.gateway.RideGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
 
 import java.util.Objects;
 
@@ -27,7 +27,7 @@ public class AcceptRideUseCase {
             throw new DatabaseNotFoundError("Passenger not found!");
         if (driver.isPassenger())
             throw new InvalidArgumentError("This account not driver!");
-        final var acceptedRides = this.rideGateway.getAllRidesWithStatus(driver, ACCEPTED.getDescription());
+        final var acceptedRides = this.rideGateway.getAllRidesWithStatus(driver.getAccountId(), false, ACCEPTED.getDescription());
         if (!acceptedRides.isEmpty())
             throw new InvalidArgumentError("This driver contains unfinished rides!");
         ride.accept(driver.getAccountId());

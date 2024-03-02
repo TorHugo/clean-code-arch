@@ -3,11 +3,11 @@ package com.dev.torhugo.clean.code.arch.application.singup;
 import com.dev.torhugo.clean.code.arch.application.acceptride.AcceptRideInput;
 import com.dev.torhugo.clean.code.arch.application.acceptride.AcceptRideUseCase;
 import com.dev.torhugo.clean.code.arch.domain.entity.Account;
-import com.dev.torhugo.clean.code.arch.domain.gateway.AccountGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
-import com.dev.torhugo.clean.code.arch.domain.gateway.RideGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -56,14 +56,14 @@ class AcceptRideUseCaseTest {
 
         when(this.rideGateway.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
         when(this.accountGateway.getByAccountId(any())).thenReturn(expectedAccount);
-        when(this.rideGateway.getAllRidesWithStatus(any(), any())).thenReturn(new ArrayList<>());
+        when(this.rideGateway.getAllRidesWithStatus(any(), anyBoolean(), any())).thenReturn(new ArrayList<>());
         // When
         this.acceptRideUseCase.execute(expectedInput);
 
         // Then
         verify(rideGateway, times(1)).getRideById(any());
         verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideGateway, times(1)).getAllRidesWithStatus(any(), any());
+        verify(rideGateway, times(1)).getAllRidesWithStatus(any(), anyBoolean(), any());
         verify(rideGateway, times(1)).update(any());
     }
 
@@ -92,7 +92,7 @@ class AcceptRideUseCaseTest {
         assertEquals(expectedError, exception.getMessage());
         verify(rideGateway, times(1)).getRideById(any());
         verify(accountGateway, times(0)).getByAccountId(any());
-        verify(rideGateway, times(0)).getAllRidesWithStatus(any(), any());
+        verify(rideGateway, times(0)).getAllRidesWithStatus(any(), anyBoolean(), any());
         verify(rideGateway, times(0)).update(any());
     }
 
@@ -120,7 +120,7 @@ class AcceptRideUseCaseTest {
         assertEquals(expectedError, exception.getMessage());
         verify(rideGateway, times(1)).getRideById(any());
         verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideGateway, times(0)).getAllRidesWithStatus(any(), any());
+        verify(rideGateway, times(0)).getAllRidesWithStatus(any(), anyBoolean(), any());
         verify(rideGateway, times(0)).update(any());
     }
 
@@ -156,7 +156,7 @@ class AcceptRideUseCaseTest {
         assertEquals(expectedError, exception.getMessage());
         verify(rideGateway, times(1)).getRideById(any());
         verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideGateway, times(0)).getAllRidesWithStatus(any(), any());
+        verify(rideGateway, times(0)).getAllRidesWithStatus(any(), anyBoolean(), any());
         verify(rideGateway, times(0)).update(any());
     }
 
@@ -183,7 +183,7 @@ class AcceptRideUseCaseTest {
         final var expectedInput = new AcceptRideInput(expectedRide.getRideId(), expectedPassengerId);
         when(this.rideGateway.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
         when(this.accountGateway.getByAccountId(any())).thenReturn(expectedAccount);
-        when(this.rideGateway.getAllRidesWithStatus(any(), any())).thenReturn(List.of(expectedRide));
+        when(this.rideGateway.getAllRidesWithStatus(any(), anyBoolean(), any())).thenReturn(List.of(expectedRide));
 
         // When
         final var exception = assertThrows(InvalidArgumentError.class, () ->
@@ -193,7 +193,7 @@ class AcceptRideUseCaseTest {
         assertEquals(expectedError, exception.getMessage());
         verify(rideGateway, times(1)).getRideById(any());
         verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideGateway, times(1)).getAllRidesWithStatus(any(), any());
+        verify(rideGateway, times(1)).getAllRidesWithStatus(any(), anyBoolean(), any());
         verify(rideGateway, times(0)).update(any());
     }
 

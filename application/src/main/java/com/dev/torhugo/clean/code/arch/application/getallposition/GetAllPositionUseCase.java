@@ -1,7 +1,7 @@
 package com.dev.torhugo.clean.code.arch.application.getallposition;
 
 import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
-import com.dev.torhugo.clean.code.arch.domain.gateway.PositionGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.PositionGateway;
 
 import java.util.UUID;
 

@@ -5,8 +5,8 @@ import com.dev.torhugo.clean.code.arch.application.updateposition.UpdatePosition
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
-import com.dev.torhugo.clean.code.arch.domain.gateway.PositionGateway;
-import com.dev.torhugo.clean.code.arch.domain.gateway.RideGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.PositionGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

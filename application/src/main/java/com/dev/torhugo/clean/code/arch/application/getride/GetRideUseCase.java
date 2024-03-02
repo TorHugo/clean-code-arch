@@ -1,8 +1,8 @@
 package com.dev.torhugo.clean.code.arch.application.getride;
 
 import com.dev.torhugo.clean.code.arch.domain.error.exception.DatabaseNotFoundError;
-import com.dev.torhugo.clean.code.arch.domain.gateway.AccountGateway;
-import com.dev.torhugo.clean.code.arch.domain.gateway.RideGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
+import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
 
 import java.util.Objects;
 import java.util.UUID;
