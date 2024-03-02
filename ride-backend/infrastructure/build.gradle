@@ -1,0 +1,56 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.flywaydb:flyway-core:8.5.10'
+        classpath 'org.postgresql:postgresql:42.2.24'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.1.8'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.flywaydb.flyway' version '8.5.10'
+}
+
+group = 'com.dev.torhugo.clean.code.arch.infrastructure'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Internal
+    implementation(project(":domain"))
+    implementation(project(":application"))
+
+    // External
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.google.code.gson:gson:2.8.8'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.postgresql:postgresql'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation('org.flywaydb:flyway-core')
+
+    implementation('com.h2database:h2')
+}
+
+flyway {
+    url = System.getenv('FLYWAY_DB') ?: 'jdbc:postgresql://localhost:5435/postgres'
+    user = System.getenv('PGADMIN_RBRANAS_USER') ?: 'root'
+    password = System.getenv('PGADMIN_RBRANAS_PASSWORD') ?: '123456'
+}
+
+test {
+    useJUnitPlatform()
+}
