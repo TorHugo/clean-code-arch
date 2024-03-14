@@ -2,6 +2,7 @@ package com.dev.torhugo.clean.code.arch.infrastructure.repository;
 
 import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import com.dev.torhugo.clean.code.arch.infrastructure.database.QueryService;
 import com.dev.torhugo.clean.code.arch.infrastructure.repository.models.RideEntity;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +12,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Repository
@@ -63,8 +63,8 @@ public class RideRepository implements RideGateway {
         final var rideEntity = databaseService.retrieve(queryFindRideById,
                         buildParametersRideId(rideId),
                         BeanPropertyRowMapper.newInstance(RideEntity.class))
-                .orElse(null);
-        return Objects.isNull(rideEntity) ? null : RideEntity.toAggregate(rideEntity);
+                .orElseThrow(() -> new GatewayNotFoundError("Ride not found!"));
+        return RideEntity.toAggregate(rideEntity);
     }
 
     @Override

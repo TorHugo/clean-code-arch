@@ -34,7 +34,6 @@ public class AccountRepository implements AccountGateway {
                         buildParams(email),
                         BeanPropertyRowMapper.newInstance(AccountEntity.class))
                 .orElse(null);
-
         return Objects.isNull(accountEntity) ? null : AccountEntity.toAggregate(accountEntity);
     }
 

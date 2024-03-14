@@ -2,9 +2,11 @@ package com.dev.torhugo.clean.code.arch.infrastructure.gateway;
 
 import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
 import com.dev.torhugo.clean.code.arch.application.gateway.dto.AccountDTO;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import com.dev.torhugo.clean.code.arch.infrastructure.gateway.client.ClientConfigHttp;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -19,6 +21,8 @@ public class AccountGatewayHttp implements AccountGateway {
     @Override
     public AccountDTO getByAccountId(final UUID accountId) {
         final var accountResponse = clientConfigHttp.getAccountByAccountId(accountId);
+        if (Objects.isNull(accountResponse))
+            throw new GatewayNotFoundError("Account not found! AccountId: " + accountId);
         return AccountDTO.create(
                 accountResponse.accountId(),
                 accountResponse.name(),

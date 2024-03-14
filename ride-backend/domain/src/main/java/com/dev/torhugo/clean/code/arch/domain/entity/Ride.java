@@ -1,6 +1,8 @@
 package com.dev.torhugo.clean.code.arch.domain.entity;
 
 import com.dev.torhugo.clean.code.arch.domain.ds.DistanceCalculator;
+import com.dev.torhugo.clean.code.arch.domain.ds.FareCalculator;
+import com.dev.torhugo.clean.code.arch.domain.ds.template.FareCalculatorFactory;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.domain.vo.Coord;
 
@@ -19,7 +21,7 @@ public class Ride {
     private final Coord from;
     private Coord lastPosition;
     private String status;
-    private final BigDecimal fare;
+    private BigDecimal fare;
     private Double distance;
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -43,7 +45,7 @@ public class Ride {
         this.driverId = driverId;
         this.from = new Coord(fromLong, fromLat);
         this.to = new Coord(toLong, toLat);
-        this.lastPosition = new Coord(lastLat, lastLong);
+        this.lastPosition = new Coord(lastLong, lastLat);
         this.status = status;
         this.fare = fare;
         this.distance = distance;
@@ -59,7 +61,7 @@ public class Ride {
         final var rideId = UUID.randomUUID();
         final var status = REQUESTED.getDescription();
         final var createdAt = LocalDateTime.now();
-        return new Ride(rideId, passengerId, null, fromLat, fromLong, toLat, toLong, status, fromLat, fromLong, null, null, createdAt, null);
+        return new Ride(rideId, passengerId, null, fromLat, fromLong, toLat, toLong, status, fromLat, fromLong, BigDecimal.ZERO, null, createdAt, null);
     }
 
     public static Ride restore(final UUID rideId,
@@ -108,6 +110,14 @@ public class Ride {
         this.lastPosition = newLastPosition;
         this.updatedAt = LocalDateTime.now();
     }
+
+    public void finish() {
+        if (!Objects.equals(this.status, IN_PROGRESS.getDescription()))
+            throw new InvalidArgumentError("Could not update position!");
+        this.status = COMPLETED.getDescription();
+        this.fare = FareCalculatorFactory.create(this.createdAt).calculate(this.distance);
+    }
+
     public UUID getRideId() {
         return rideId;
     }

@@ -1,6 +1,5 @@
 package com.dev.torhugo.clean.code.arch.application.getride;
 
-import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
 import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
 
@@ -18,15 +17,9 @@ public class GetRideUseCase {
 
     public GetRideOutput execute(final UUID rideId) {
         final var ride = this.rideGateway.getRideById(rideId);
-        if (Objects.isNull(ride))
-            throw new GatewayNotFoundError("Ride not found!");
         final var passenger = this.accountGateway.getByAccountId(ride.getPassengerId());
-        if (Objects.isNull(passenger))
-            throw new GatewayNotFoundError("Passenger not found!");
         if (Objects.nonNull(ride.getDriverId())) {
             final var driver = this.accountGateway.getByAccountId(ride.getDriverId());
-            if (Objects.isNull(driver))
-                throw new GatewayNotFoundError("Driver not found!");
             return GetRideOutput.from(ride, passenger, driver);
         }
         return GetRideOutput.from(ride, passenger);

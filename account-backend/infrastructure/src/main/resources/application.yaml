@@ -9,3 +9,13 @@ server:
 spring:
   profiles:
     active: master
+
+
+
+#################
+## INTEGRATION ##
+#################
+integration:
+  queue:
+    account:
+      default: QUEUE_SIGNUP_ASYNC

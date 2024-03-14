@@ -38,3 +38,6 @@ out/
 
 ### PG-DATA ###
 /postgres-data/
+
+### RABBIT-MQ ###
+/data/

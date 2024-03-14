@@ -27,15 +27,15 @@ public class PositionController implements PositionAPI {
     }
 
     @Override
-    public ResponseEntity<?> updatePosition(final UpdatePositionRequest request) {
-        final var updatePositionInput = UpdatePositionInput.with(request.rideId(), request.latitude(), request.latitude());
+    public RideResponse updatePosition(final UpdatePositionRequest request) {
+        final var updatePositionInput = UpdatePositionInput.with(request.rideId(), request.latitude(), request.longitude());
         this.updatePositionUseCase.execute(updatePositionInput);
-        return ResponseEntity.status(HttpStatus.OK).body(RideResponse.from(request.rideId().toString()));
+        return RideResponse.from(request.rideId().toString());
     }
 
     @Override
-    public ResponseEntity<?> getAllPositions(final UUID rideId) {
+    public GetAllPositionResponse getAllPositions(final UUID rideId) {
         final var allPositions = getAllPositionUseCase.execute(rideId);
-        return ResponseEntity.status(HttpStatus.OK).body(GetAllPositionResponse.from(rideId, allPositions));
+        return GetAllPositionResponse.from(rideId, allPositions);
     }
 }
