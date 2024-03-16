@@ -1,6 +1,7 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.repository.models;
 
 import com.dev.torhugo.clean.code.arch.domain.entity.Account;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -21,7 +22,9 @@ public class AccountEntity {
     private String name;
     private String email;
     private String cpf;
+    @Column(name = "is_passenger")
     private boolean passenger;
+    @Column(name = "is_driver")
     private boolean driver;
     private String carPlate;
     private LocalDateTime createdAt;

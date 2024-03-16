@@ -1,13 +1,13 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.api.controller;
 
 import com.dev.torhugo.clean.code.arch.application.getaccount.GetAccountUseCase;
+import com.dev.torhugo.clean.code.arch.application.messaging.QueueProducer;
 import com.dev.torhugo.clean.code.arch.application.singup.SignUpUseCase;
 import com.dev.torhugo.clean.code.arch.application.singup.SingUpInput;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.AccountAPI;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.GetAccountResponse;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.SingUpRequest;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.SingUpResponse;
-import com.dev.torhugo.clean.code.arch.infrastructure.messaging.QueueProducer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RestController;
 

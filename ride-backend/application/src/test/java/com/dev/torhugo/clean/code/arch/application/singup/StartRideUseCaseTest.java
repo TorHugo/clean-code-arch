@@ -4,7 +4,7 @@ import com.dev.torhugo.clean.code.arch.application.startride.StartRideUseCase;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
-import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
+import com.dev.torhugo.clean.code.arch.application.repository.RideRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 
 class StartRideUseCaseTest {
     @Mock
-    RideGateway rideGateway;
+    RideRepository rideRepository;
     @InjectMocks
     StartRideUseCase startRideUseCase;
 
@@ -43,20 +43,20 @@ class StartRideUseCaseTest {
 
         final var expectedInput = expectedRide.getRideId();
 
-        when(this.rideGateway.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
+        when(this.rideRepository.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
         // When
         this.startRideUseCase.execute(expectedInput);
 
         // Then
-        verify(rideGateway, times(1)).getRideById(any());
-        verify(rideGateway, times(1)).update(any());
+        verify(rideRepository, times(1)).getRideById(any());
+        verify(rideRepository, times(1)).update(any());
     }
 
     @Test
     void shouldThrowExceptionWhenRideNotFound(){
         // Given
         final var expectedException = "Ride not found!";
-        when(this.rideGateway.getRideById(any())).thenReturn(null);
+        when(this.rideRepository.getRideById(any())).thenReturn(null);
 
         // When
         final var exception = assertThrows(GatewayNotFoundError.class, () ->
@@ -65,8 +65,8 @@ class StartRideUseCaseTest {
 
         // Then
         assertEquals(expectedException, exception.getMessage());
-        verify(rideGateway, times(1)).getRideById(any());
-        verify(rideGateway, times(0)).update(any());
+        verify(rideRepository, times(1)).getRideById(any());
+        verify(rideRepository, times(0)).update(any());
     }
 
     @Test
@@ -81,7 +81,7 @@ class StartRideUseCaseTest {
         final var expectedRide = Ride.create(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
         final var expectedInput = expectedRide.getRideId();
 
-        when(this.rideGateway.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
+        when(this.rideRepository.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
 
         // When
 
@@ -91,7 +91,7 @@ class StartRideUseCaseTest {
 
         // Then
         assertEquals(expectedException, exception.getMessage());
-        verify(rideGateway, times(1)).getRideById(any());
-        verify(rideGateway, times(0)).update(any());
+        verify(rideRepository, times(1)).getRideById(any());
+        verify(rideRepository, times(0)).update(any());
     }
 }

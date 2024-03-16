@@ -2,29 +2,29 @@ package com.dev.torhugo.clean.code.arch.application.updateposition;
 
 import com.dev.torhugo.clean.code.arch.domain.entity.Position;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
-import com.dev.torhugo.clean.code.arch.application.gateway.PositionGateway;
-import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
+import com.dev.torhugo.clean.code.arch.application.repository.PositionRepository;
+import com.dev.torhugo.clean.code.arch.application.repository.RideRepository;
 
 import java.util.Objects;
 
 public class UpdatePositionUseCase {
 
-    private final RideGateway rideGateway;
-    private final PositionGateway positionGateway;
+    private final RideRepository rideRepository;
+    private final PositionRepository positionRepository;
 
-    public UpdatePositionUseCase(final RideGateway rideGateway,
-                                 final PositionGateway positionGateway) {
-        this.rideGateway = rideGateway;
-        this.positionGateway = positionGateway;
+    public UpdatePositionUseCase(final RideRepository rideRepository,
+                                 final PositionRepository positionRepository) {
+        this.rideRepository = rideRepository;
+        this.positionRepository = positionRepository;
     }
 
     public void execute(final UpdatePositionInput input){
-        final var ride = rideGateway.getRideById(input.rideId());
+        final var ride = rideRepository.getRideById(input.rideId());
         if (Objects.isNull(ride))
             throw new GatewayNotFoundError("Ride not found!");
         ride.updatePosition(input.latitude(), input.longitude());
-        this.rideGateway.update(ride);
+        this.rideRepository.update(ride);
         final var position = Position.create(input.rideId(), input.latitude(), input.longitude());
-        this.positionGateway.save(position);
+        this.positionRepository.save(position);
     }
 }

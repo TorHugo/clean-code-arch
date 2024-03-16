@@ -1,7 +1,6 @@
 package com.dev.torhugo.clean.code.arch.domain.entity;
 
 import com.dev.torhugo.clean.code.arch.domain.ds.DistanceCalculator;
-import com.dev.torhugo.clean.code.arch.domain.ds.FareCalculator;
 import com.dev.torhugo.clean.code.arch.domain.ds.template.FareCalculatorFactory;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.domain.vo.Coord;
@@ -115,7 +114,9 @@ public class Ride {
         if (!Objects.equals(this.status, IN_PROGRESS.getDescription()))
             throw new InvalidArgumentError("Could not update position!");
         this.status = COMPLETED.getDescription();
-        this.fare = FareCalculatorFactory.create(this.createdAt).calculate(this.distance);
+        this.fare = FareCalculatorFactory
+                .create(this.createdAt)
+                .calculate(this.distance);
     }
 
     public UUID getRideId() {

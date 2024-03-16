@@ -2,7 +2,7 @@ package com.dev.torhugo.clean.code.arch.application.singup;
 
 import com.dev.torhugo.clean.code.arch.application.getaccount.GetAccountUseCase;
 import com.dev.torhugo.clean.code.arch.domain.entity.Account;
-import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
+import com.dev.torhugo.clean.code.arch.application.repository.AccountRepository;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 public class GetAccountUseCaseTest {
 
     @Mock
-    AccountGateway accountGateway;
+    AccountRepository accountRepository;
 
     @InjectMocks
     GetAccountUseCase getAccountUseCase;
@@ -39,11 +39,11 @@ public class GetAccountUseCaseTest {
 
         final var accountClone = Account.create(expectedName, expectedEmail, expectedCpf, expectedIsPassenger, expectedIsDriver, expectedCarPlate);
         final var expectedAccountId = accountClone.getAccountId();
-        when(accountGateway.getByAccountId(expectedAccountId)).thenReturn(accountClone);
+        when(accountRepository.getByAccountId(expectedAccountId)).thenReturn(accountClone);
         // When
         final var actualAccount = getAccountUseCase.execute(expectedAccountId);
         // Then
-        verify(accountGateway, times(1)).getByAccountId(any());
+        verify(accountRepository, times(1)).getByAccountId(any());
         assertEquals(expectedAccountId, actualAccount.accountId());
         assertEquals(expectedName, actualAccount.name());
         assertEquals(expectedEmail, actualAccount.email());
@@ -58,12 +58,12 @@ public class GetAccountUseCaseTest {
     void shouldThrowExceptionWhenInvalidAccount(){
         // Given
         final var expectedException = "Account not found!";
-        when(accountGateway.getByAccountId(any())).thenReturn(null);
+        when(accountRepository.getByAccountId(any())).thenReturn(null);
         // When
         final var exception = assertThrows(GatewayNotFoundError.class, () ->
                 getAccountUseCase.execute(any()));
         // Then
-        verify(accountGateway, times(1)).getByAccountId(any());
+        verify(accountRepository, times(1)).getByAccountId(any());
         assertEquals(expectedException, exception.getMessage());
     }
 }

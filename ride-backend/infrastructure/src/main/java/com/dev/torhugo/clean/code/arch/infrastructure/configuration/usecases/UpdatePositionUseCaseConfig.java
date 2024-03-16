@@ -1,24 +1,24 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.configuration.usecases;
 
 import com.dev.torhugo.clean.code.arch.application.updateposition.UpdatePositionUseCase;
-import com.dev.torhugo.clean.code.arch.application.gateway.PositionGateway;
-import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
+import com.dev.torhugo.clean.code.arch.application.repository.PositionRepository;
+import com.dev.torhugo.clean.code.arch.application.repository.RideRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class UpdatePositionUseCaseConfig {
-    private final RideGateway rideGateway;
-    private final PositionGateway positionGateway;
+    private final RideRepository rideRepository;
+    private final PositionRepository positionRepository;
 
-    public UpdatePositionUseCaseConfig(final RideGateway rideGateway,
-                                       final PositionGateway positionGateway) {
-        this.rideGateway = rideGateway;
-        this.positionGateway = positionGateway;
+    public UpdatePositionUseCaseConfig(final RideRepository rideRepository,
+                                       final PositionRepository positionRepository) {
+        this.rideRepository = rideRepository;
+        this.positionRepository = positionRepository;
     }
 
     @Bean
     public UpdatePositionUseCase updatePositionUseCase(){
-        return new UpdatePositionUseCase(rideGateway, positionGateway);
+        return new UpdatePositionUseCase(rideRepository, positionRepository);
     }
 }

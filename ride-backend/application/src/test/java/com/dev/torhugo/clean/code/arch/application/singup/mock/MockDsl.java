@@ -1,6 +1,6 @@
 package com.dev.torhugo.clean.code.arch.application.singup.mock;
 
-import com.dev.torhugo.clean.code.arch.application.gateway.dto.AccountDTO;
+import com.dev.torhugo.clean.code.arch.application.gateway.models.AccountDTO;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

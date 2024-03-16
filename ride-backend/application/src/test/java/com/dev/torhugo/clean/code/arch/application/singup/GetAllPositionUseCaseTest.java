@@ -1,6 +1,6 @@
 package com.dev.torhugo.clean.code.arch.application.singup;
 
-import com.dev.torhugo.clean.code.arch.application.gateway.PositionGateway;
+import com.dev.torhugo.clean.code.arch.application.repository.PositionRepository;
 import com.dev.torhugo.clean.code.arch.application.getallposition.GetAllPositionUseCase;
 import com.dev.torhugo.clean.code.arch.application.getallposition.GetPositionOutput;
 import com.dev.torhugo.clean.code.arch.domain.entity.Position;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 class GetAllPositionUseCaseTest {
     @Mock
-    PositionGateway positionGateway;
+    PositionRepository positionRepository;
     @InjectMocks
     GetAllPositionUseCase getAllPositionUseCase;
 
@@ -41,7 +41,7 @@ class GetAllPositionUseCaseTest {
         final var lsPosition = List.of(expectedPosition);
 
         final var expectedPositionOutput = lsPosition.stream().map(GetPositionOutput::with).toList();
-        when(positionGateway.retrieveByRideId(expectedRideId)).thenReturn(lsPosition);
+        when(positionRepository.retrieveByRideId(expectedRideId)).thenReturn(lsPosition);
 
         // When
         final var output = getAllPositionUseCase.execute(expectedRideId);
@@ -57,7 +57,7 @@ class GetAllPositionUseCaseTest {
         final var expectedRideId = UUID.randomUUID();
         final var expectedException = "Positions not found!";
 
-        when(positionGateway.retrieveByRideId(expectedRideId)).thenReturn(new ArrayList<>());
+        when(positionRepository.retrieveByRideId(expectedRideId)).thenReturn(new ArrayList<>());
 
         // When
         final var exception = assertThrows(GatewayNotFoundError.class, () ->

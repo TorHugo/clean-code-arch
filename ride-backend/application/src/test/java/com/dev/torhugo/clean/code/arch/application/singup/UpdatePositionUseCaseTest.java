@@ -5,8 +5,8 @@ import com.dev.torhugo.clean.code.arch.application.updateposition.UpdatePosition
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
-import com.dev.torhugo.clean.code.arch.application.gateway.PositionGateway;
-import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
+import com.dev.torhugo.clean.code.arch.application.repository.PositionRepository;
+import com.dev.torhugo.clean.code.arch.application.repository.RideRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -23,10 +23,10 @@ import static org.mockito.Mockito.*;
 class UpdatePositionUseCaseTest {
 
     @Mock
-    RideGateway rideGateway;
+    RideRepository rideRepository;
 
     @Mock
-    PositionGateway positionGateway;
+    PositionRepository positionRepository;
 
     @InjectMocks
     UpdatePositionUseCase updatePositionUseCase;
@@ -54,7 +54,7 @@ class UpdatePositionUseCaseTest {
         final var expectedLongitude = Math.random();
         final var expectedInput = UpdatePositionInput.with(expectedRideId, expectedLatitude, expectedLongitude);
 
-        when(this.rideGateway.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
+        when(this.rideRepository.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
         // When
         this.updatePositionUseCase.execute(expectedInput);
 
@@ -63,11 +63,11 @@ class UpdatePositionUseCaseTest {
         assertNotNull(expectedRide.getUpdatedAt());
         assertEquals(expectedRide.getLastPosition().getLatitude(), expectedLatitude);
         assertEquals(expectedRide.getLastPosition().getLongitude(), expectedLongitude);
-        verify(rideGateway, times(1)).getRideById(any());
-        verify(rideGateway, times(1)).update(any());
-        verify(positionGateway, times(1)).save(any());
+        verify(rideRepository, times(1)).getRideById(any());
+        verify(rideRepository, times(1)).update(any());
+        verify(positionRepository, times(1)).save(any());
 
-        verify(rideGateway, times(1)).update(argThat(ride ->
+        verify(rideRepository, times(1)).update(argThat(ride ->
                 Objects.nonNull(ride.getRideId())
                         && Objects.equals(ride.getLastPosition().getLatitude(), expectedLatitude)
                         && Objects.equals(ride.getLastPosition().getLongitude(), expectedLongitude)
@@ -94,7 +94,7 @@ class UpdatePositionUseCaseTest {
         final var expectedInput = UpdatePositionInput.with(expectedRideId, expectedLatitude, expectedLongitude);
         expectedRide.updatePosition(expectedLatitude, expectedLongitude);
 
-        when(this.rideGateway.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
+        when(this.rideRepository.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
         // When
         this.updatePositionUseCase.execute(expectedInput);
 
@@ -103,11 +103,11 @@ class UpdatePositionUseCaseTest {
         assertNotNull(expectedRide.getUpdatedAt());
         assertEquals(expectedRide.getLastPosition().getLatitude(), expectedLatitude);
         assertEquals(expectedRide.getLastPosition().getLongitude(), expectedLongitude);
-        verify(rideGateway, times(1)).getRideById(any());
-        verify(rideGateway, times(1)).update(any());
-        verify(positionGateway, times(1)).save(any());
+        verify(rideRepository, times(1)).getRideById(any());
+        verify(rideRepository, times(1)).update(any());
+        verify(positionRepository, times(1)).save(any());
 
-        verify(rideGateway, times(1)).update(argThat(ride ->
+        verify(rideRepository, times(1)).update(argThat(ride ->
                 Objects.nonNull(ride.getRideId())
                         && Objects.equals(ride.getLastPosition().getLatitude(), expectedLatitude)
                         && Objects.equals(ride.getLastPosition().getLongitude(), expectedLongitude)
@@ -135,16 +135,16 @@ class UpdatePositionUseCaseTest {
         final var expectedLongitude = Math.random();
         final var expectedInput = UpdatePositionInput.with(expectedRideId, expectedLatitude, expectedLongitude);
 
-        when(this.rideGateway.getRideById(expectedRide.getRideId())).thenReturn(null);
+        when(this.rideRepository.getRideById(expectedRide.getRideId())).thenReturn(null);
         // When
         final var exception = assertThrows(GatewayNotFoundError.class, () ->
                 this.updatePositionUseCase.execute(expectedInput));
 
         // Then
         assertEquals(expectedError, exception.getMessage());
-        verify(this.rideGateway, times(1)).getRideById(any());
-        verify(this.rideGateway, times(0)).update(any());
-        verify(this.positionGateway, times(0)).save(any());
+        verify(this.rideRepository, times(1)).getRideById(any());
+        verify(this.rideRepository, times(0)).update(any());
+        verify(this.positionRepository, times(0)).save(any());
     }
 
     @Test
@@ -166,15 +166,15 @@ class UpdatePositionUseCaseTest {
         final var expectedLongitude = Math.random();
         final var expectedInput = UpdatePositionInput.with(expectedRideId, expectedLatitude, expectedLongitude);
 
-        when(this.rideGateway.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
+        when(this.rideRepository.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
         // When
         final var exception = assertThrows(InvalidArgumentError.class, () ->
                 this.updatePositionUseCase.execute(expectedInput));
 
         // Then
         assertEquals(expectedError, exception.getMessage());
-        verify(this.rideGateway, times(1)).getRideById(any());
-        verify(this.rideGateway, times(0)).update(any());
-        verify(this.positionGateway, times(0)).save(any());
+        verify(this.rideRepository, times(1)).getRideById(any());
+        verify(this.rideRepository, times(0)).update(any());
+        verify(this.positionRepository, times(0)).save(any());
     }
 }

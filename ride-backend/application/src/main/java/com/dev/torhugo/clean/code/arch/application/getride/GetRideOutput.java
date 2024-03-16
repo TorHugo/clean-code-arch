@@ -1,6 +1,6 @@
 package com.dev.torhugo.clean.code.arch.application.getride;
 
-import com.dev.torhugo.clean.code.arch.application.gateway.dto.AccountDTO;
+import com.dev.torhugo.clean.code.arch.application.gateway.models.AccountDTO;
 import com.dev.torhugo.clean.code.arch.application.requestride.CoordinatesRequestInfo;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
 

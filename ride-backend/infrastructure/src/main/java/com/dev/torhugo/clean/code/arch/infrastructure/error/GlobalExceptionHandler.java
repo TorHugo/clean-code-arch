@@ -2,8 +2,10 @@ package com.dev.torhugo.clean.code.arch.infrastructure.error;
 
 import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.ResourceAccessError;
 import com.dev.torhugo.clean.code.arch.infrastructure.error.exception.GatewayNotFoundErrorResponse;
 import com.dev.torhugo.clean.code.arch.infrastructure.error.exception.InvalidArgumentErrorResponse;
+import com.dev.torhugo.clean.code.arch.infrastructure.error.exception.ResourceAccessErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(GatewayNotFoundError.class)
     public ResponseEntity<Object> handleInvalidArgumentError(final GatewayNotFoundError ex, final HttpServletRequest request) {
         final var error = GatewayNotFoundErrorResponse.fromException(ex, request);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
+    @ExceptionHandler(ResourceAccessError.class)
+    public ResponseEntity<Object> handleInvalidArgumentError(final ResourceAccessError ex, final HttpServletRequest request) {
+        final var message = ex.getMessage();
+        final var error = ResourceAccessErrorResponse.fromException(message, request);
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(error);
     }
 }

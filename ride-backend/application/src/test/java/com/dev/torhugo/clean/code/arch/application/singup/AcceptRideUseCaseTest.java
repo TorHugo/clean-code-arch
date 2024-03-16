@@ -7,7 +7,7 @@ import com.dev.torhugo.clean.code.arch.application.singup.mock.MockDsl;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
-import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
+import com.dev.torhugo.clean.code.arch.application.repository.RideRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -27,7 +27,7 @@ class AcceptRideUseCaseTest implements MockDsl {
     @Mock
     AccountGateway accountGateway;
     @Mock
-    RideGateway rideGateway;
+    RideRepository rideRepository;
     @InjectMocks
     AcceptRideUseCase acceptRideUseCase;
     @BeforeEach
@@ -48,17 +48,17 @@ class AcceptRideUseCaseTest implements MockDsl {
 
         final var expectedInput = new AcceptRideInput(expectedRide.getRideId(), expectedPassengerId);
 
-        when(this.rideGateway.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
+        when(this.rideRepository.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
         when(this.accountGateway.getByAccountId(any())).thenReturn(expectedAccount);
-        when(this.rideGateway.getAllRidesWithStatus(any(), anyBoolean(), any())).thenReturn(new ArrayList<>());
+        when(this.rideRepository.getAllRidesWithStatus(any(), anyBoolean(), any())).thenReturn(new ArrayList<>());
         // When
         this.acceptRideUseCase.execute(expectedInput);
 
         // Then
-        verify(rideGateway, times(1)).getRideById(any());
+        verify(rideRepository, times(1)).getRideById(any());
         verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideGateway, times(1)).getAllRidesWithStatus(any(), anyBoolean(), any());
-        verify(rideGateway, times(1)).update(any());
+        verify(rideRepository, times(1)).getAllRidesWithStatus(any(), anyBoolean(), any());
+        verify(rideRepository, times(1)).update(any());
     }
 
     @Test
@@ -69,7 +69,7 @@ class AcceptRideUseCaseTest implements MockDsl {
         final var expectedAccount = createAccountDriver(LocalDateTime.now(), null);
 
         final var expectedInput = new AcceptRideInput(expectedRideId, expectedAccount.accountId());
-        when(this.rideGateway.getRideById(expectedRideId)).thenReturn(null);
+        when(this.rideRepository.getRideById(expectedRideId)).thenReturn(null);
 
         // When
         final var exception = assertThrows(GatewayNotFoundError.class, () ->
@@ -77,10 +77,10 @@ class AcceptRideUseCaseTest implements MockDsl {
 
         // Then
         assertEquals(expectedError, exception.getMessage());
-        verify(rideGateway, times(1)).getRideById(any());
+        verify(rideRepository, times(1)).getRideById(any());
         verify(accountGateway, times(0)).getByAccountId(any());
-        verify(rideGateway, times(0)).getAllRidesWithStatus(any(), anyBoolean(), any());
-        verify(rideGateway, times(0)).update(any());
+        verify(rideRepository, times(0)).getAllRidesWithStatus(any(), anyBoolean(), any());
+        verify(rideRepository, times(0)).update(any());
     }
 
     @Test
@@ -96,7 +96,7 @@ class AcceptRideUseCaseTest implements MockDsl {
         final var expectedRide = Ride.create(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
 
         final var expectedInput = new AcceptRideInput(expectedRide.getRideId(), expectedPassengerId);
-        when(this.rideGateway.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
+        when(this.rideRepository.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
         when(this.accountGateway.getByAccountId(any())).thenReturn(null);
 
         // When
@@ -105,10 +105,10 @@ class AcceptRideUseCaseTest implements MockDsl {
 
         // Then
         assertEquals(expectedError, exception.getMessage());
-        verify(rideGateway, times(1)).getRideById(any());
+        verify(rideRepository, times(1)).getRideById(any());
         verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideGateway, times(0)).getAllRidesWithStatus(any(), anyBoolean(), any());
-        verify(rideGateway, times(0)).update(any());
+        verify(rideRepository, times(0)).getAllRidesWithStatus(any(), anyBoolean(), any());
+        verify(rideRepository, times(0)).update(any());
     }
 
     @Test
@@ -125,7 +125,7 @@ class AcceptRideUseCaseTest implements MockDsl {
         final var expectedRide = Ride.create(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
 
         final var expectedInput = new AcceptRideInput(expectedRide.getRideId(), expectedPassengerId);
-        when(this.rideGateway.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
+        when(this.rideRepository.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
         when(this.accountGateway.getByAccountId(any())).thenReturn(expectedAccount);
 
         // When
@@ -134,10 +134,10 @@ class AcceptRideUseCaseTest implements MockDsl {
 
         // Then
         assertEquals(expectedError, exception.getMessage());
-        verify(rideGateway, times(1)).getRideById(any());
+        verify(rideRepository, times(1)).getRideById(any());
         verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideGateway, times(0)).getAllRidesWithStatus(any(), anyBoolean(), any());
-        verify(rideGateway, times(0)).update(any());
+        verify(rideRepository, times(0)).getAllRidesWithStatus(any(), anyBoolean(), any());
+        verify(rideRepository, times(0)).update(any());
     }
 
     @Test
@@ -154,9 +154,9 @@ class AcceptRideUseCaseTest implements MockDsl {
         final var expectedRide = Ride.create(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
 
         final var expectedInput = new AcceptRideInput(expectedRide.getRideId(), expectedPassengerId);
-        when(this.rideGateway.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
+        when(this.rideRepository.getRideById(expectedRide.getRideId())).thenReturn(expectedRide);
         when(this.accountGateway.getByAccountId(any())).thenReturn(expectedAccount);
-        when(this.rideGateway.getAllRidesWithStatus(any(), anyBoolean(), any())).thenReturn(List.of(expectedRide));
+        when(this.rideRepository.getAllRidesWithStatus(any(), anyBoolean(), any())).thenReturn(List.of(expectedRide));
 
         // When
         final var exception = assertThrows(InvalidArgumentError.class, () ->
@@ -164,10 +164,10 @@ class AcceptRideUseCaseTest implements MockDsl {
 
         // Then
         assertEquals(expectedError, exception.getMessage());
-        verify(rideGateway, times(1)).getRideById(any());
+        verify(rideRepository, times(1)).getRideById(any());
         verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideGateway, times(1)).getAllRidesWithStatus(any(), anyBoolean(), any());
-        verify(rideGateway, times(0)).update(any());
+        verify(rideRepository, times(1)).getAllRidesWithStatus(any(), anyBoolean(), any());
+        verify(rideRepository, times(0)).update(any());
     }
 
     @Test

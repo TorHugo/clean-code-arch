@@ -2,22 +2,22 @@ package com.dev.torhugo.clean.code.arch.infrastructure.configuration.usecases;
 
 import com.dev.torhugo.clean.code.arch.application.acceptride.AcceptRideUseCase;
 import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
-import com.dev.torhugo.clean.code.arch.application.gateway.RideGateway;
+import com.dev.torhugo.clean.code.arch.application.repository.RideRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AcceptRideUseCaseConfig {
-    private final RideGateway rideGateway;
+    private final RideRepository rideRepository;
     private final AccountGateway accountGateway;
 
-    public AcceptRideUseCaseConfig(final RideGateway rideGateway,
+    public AcceptRideUseCaseConfig(final RideRepository rideRepository,
                                    final AccountGateway accountGateway) {
-        this.rideGateway = rideGateway;
+        this.rideRepository = rideRepository;
         this.accountGateway = accountGateway;
     }
     @Bean
     public AcceptRideUseCase acceptRideUseCase(){
-        return new AcceptRideUseCase(rideGateway, accountGateway);
+        return new AcceptRideUseCase(rideRepository, accountGateway);
     }
 }

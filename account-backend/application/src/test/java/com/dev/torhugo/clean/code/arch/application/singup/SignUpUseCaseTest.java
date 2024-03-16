@@ -1,7 +1,9 @@
 package com.dev.torhugo.clean.code.arch.application.singup;
 
+import com.dev.torhugo.clean.code.arch.application.messaging.QueueProducer;
 import com.dev.torhugo.clean.code.arch.domain.entity.Account;
-import com.dev.torhugo.clean.code.arch.application.gateway.AccountGateway;
+import com.dev.torhugo.clean.code.arch.application.repository.AccountRepository;
+import com.dev.torhugo.clean.code.arch.domain.enums.MessageEnum;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,11 +17,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class SignUpUseCaseTest {
-
-    @Mock
-    AccountGateway accountGateway;
     @InjectMocks
     SignUpUseCase signUpUseCase;
+    @Mock
+    AccountRepository accountRepository;
+    @Mock
+    QueueProducer queueProducer;
 
     @BeforeEach
     void setUp() {
@@ -29,6 +32,7 @@ class SignUpUseCaseTest {
     @Test
     void shouldExecuteSignUpPassengerWhenValidParams() {
         // Given
+        final var expectedQueue = "queue_test";
         final var expectedName = "Test Test";
         final var expectedEmail = "test@example.com";
         final var expectedCpf = "648.808.745-23";
@@ -36,15 +40,17 @@ class SignUpUseCaseTest {
         final var expectedIsDriver = false;
 
         final var expectedInput = new SingUpInput(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
-        when(accountGateway.getByEmail(anyString())).thenReturn(null);
+        final var expectedWelcomeInput = SignUpMail.with(expectedEmail, MessageEnum.WELCOME.getMessage());
+        when(accountRepository.getByEmail(anyString())).thenReturn(null);
+        doNothing().when(queueProducer).sendMessage(expectedQueue, expectedWelcomeInput);
 
         // When
         final var actualAccount = signUpUseCase.execute(expectedInput);
 
         // Then
         assertNotNull(actualAccount);
-        verify(accountGateway, times(1)).getByEmail(any());
-        verify(accountGateway, times(1)).save(argThat(account ->
+        verify(accountRepository, times(1)).getByEmail(any());
+        verify(accountRepository, times(1)).save(argThat(account ->
                 Objects.nonNull(account.getAccountId())
                         && Objects.equals(expectedName, account.getName())
                         && Objects.equals(expectedEmail, account.getEmail())
@@ -59,6 +65,7 @@ class SignUpUseCaseTest {
     @Test
     void shouldExecuteSignUpDriverWhenValidParams() {
         // Given
+        final var expectedQueue = "queue_test";
         final var expectedName = "Test Test";
         final var expectedEmail = "test@example.com";
         final var expectedCpf = "648.808.745-23";
@@ -67,15 +74,16 @@ class SignUpUseCaseTest {
         final var expectedIsDriver = true;
 
         final var expectedInput = new SingUpInput(expectedName, expectedEmail, expectedCpf, expectedCarPlate, expectedIsPassenger, expectedIsDriver);
-        when(accountGateway.getByEmail(anyString())).thenReturn(null);
-
+        final var expectedWelcomeInput = SignUpMail.with(expectedEmail, MessageEnum.WELCOME.getMessage());
+        when(accountRepository.getByEmail(anyString())).thenReturn(null);
+        doNothing().when(queueProducer).sendMessage(expectedQueue, expectedWelcomeInput);
         // When
         final var actualAccount = signUpUseCase.execute(expectedInput);
 
         // Then
         assertNotNull(actualAccount);
-        verify(accountGateway, times(1)).getByEmail(any());
-        verify(accountGateway, times(1)).save(argThat(account ->
+        verify(accountRepository, times(1)).getByEmail(any());
+        verify(accountRepository, times(1)).save(argThat(account ->
                 Objects.nonNull(account.getAccountId())
                         && Objects.equals(expectedName, account.getName())
                         && Objects.equals(expectedEmail, account.getEmail())
@@ -101,7 +109,7 @@ class SignUpUseCaseTest {
 
         final var expectedInput = new SingUpInput(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
         final var accountAlreadyExists = Account.create(expectedName, expectedEmail, expectedCpf, expectedIsPassenger, expectedIsDriver, null);
-        when(accountGateway.getByEmail(anyString())).thenReturn(accountAlreadyExists);
+        when(accountRepository.getByEmail(anyString())).thenReturn(accountAlreadyExists);
 
         // When
         final var exception = assertThrows(InvalidArgumentError.class, () ->
@@ -109,8 +117,8 @@ class SignUpUseCaseTest {
 
         // Then
         assertEquals(expectedError, exception.getMessage());
-        verify(accountGateway, times(1)).getByEmail(any());
-        verify(accountGateway, times(0)).save(any());
+        verify(accountRepository, times(1)).getByEmail(any());
+        verify(accountRepository, times(0)).save(any());
     }
 
     @Test
@@ -125,7 +133,7 @@ class SignUpUseCaseTest {
         final var expectedIsDriver = false;
 
         final var expectedInput = SingUpInput.with(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
-        when(accountGateway.getByEmail(anyString())).thenReturn(null);
+        when(accountRepository.getByEmail(anyString())).thenReturn(null);
 
         // When
         final var exception = assertThrows(InvalidArgumentError.class, () ->
@@ -133,7 +141,7 @@ class SignUpUseCaseTest {
 
         // Then
         assertEquals(expectedError, exception.getMessage());
-        verify(accountGateway, times(1)).getByEmail(any());
-        verify(accountGateway, times(0)).save(any());
+        verify(accountRepository, times(1)).getByEmail(any());
+        verify(accountRepository, times(0)).save(any());
     }
 }
