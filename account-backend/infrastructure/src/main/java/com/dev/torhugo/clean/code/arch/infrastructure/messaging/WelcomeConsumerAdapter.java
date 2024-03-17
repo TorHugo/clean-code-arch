@@ -15,11 +15,10 @@ public class WelcomeConsumerAdapter {
     public WelcomeConsumerAdapter(final EmailGateway emailGateway) {
         this.emailGateway = Objects.requireNonNull(emailGateway);
     }
-//    @RabbitListener(queues = "QUEUE_SIGN_UP_WELCOME")
+
+    @RabbitListener(queues = "QUEUE_SIGN_UP_WELCOME")
     public void execute(final WelcomeInput input) {
         log.info("[-] Process queue message. : {}", input);
         this.emailGateway.sendWelcomeEmail(input.email(), input.message());
     }
-
-
 }

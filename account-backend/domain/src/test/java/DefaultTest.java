@@ -1,5 +1,5 @@
 import com.dev.torhugo.clean.code.arch.domain.enums.MessageEnum;
-import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.RepositoryNotFoundError;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,7 +11,7 @@ class DefaultTest {
         // Given
         final var expectedException = "Exception!";
         // When
-        final var actualException = new GatewayNotFoundError("Exception!");
+        final var actualException = new RepositoryNotFoundError("Exception!");
         // Then
         assertEquals(expectedException, actualException.getMessage());
     }

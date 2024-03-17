@@ -19,9 +19,9 @@ public class SignUpUseCase {
         this.queueProducer = queueProducer;
     }
 
-    public String execute(final SingUpInput input) {
-        final var existingAccount = this.accountRepository.getByEmail(input.email());
-        if (Objects.nonNull(existingAccount))
+    public String execute(final SignUpInput input) {
+        final var existsAccount = this.accountRepository.getByEmail(input.email());
+        if (Objects.nonNull(existsAccount))
             throw new InvalidArgumentError("Account already exists!");
         final var account = Account.create(
                 input.name(),

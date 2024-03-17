@@ -3,7 +3,7 @@ package com.dev.torhugo.clean.code.arch.application.singup;
 import com.dev.torhugo.clean.code.arch.application.getaccount.GetAccountUseCase;
 import com.dev.torhugo.clean.code.arch.domain.entity.Account;
 import com.dev.torhugo.clean.code.arch.application.repository.AccountRepository;
-import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.RepositoryNotFoundError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -60,7 +60,7 @@ public class GetAccountUseCaseTest {
         final var expectedException = "Account not found!";
         when(accountRepository.getByAccountId(any())).thenReturn(null);
         // When
-        final var exception = assertThrows(GatewayNotFoundError.class, () ->
+        final var exception = assertThrows(RepositoryNotFoundError.class, () ->
                 getAccountUseCase.execute(any()));
         // Then
         verify(accountRepository, times(1)).getByAccountId(any());

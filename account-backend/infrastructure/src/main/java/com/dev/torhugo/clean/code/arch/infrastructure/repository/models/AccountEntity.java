@@ -22,10 +22,8 @@ public class AccountEntity {
     private String name;
     private String email;
     private String cpf;
-    @Column(name = "is_passenger")
-    private boolean passenger;
-    @Column(name = "is_driver")
-    private boolean driver;
+    private boolean isPassenger;
+    private boolean isDriver;
     private String carPlate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -44,8 +42,8 @@ public class AccountEntity {
         this.name = name;
         this.email = email;
         this.cpf = cpf;
-        this.passenger = isPassenger;
-        this.driver = isDriver;
+        this.isPassenger = isPassenger;
+        this.isDriver = isDriver;
         this.carPlate = carPlate;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -62,8 +60,8 @@ public class AccountEntity {
                 accountEntity.name,
                 accountEntity.email,
                 accountEntity.cpf,
-                accountEntity.passenger,
-                accountEntity.driver,
+                accountEntity.isPassenger,
+                accountEntity.isDriver,
                 accountEntity.carPlate,
                 accountEntity.createdAt,
                 accountEntity.updatedAt);

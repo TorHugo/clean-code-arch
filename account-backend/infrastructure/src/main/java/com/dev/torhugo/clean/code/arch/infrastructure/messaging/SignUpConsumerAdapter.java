@@ -1,7 +1,7 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.messaging;
 
 import com.dev.torhugo.clean.code.arch.application.singup.SignUpUseCase;
-import com.dev.torhugo.clean.code.arch.application.singup.SingUpInput;
+import com.dev.torhugo.clean.code.arch.application.singup.SignUpInput;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.SingUpRequest;
 import com.rabbitmq.client.Channel;
@@ -20,12 +20,12 @@ public class SignUpConsumerAdapter {
     public SignUpConsumerAdapter(final SignUpUseCase signUpUseCase) {
         this.signUpUseCase = Objects.requireNonNull(signUpUseCase);
     }
-//    @RabbitListener(queues = "QUEUE_SIGNUP_ASYNC")
+    @RabbitListener(queues = "QUEUE_SIGNUP_ASYNC")
     public void execute(final SingUpRequest input,
                         final Channel channel,
                         final Message message) throws IOException {
         log.info("[-] Process queue message. Input: {}", input);
-        final var singUpInput = SingUpInput.with(input.name(), input.email(), input.cpf(), input.carPlate(), input.isPassenger(), input.isDriver());
+        final var singUpInput = SignUpInput.with(input.name(), input.email(), input.cpf(), input.carPlate(), input.isPassenger(), input.isDriver());
 
         try {
             log.info("[-] Process queue message. Input: {}", input);

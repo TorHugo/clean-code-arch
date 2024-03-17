@@ -39,7 +39,7 @@ class SignUpUseCaseTest {
         final var expectedIsPassenger = true;
         final var expectedIsDriver = false;
 
-        final var expectedInput = new SingUpInput(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
+        final var expectedInput = new SignUpInput(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
         final var expectedWelcomeInput = SignUpMail.with(expectedEmail, MessageEnum.WELCOME.getMessage());
         when(accountRepository.getByEmail(anyString())).thenReturn(null);
         doNothing().when(queueProducer).sendMessage(expectedQueue, expectedWelcomeInput);
@@ -73,7 +73,7 @@ class SignUpUseCaseTest {
         final var expectedIsPassenger = false;
         final var expectedIsDriver = true;
 
-        final var expectedInput = new SingUpInput(expectedName, expectedEmail, expectedCpf, expectedCarPlate, expectedIsPassenger, expectedIsDriver);
+        final var expectedInput = new SignUpInput(expectedName, expectedEmail, expectedCpf, expectedCarPlate, expectedIsPassenger, expectedIsDriver);
         final var expectedWelcomeInput = SignUpMail.with(expectedEmail, MessageEnum.WELCOME.getMessage());
         when(accountRepository.getByEmail(anyString())).thenReturn(null);
         doNothing().when(queueProducer).sendMessage(expectedQueue, expectedWelcomeInput);
@@ -107,7 +107,7 @@ class SignUpUseCaseTest {
         final var expectedIsPassenger = true;
         final var expectedIsDriver = false;
 
-        final var expectedInput = new SingUpInput(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
+        final var expectedInput = new SignUpInput(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
         final var accountAlreadyExists = Account.create(expectedName, expectedEmail, expectedCpf, expectedIsPassenger, expectedIsDriver, null);
         when(accountRepository.getByEmail(anyString())).thenReturn(accountAlreadyExists);
 
@@ -132,7 +132,7 @@ class SignUpUseCaseTest {
         final var expectedIsPassenger = true;
         final var expectedIsDriver = false;
 
-        final var expectedInput = SingUpInput.with(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
+        final var expectedInput = SignUpInput.with(expectedName, expectedEmail, expectedCpf, null, expectedIsPassenger, expectedIsDriver);
         when(accountRepository.getByEmail(anyString())).thenReturn(null);
 
         // When

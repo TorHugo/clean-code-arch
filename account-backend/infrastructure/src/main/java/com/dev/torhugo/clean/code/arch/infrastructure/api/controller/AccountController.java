@@ -3,7 +3,7 @@ package com.dev.torhugo.clean.code.arch.infrastructure.api.controller;
 import com.dev.torhugo.clean.code.arch.application.getaccount.GetAccountUseCase;
 import com.dev.torhugo.clean.code.arch.application.messaging.QueueProducer;
 import com.dev.torhugo.clean.code.arch.application.singup.SignUpUseCase;
-import com.dev.torhugo.clean.code.arch.application.singup.SingUpInput;
+import com.dev.torhugo.clean.code.arch.application.singup.SignUpInput;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.AccountAPI;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.GetAccountResponse;
 import com.dev.torhugo.clean.code.arch.infrastructure.api.controller.models.SingUpRequest;
@@ -34,7 +34,7 @@ public class AccountController implements AccountAPI {
 
     @Override
     public SingUpResponse create(final SingUpRequest input) {
-        final var singUpInput = SingUpInput.with(input.name(), input.email(), input.cpf(), input.carPlate(), input.isPassenger(), input.isDriver());
+        final var singUpInput = SignUpInput.with(input.name(), input.email(), input.cpf(), input.carPlate(), input.isPassenger(), input.isDriver());
         final var singUpOutput = this.signUpUseCase.execute(singUpInput);
         return SingUpResponse.from(singUpOutput);
     }

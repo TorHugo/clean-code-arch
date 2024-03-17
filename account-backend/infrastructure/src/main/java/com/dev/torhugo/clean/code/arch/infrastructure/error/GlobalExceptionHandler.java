@@ -1,8 +1,8 @@
 package com.dev.torhugo.clean.code.arch.infrastructure.error;
 
-import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.RepositoryNotFoundError;
 import com.dev.torhugo.clean.code.arch.domain.error.exception.InvalidArgumentError;
-import com.dev.torhugo.clean.code.arch.infrastructure.error.exception.GatewayNotFoundErrorResponse;
+import com.dev.torhugo.clean.code.arch.infrastructure.error.exception.RepositoryNotFoundErrorResponse;
 import com.dev.torhugo.clean.code.arch.infrastructure.error.exception.InvalidArgumentErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -19,9 +19,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
-    @ExceptionHandler(GatewayNotFoundError.class)
-    public ResponseEntity<Object> handleInvalidArgumentError(final GatewayNotFoundError ex, final HttpServletRequest request) {
-        final var error = GatewayNotFoundErrorResponse.fromException(ex, request);
+    @ExceptionHandler(RepositoryNotFoundError.class)
+    public ResponseEntity<Object> handleInvalidArgumentError(final RepositoryNotFoundError ex, final HttpServletRequest request) {
+        final var error = RepositoryNotFoundErrorResponse.fromException(ex, request);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 }
