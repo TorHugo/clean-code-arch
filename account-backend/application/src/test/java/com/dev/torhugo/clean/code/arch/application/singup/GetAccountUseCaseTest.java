@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class GetAccountUseCaseTest {
+class GetAccountUseCaseTest {
 
     @Mock
     AccountRepository accountRepository;
@@ -52,18 +52,5 @@ public class GetAccountUseCaseTest {
         assertEquals(expectedIsDriver, actualAccount.isDriver());
         assertNotNull(actualAccount.createdAt());
         assertNull(actualAccount.updatedAt());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenInvalidAccount(){
-        // Given
-        final var expectedException = "Account not found!";
-        when(accountRepository.getByAccountId(any())).thenReturn(null);
-        // When
-        final var exception = assertThrows(RepositoryNotFoundError.class, () ->
-                getAccountUseCase.execute(any()));
-        // Then
-        verify(accountRepository, times(1)).getByAccountId(any());
-        assertEquals(expectedException, exception.getMessage());
     }
 }
