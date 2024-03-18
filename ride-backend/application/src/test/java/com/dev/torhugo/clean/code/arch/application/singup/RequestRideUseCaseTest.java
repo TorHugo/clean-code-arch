@@ -61,33 +61,6 @@ class RequestRideUseCaseTest implements MockDsl {
     }
 
     @Test
-    void shouldThrowExceptionWhenAccountNotFound(){
-        // Given
-        final var expectedError = "Account not found!";
-        final var expectedAccount = createAccountPassender(LocalDateTime.now(), null);
-
-        final var expectedPassengerId = expectedAccount.accountId();
-        final var expectedFromLat = Math.random();
-        final var expectedFromLong = Math.random();
-        final var expectedToLat = Math.random();
-        final var expectedToLong = Math.random();
-
-        final var input = new RequestRideInput(expectedPassengerId, CoordinatesRequestInfo.from(expectedFromLat, expectedFromLong), CoordinatesRequestInfo.from(expectedToLat, expectedToLong));
-        when(this.accountGateway.getByAccountId(any())).thenReturn(null);
-        when(this.rideRepository.getAllRidesWithStatus(any(), anyBoolean(),any())).thenReturn(new ArrayList<>());
-
-        // When
-        final var exception = assertThrows(GatewayNotFoundError.class, () ->
-                requestRideUseCase.execute(input));
-
-        // Then
-        assertEquals(expectedError, exception.getMessage());
-        verify(accountGateway, times(1)).getByAccountId(any());
-        verify(rideRepository, times(0)).getAllRidesWithStatus(any(), anyBoolean(),any());
-        verify(rideRepository, times(0)).save(any());
-    }
-
-    @Test
     void shouldThrowExceptionWhenAccountIsNotPassenger(){
         // Given
         final var expectedError = "Account is not passenger!";

@@ -23,7 +23,7 @@ public class AccountGatewayImpl implements AccountGateway {
         final var accountResponse = clientConfigHttp.getAccountByAccountId(accountId);
         if (Objects.isNull(accountResponse))
             throw new GatewayNotFoundError("Account not found! AccountId: " + accountId);
-        return AccountDTO.create(
+        return AccountDTO.with(
                 accountResponse.accountId(),
                 accountResponse.name(),
                 accountResponse.email(),

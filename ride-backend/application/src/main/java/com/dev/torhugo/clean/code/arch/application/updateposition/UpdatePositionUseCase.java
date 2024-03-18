@@ -20,10 +20,8 @@ public class UpdatePositionUseCase {
 
     public void execute(final UpdatePositionInput input){
         final var ride = rideRepository.getRideById(input.rideId());
-        if (Objects.isNull(ride))
-            throw new GatewayNotFoundError("Ride not found!");
         ride.updatePosition(input.latitude(), input.longitude());
-        this.rideRepository.update(ride);
+        this.rideRepository.save(ride);
         final var position = Position.create(input.rideId(), input.latitude(), input.longitude());
         this.positionRepository.save(position);
     }

@@ -21,8 +21,6 @@ public class RequestRideUseCase {
 
     public String execute(final RequestRideInput input){
         final var passenger = this.accountGateway.getByAccountId(input.passengerId());
-        if(Objects.isNull(passenger))
-            throw new GatewayNotFoundError("Account not found!");
         if (passenger.isDriver())
             throw new InvalidArgumentError("Account is not passenger!");
         final var passengerRides= this.rideRepository.getAllRidesWithStatus(passenger.accountId(), true, RideStatusEnumUtils.REQUESTED.getDescription());

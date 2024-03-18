@@ -64,10 +64,10 @@ class UpdatePositionUseCaseTest {
         assertEquals(expectedRide.getLastPosition().getLatitude(), expectedLatitude);
         assertEquals(expectedRide.getLastPosition().getLongitude(), expectedLongitude);
         verify(rideRepository, times(1)).getRideById(any());
-        verify(rideRepository, times(1)).update(any());
+        verify(rideRepository, times(1)).save(any());
         verify(positionRepository, times(1)).save(any());
 
-        verify(rideRepository, times(1)).update(argThat(ride ->
+        verify(rideRepository, times(1)).save(argThat(ride ->
                 Objects.nonNull(ride.getRideId())
                         && Objects.equals(ride.getLastPosition().getLatitude(), expectedLatitude)
                         && Objects.equals(ride.getLastPosition().getLongitude(), expectedLongitude)
@@ -104,49 +104,16 @@ class UpdatePositionUseCaseTest {
         assertEquals(expectedRide.getLastPosition().getLatitude(), expectedLatitude);
         assertEquals(expectedRide.getLastPosition().getLongitude(), expectedLongitude);
         verify(rideRepository, times(1)).getRideById(any());
-        verify(rideRepository, times(1)).update(any());
+        verify(rideRepository, times(1)).save(any());
         verify(positionRepository, times(1)).save(any());
 
-        verify(rideRepository, times(1)).update(argThat(ride ->
+        verify(rideRepository, times(1)).save(argThat(ride ->
                 Objects.nonNull(ride.getRideId())
                         && Objects.equals(ride.getLastPosition().getLatitude(), expectedLatitude)
                         && Objects.equals(ride.getLastPosition().getLongitude(), expectedLongitude)
                         && Objects.nonNull(ride.getUpdatedAt())
         ));
     }
-
-    @Test
-    void shouldThrowExceptionWhenRideNotFound() {
-        // Given
-        final var expectedError = "Ride not found!";
-
-        final var expectedPassengerId = UUID.randomUUID();
-        final var expectedDriverId = UUID.randomUUID();
-        final var expectedFromLat = Math.random();
-        final var expectedFromLong = Math.random();
-        final var expectedToLat = Math.random();
-        final var expectedToLong = Math.random();
-        final var expectedRide = Ride.create(expectedPassengerId, expectedFromLat, expectedFromLong, expectedToLat, expectedToLong);
-        final var expectedRideId = expectedRide.getRideId();
-        expectedRide.accept(expectedDriverId);
-        expectedRide.start();
-
-        final var expectedLatitude = Math.random();
-        final var expectedLongitude = Math.random();
-        final var expectedInput = UpdatePositionInput.with(expectedRideId, expectedLatitude, expectedLongitude);
-
-        when(this.rideRepository.getRideById(expectedRide.getRideId())).thenReturn(null);
-        // When
-        final var exception = assertThrows(GatewayNotFoundError.class, () ->
-                this.updatePositionUseCase.execute(expectedInput));
-
-        // Then
-        assertEquals(expectedError, exception.getMessage());
-        verify(this.rideRepository, times(1)).getRideById(any());
-        verify(this.rideRepository, times(0)).update(any());
-        verify(this.positionRepository, times(0)).save(any());
-    }
-
     @Test
     void shouldThrowExceptionWhenInvalidStatus() {
         // Given
@@ -174,7 +141,7 @@ class UpdatePositionUseCaseTest {
         // Then
         assertEquals(expectedError, exception.getMessage());
         verify(this.rideRepository, times(1)).getRideById(any());
-        verify(this.rideRepository, times(0)).update(any());
+        verify(this.rideRepository, times(0)).save(any());
         verify(this.positionRepository, times(0)).save(any());
     }
 }

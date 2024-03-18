@@ -112,7 +112,7 @@ public class Ride {
 
     public void finish() {
         if (!Objects.equals(this.status, IN_PROGRESS.getDescription()))
-            throw new InvalidArgumentError("Could not update position!");
+            throw new InvalidArgumentError("Invalid Status!");
         this.status = COMPLETED.getDescription();
         this.fare = FareCalculatorFactory
                 .create(this.createdAt)

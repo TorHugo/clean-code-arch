@@ -2,85 +2,44 @@ package com.dev.torhugo.clean.code.arch.infrastructure.repository;
 
 import com.dev.torhugo.clean.code.arch.application.repository.RideRepository;
 import com.dev.torhugo.clean.code.arch.domain.entity.Ride;
-import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
-import com.dev.torhugo.clean.code.arch.infrastructure.database.QueryService;
+import com.dev.torhugo.clean.code.arch.domain.error.exception.RepositoryNotFoundError;
 import com.dev.torhugo.clean.code.arch.infrastructure.repository.models.RideEntity;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
 
 @Repository
-@PropertySource("classpath:query/ride_scripts.properties")
+@RequiredArgsConstructor
+@Slf4j
 public class RideRepositoryImpl implements RideRepository {
-
-    private final QueryService databaseService;
-
-    public RideRepositoryImpl(final QueryService databaseService) {
-        this.databaseService = databaseService;
-    }
-
-    @Value("${SPI.RIDE}")
-    private String querySaveToNewRide;
-    @Value("${SPU.RIDE}")
-    private String queryUpdateToExistingRide;
-    @Value("${SPS.RIDE.WHERE.PASSENGER_ID.AND.STATUS}")
-    private String queryFindRideByPassengerIdAndStatus;
-    @Value("${SPS.RIDE.WHERE.DRIVER_ID.AND.STATUS}")
-    private String queryFindRideByDriverIdAndStatus;
-    @Value("${SPS.RIDE.WHERE.RIDE_ID}")
-    private String queryFindRideById;
-
+    private final RideJpaRepository rideJpaRepository;
     @Override
     public void save(final Ride ride) {
+        log.info("save()");
         final var rideEntity = RideEntity.fromAggregate(ride);
-        databaseService.persist(querySaveToNewRide, rideEntity);
+        this.rideJpaRepository.save(rideEntity);
     }
 
     @Override
     public List<Ride> getAllRidesWithStatus(final UUID accountId,
-                                                  final boolean isPassenger,
-                                                  final String status) {
+                                            final boolean isPassenger,
+                                            final String status) {
         if (isPassenger) {
-            final var lsRidesPassenger = databaseService.retrieveList(queryFindRideByPassengerIdAndStatus,
-                    buildParametersWithStatus(accountId, status),
-                    BeanPropertyRowMapper.newInstance(RideEntity.class));
-            return RideEntity.toAggregateList(lsRidesPassenger);
+            final var result = this.rideJpaRepository.findRidesByStatusAndPassengerId(status, accountId);
+            return RideEntity.toAggregateList(result);
         }
 
-        final var lsRidesDriver = databaseService.retrieveList(queryFindRideByDriverIdAndStatus,
-                buildParametersWithStatus(accountId, status),
-                BeanPropertyRowMapper.newInstance(RideEntity.class));
-        return RideEntity.toAggregateList(lsRidesDriver);
+        final var result = this.rideJpaRepository.findRidesByStatusAndDriverId(status, accountId);
+        return RideEntity.toAggregateList(result);
     }
 
     @Override
     public Ride getRideById(final UUID rideId) {
-        final var rideEntity = databaseService.retrieve(queryFindRideById,
-                        buildParametersRideId(rideId),
-                        BeanPropertyRowMapper.newInstance(RideEntity.class))
-                .orElseThrow(() -> new GatewayNotFoundError("Ride not found!"));
-        return RideEntity.toAggregate(rideEntity);
-    }
-
-    @Override
-    public void update(final Ride ride) {
-        final var rideEntity = RideEntity.fromAggregate(ride);
-        databaseService.persist(queryUpdateToExistingRide, rideEntity);
-    }
-
-    private MapSqlParameterSource buildParametersRideId(final UUID rideId) {
-        return new MapSqlParameterSource("rideId", rideId);
-    }
-
-    private MapSqlParameterSource buildParametersWithStatus(final UUID accountId, final String status) {
-        final var parameter = new MapSqlParameterSource();
-        parameter.addValue("account", accountId);
-        parameter.addValue("status", status);
-        return parameter;
+        final var rideEntity = this.rideJpaRepository.findById(rideId);
+        return rideEntity.map(RideEntity::toAggregate)
+                .orElseThrow(() -> new RepositoryNotFoundError("Ride not found!"));
     }
 }

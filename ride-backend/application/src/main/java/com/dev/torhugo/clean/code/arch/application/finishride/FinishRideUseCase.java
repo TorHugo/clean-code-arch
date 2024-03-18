@@ -2,9 +2,7 @@ package com.dev.torhugo.clean.code.arch.application.finishride;
 
 import com.dev.torhugo.clean.code.arch.application.messaging.QueueProducer;
 import com.dev.torhugo.clean.code.arch.application.repository.RideRepository;
-import com.dev.torhugo.clean.code.arch.domain.error.exception.GatewayNotFoundError;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public class FinishRideUseCase {
@@ -20,10 +18,8 @@ public class FinishRideUseCase {
 
     public void execute(final UUID rideId){
         final var ride = rideRepository.getRideById(rideId);
-        if (Objects.isNull(ride))
-            throw new GatewayNotFoundError("Ride not found!");
         ride.finish();
-        this.rideRepository.update(ride);
+        this.rideRepository.save(ride);
         this.queueProducer.sendMessage("QUEUE_PROCESS_PAYMENT", rideId);
     }
 }

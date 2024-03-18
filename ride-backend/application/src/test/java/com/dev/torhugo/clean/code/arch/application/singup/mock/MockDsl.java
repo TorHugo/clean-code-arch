@@ -8,7 +8,7 @@ import java.util.UUID;
 public interface MockDsl {
     default AccountDTO createAccountPassender(final LocalDateTime createdAt,
                                               final LocalDateTime updatedAt){
-        return AccountDTO.create(
+        return AccountDTO.with(
                 UUID.randomUUID(),
                 "John Doe",
                 "648.808.745-23",
@@ -23,7 +23,7 @@ public interface MockDsl {
 
     default AccountDTO createAccountDriver(final LocalDateTime createdAt,
                                            final LocalDateTime updatedAt){
-        return AccountDTO.create(
+        return AccountDTO.with(
                 UUID.randomUUID(),
                 "John Doe",
                 "648.808.745-23",

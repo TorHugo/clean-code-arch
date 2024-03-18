@@ -14,9 +14,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class AccountRepositoryImpl implements AccountRepository {
-
     private final AccountJpaRepository repository;
-
     @Override
     public Account getByEmail(final String email) {
         final var accountEntity = this.repository.findByEmail(email);

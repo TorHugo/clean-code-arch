@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS cccat15.position;
-CREATE TABLE cccat15.position (
+DROP TABLE IF EXISTS position;
+CREATE TABLE position (
       position_id UUID PRIMARY KEY,
       ride_id UUID,
       lat numeric,

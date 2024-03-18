@@ -15,9 +15,7 @@ public class StartRideUseCase {
 
     public void execute(final UUID rideId){
         final var ride = rideRepository.getRideById(rideId);
-        if (Objects.isNull(ride))
-            throw new GatewayNotFoundError("Ride not found!");
         ride.start();
-        this.rideRepository.update(ride);
+        this.rideRepository.save(ride);
     }
 }
